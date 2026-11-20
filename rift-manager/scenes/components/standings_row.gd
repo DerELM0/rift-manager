@@ -1,8 +1,11 @@
+@tool
 class_name StandingsRow
 extends TableRow
 ## Eine Zeile der Saison-Tabelle. Spalten (Breite, Titel, Ausrichtung) stehen in
 ## scenes/components/table/layouts/standings_columns.tres und gelten auch für die
 ## Kopfzeile. Klick auf die Zeile meldet das Team über das Signal "selected".
+## @tool, weil die gemeinsame Tabellenzeile (TableRow) im Editor läuft. Im Editor
+## baut nur die Basisklasse die Zellen auf; setup() wird dort nie ausgeführt.
 
 signal selected(team_short: String)
 
@@ -12,6 +15,9 @@ var _short: String = ""
 ## index: Position in der Tabelle ab 0 (für Zebra-Streifen).
 ## cut_below: Linie unter der Zeile (letzter Playoff-Platz).
 func setup(index: int, t: SeasonTeam, is_selected: bool, cut_below: bool) -> void:
+	# Läuft nur im Spiel: Im Editor (@tool) keine Daten aus Season/Database anfassen.
+	if Engine.is_editor_hint():
+		return
 	_short = t.short()
 	if not clicked.is_connected(_on_clicked):
 		clicked.connect(_on_clicked)

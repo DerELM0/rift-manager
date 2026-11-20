@@ -1,13 +1,19 @@
+@tool
 class_name PlayerRow
 extends TableRow
 ## Eine Zeile der Spielerwerte in einem Spiel: Rolle, Name, K/D/A, KDA, Gold, Note.
 ## Spalten stehen in scenes/components/table/layouts/match_ratings_columns.tres
 ## und gelten auch für die Kopfzeilen in game_panel.tscn.
+## @tool, weil die gemeinsame Tabellenzeile (TableRow) im Editor läuft. Im Editor
+## baut nur die Basisklasse die Zellen auf; setup() wird dort nie ausgeführt.
 
 
 ## Füllt die Zeile. index: Position ab 0 (Zebra). Der MVP wird mit der
 ## Theme-Variante "GoldLabel" hervorgehoben.
 func setup(rating: MatchResult.PlayerRating, is_mvp: bool, index: int = 0) -> void:
+	# Läuft nur im Spiel: Im Editor (@tool) keine Daten aus Season/Database anfassen.
+	if Engine.is_editor_hint():
+		return
 	set_row_state(index)
 	set_text(&"role", rating.role)
 	set_text(&"name", rating.name + (" · MVP" if is_mvp else ""))

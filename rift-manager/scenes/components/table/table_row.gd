@@ -214,7 +214,7 @@ func _draw() -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if header:
+	if header or Engine.is_editor_hint():
 		return
 	var click := event as InputEventMouseButton
 	if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:

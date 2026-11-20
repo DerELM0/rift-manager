@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scenes/screens/season_screen.gd" id="1_screen"]
 [ext_resource type="Theme" path="res://themes/rift_dark.tres" id="2_theme"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" path="res://scenes/components/table/table_row.tscn" id="4_row"]
 [ext_resource type="Resource" path="res://scenes/components/table/layouts/standings_columns.tres" id="5_standings"]
 [ext_resource type="Resource" path="res://scenes/components/table/layouts/roster_columns.tres" id="6_roster"]
+[ext_resource type="PackedScene" path="res://scenes/components/bracket_match.tscn" id="7_match"]
+[ext_resource type="Script" path="res://scenes/components/bracket_lines.gd" id="8_lines"]
 
 [node name="SeasonScreen" type="PanelContainer"]
 anchors_preset = 15
@@ -151,12 +153,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Reguläre Saison zu Ende spielen"
 
-[node name="PlayoffsButton" type="Button" parent="Margin/Scroll/Layout/ProgressPanel/ProgressRow"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"AccentButton"
-text = "Playoffs"
-
 [node name="TablePanel" type="PanelContainer" parent="Margin/Scroll/Layout"]
 layout_mode = 2
 theme_type_variation = &"Card"
@@ -186,6 +182,177 @@ theme_type_variation = &"MutedLabel"
 text = "Klick auf ein Team zeigt den Kader. Die Linie markiert den letzten Playoff-Platz. S = Sieg, N = Niederlage. Kleine Zahlen neben Chemistry und OVR: Veränderung seit Saisonstart."
 autowrap_mode = 3
 
+[node name="PlayoffsPanel" type="PanelContainer" parent="Margin/Scroll/Layout"]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="PlayoffsBox" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlayoffsHeader" type="HFlowContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 8
+
+[node name="PlayoffsTitle" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Playoffs"
+size_flags_vertical = 4
+
+[node name="QuarterButton" type="Button" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Viertelfinale spielen"
+
+[node name="SemiButton" type="Button" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Halbfinale spielen"
+
+[node name="FinalButton" type="Button" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Finale spielen"
+
+[node name="AllPlayoffsButton" type="Button" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentButton"
+text = "Playoffs komplett spielen"
+
+[node name="PlayoffNoteLabel" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Nach der regulären Saison spielen die Top 6 im Bo5."
+autowrap_mode = 3
+
+[node name="BracketScroll" type="ScrollContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+vertical_scroll_mode = 0
+
+[node name="Bracket" type="MarginContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 8
+
+[node name="BracketLines" type="Control" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("8_lines")
+
+[node name="BracketColumns" type="HBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="QuarterColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="QuarterTitle" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/QuarterColumn"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Viertelfinale"
+
+[node name="QuarterMatches" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/QuarterColumn"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+size_flags_vertical = 3
+
+[node name="QuarterMatch1" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/QuarterColumn/QuarterMatches" instance=ExtResource("7_match")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="QuarterMatch2" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/QuarterColumn/QuarterMatches" instance=ExtResource("7_match")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SemiColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SemiTitle" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/SemiColumn"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Halbfinale"
+
+[node name="SemiMatches" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/SemiColumn"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+size_flags_vertical = 3
+
+[node name="SemiMatch1" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/SemiColumn/SemiMatches" instance=ExtResource("7_match")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SemiMatch2" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/SemiColumn/SemiMatches" instance=ExtResource("7_match")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FinalColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FinalTitle" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/FinalColumn"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Finale"
+
+[node name="FinalMatches" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/FinalColumn"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+size_flags_vertical = 3
+
+[node name="FinalMatch" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/FinalColumn/FinalMatches" instance=ExtResource("7_match")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChampionColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ChampionTitle" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/ChampionColumn"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Meister"
+
+[node name="ChampionMatches" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/ChampionColumn"]
+layout_mode = 2
+alignment = 1
+size_flags_vertical = 3
+
+[node name="ChampionBox" type="PanelContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/ChampionColumn/ChampionMatches"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChampionBox"
+custom_minimum_size = Vector2(180, 0)
+
+[node name="ChampionBoxRows" type="VBoxContainer" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/ChampionColumn/ChampionMatches/ChampionBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ChampionNameLabel" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/ChampionColumn/ChampionMatches/ChampionBox/ChampionBoxRows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChampionLabel"
+text = "?"
+
+[node name="ChampionInfoLabel" type="Label" parent="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns/ChampionColumn/ChampionMatches/ChampionBox/ChampionBoxRows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Noch offen"
+
 [node name="Columns" type="HBoxContainer" parent="Margin/Scroll/Layout"]
 layout_mode = 2
 theme_override_constants/separation = 16
@@ -212,87 +379,6 @@ text = "Spieltage"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 4
-
-[node name="PlayoffsPanel" type="PanelContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn"]
-layout_mode = 2
-theme_type_variation = &"Card"
-
-[node name="PlayoffsBox" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="PlayoffsHeader" type="HBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox"]
-layout_mode = 2
-
-[node name="PlayoffsTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SectionLabel"
-text = "Playoffs"
-
-[node name="ChampionLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"ChampionLabel"
-text = ""
-
-[node name="PlayoffNoteLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Nach der regulären Saison spielen die Top 6 im Bo5."
-autowrap_mode = 3
-
-[node name="Bracket" type="HBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 16
-visible = false
-
-[node name="QuarterColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket"]
-layout_mode = 2
-theme_override_constants/separation = 6
-size_flags_horizontal = 3
-
-[node name="QuarterTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/QuarterColumn"]
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Viertelfinale"
-
-[node name="QuarterList" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/QuarterColumn"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="SemiColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket"]
-layout_mode = 2
-theme_override_constants/separation = 6
-size_flags_horizontal = 3
-
-[node name="SemiTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/SemiColumn"]
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Halbfinale"
-
-[node name="SemiList" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/SemiColumn"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="FinalColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket"]
-layout_mode = 2
-theme_override_constants/separation = 6
-size_flags_horizontal = 3
-
-[node name="FinalTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/FinalColumn"]
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Finale"
-
-[node name="FinalList" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/FinalColumn"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 6
 
 [node name="AwardsPanel" type="PanelContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn"]
 unique_name_in_owner = true
@@ -548,5 +634,9 @@ theme_override_constants/v_separation = 6
 [connection signal="item_selected" from="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/FormatBox/FormatOption" to="." method="_on_format_option_item_selected"]
 [connection signal="pressed" from="Margin/Scroll/Layout/ProgressPanel/ProgressRow/NextWeekButton" to="." method="_on_next_week_button_pressed"]
 [connection signal="pressed" from="Margin/Scroll/Layout/ProgressPanel/ProgressRow/FinishRegularButton" to="." method="_on_finish_regular_button_pressed"]
-[connection signal="pressed" from="Margin/Scroll/Layout/ProgressPanel/ProgressRow/PlayoffsButton" to="." method="_on_playoffs_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader/QuarterButton" to="." method="_on_quarter_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader/SemiButton" to="." method="_on_semi_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader/FinalButton" to="." method="_on_final_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/PlayoffsHeader/AllPlayoffsButton" to="." method="_on_all_playoffs_button_pressed"]
+[connection signal="sort_children" from="Margin/Scroll/Layout/PlayoffsPanel/PlayoffsBox/BracketScroll/Bracket/BracketColumns" to="." method="_on_bracket_columns_sort_children"]
 [connection signal="pressed" from="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerHeader/ClosePlayerButton" to="." method="_on_close_player_button_pressed"]

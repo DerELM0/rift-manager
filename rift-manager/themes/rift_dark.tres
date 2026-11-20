@@ -287,6 +287,38 @@ bg_color = Color(0.106, 0.133, 0.188, 1)
 border_width_left = 3
 border_color = Color(0.357, 0.576, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bracket_box"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.106, 0.133, 0.188, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.227, 0.271, 0.376, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_champion_box"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.106, 0.133, 0.188, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.886, 0.714, 0.298, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [resource]
 default_font_size = 15
 AccentButton/base_type = &"Button"
@@ -419,3 +451,10 @@ TraitPositiveChip/font_sizes/font_size = 14
 TraitPositiveChip/styles/normal = SubResource("StyleBoxFlat_chip")
 WinnerLabel/base_type = &"Label"
 WinnerLabel/colors/font_color = Color(1, 1, 1, 1)
+BracketBox/base_type = &"PanelContainer"
+BracketBox/styles/panel = SubResource("StyleBoxFlat_bracket_box")
+BracketLines/colors/active_color = Color(0.886, 0.714, 0.298, 0.9)
+BracketLines/colors/line_color = Color(0.227, 0.271, 0.376, 1)
+BracketLines/constants/line_width = 2
+ChampionBox/base_type = &"PanelContainer"
+ChampionBox/styles/panel = SubResource("StyleBoxFlat_champion_box")

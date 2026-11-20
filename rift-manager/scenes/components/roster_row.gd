@@ -1,8 +1,11 @@
+@tool
 class_name RosterRow
 extends TableRow
 ## Eine Spielerzeile im Kader. Spalten stehen in
 ## scenes/components/table/layouts/roster_columns.tres und gelten auch für die
 ## Kopfzeile. Klick meldet den Spieler über das Signal "selected".
+## @tool, weil die gemeinsame Tabellenzeile (TableRow) im Editor läuft. Im Editor
+## baut nur die Basisklasse die Zellen auf; setup() wird dort nie ausgeführt.
 
 signal selected(season_player: SeasonPlayer)
 
@@ -11,6 +14,9 @@ var _season_player: SeasonPlayer = null
 
 ## index: Position im Kader ab 0 (für Zebra-Streifen).
 func setup(index: int, sp: SeasonPlayer, is_selected: bool) -> void:
+	# Läuft nur im Spiel: Im Editor (@tool) keine Daten aus Season/Database anfassen.
+	if Engine.is_editor_hint():
+		return
 	_season_player = sp
 	if not clicked.is_connected(_on_clicked):
 		clicked.connect(_on_clicked)

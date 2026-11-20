@@ -17,7 +17,6 @@ signal series_opened(series: SeriesResult, team_a: Team, team_b: Team, label: St
 const STANDINGS_ROW: PackedScene = preload("res://scenes/components/standings_row.tscn")
 const TABLE_GROUP_HEADER: PackedScene = preload("res://scenes/components/table_group_header.tscn")
 const WEEK_PANEL: PackedScene = preload("res://scenes/components/week_panel.tscn")
-const SERIES_RESULT_ROW: PackedScene = preload("res://scenes/components/series_result_row.tscn")
 const ROSTER_ROW: PackedScene = preload("res://scenes/components/roster_row.tscn")
 const STAT_BAR_ROW: PackedScene = preload("res://scenes/components/stat_bar_row.tscn")
 const TRAIT_CHIP: PackedScene = preload("res://scenes/components/trait_chip.tscn")
@@ -36,15 +35,23 @@ const STAT_NAMES: Array[String] = ["Mechanics", "Laning", "Macro", "Teamwork", "
 @onready var _preset_chip: Label = %PresetChip
 @onready var _next_week_button: Button = %NextWeekButton
 @onready var _finish_regular_button: Button = %FinishRegularButton
-@onready var _playoffs_button: Button = %PlayoffsButton
 @onready var _table_rows: VBoxContainer = %TableRows
 @onready var _weeks_list: VBoxContainer = %WeeksList
-@onready var _champion_label: Label = %ChampionLabel
 @onready var _playoff_note_label: Label = %PlayoffNoteLabel
-@onready var _bracket: Control = %Bracket
-@onready var _quarter_list: VBoxContainer = %QuarterList
-@onready var _semi_list: VBoxContainer = %SemiList
-@onready var _final_list: VBoxContainer = %FinalList
+@onready var _quarter_button: Button = %QuarterButton
+@onready var _semi_button: Button = %SemiButton
+@onready var _final_button: Button = %FinalButton
+@onready var _all_playoffs_button: Button = %AllPlayoffsButton
+@onready var _bracket_scroll: Control = %BracketScroll
+@onready var _bracket_lines: BracketLines = %BracketLines
+@onready var _quarter_match_1: BracketMatch = %QuarterMatch1
+@onready var _quarter_match_2: BracketMatch = %QuarterMatch2
+@onready var _semi_match_1: BracketMatch = %SemiMatch1
+@onready var _semi_match_2: BracketMatch = %SemiMatch2
+@onready var _final_match: BracketMatch = %FinalMatch
+@onready var _champion_box: Control = %ChampionBox
+@onready var _champion_name_label: Label = %ChampionNameLabel
+@onready var _champion_info_label: Label = %ChampionInfoLabel
 @onready var _awards_panel: Control = %AwardsPanel
 @onready var _mvp_award_label: Label = %MvpAwardLabel
 @onready var _all_pro_label: Label = %AllProLabel
@@ -78,6 +85,8 @@ var _selected_player: SeasonPlayer = null
 
 
 func _ready() -> void:
+	for box: BracketMatch in [_quarter_match_1, _quarter_match_2, _semi_match_1, _semi_match_2, _final_match]:
+		box.pressed.connect(_open_playoff_series)
 	_fill_leagues()
 	_fill_formats()
 	_new_season()
@@ -162,8 +171,25 @@ func _on_finish_regular_button_pressed() -> void:
 	_refresh()
 
 
-func _on_playoffs_button_pressed() -> void:
-	_season.start_playoffs()
+func _on_quarter_button_pressed() -> void:
+	_play_playoff_round()
+
+
+func _on_semi_button_pressed() -> void:
+	_play_playoff_round()
+
+
+func _on_final_button_pressed() -> void:
+	_play_playoff_round()
+
+
+func _play_playoff_round() -> void:
+	_season.play_playoff_round()
+	_refresh()
+
+
+func _on_all_playoffs_button_pressed() -> void:
+	_season.play_remaining_playoffs()
 	_refresh()
 
 
@@ -203,13 +229,14 @@ func _refresh_progress() -> void:
 	var status: String = ""
 	if _season.done:
 		status = " · abgeschlossen"
+	elif _season.playoffs != null:
+		status = " · Playoffs laufen"
 	elif _season.regular_done():
 		status = " · Playoffs stehen an"
 	_progress_label.text = "%s · Woche %d von %d%s%s" % [_league, _season.week, _season.total_weeks(), phase, status]
 	_preset_chip.text = "%s · Bo%d" % [_preset["name"], _preset["bestOf"]]
 	_next_week_button.disabled = _season.regular_done()
 	_finish_regular_button.disabled = _season.regular_done()
-	_playoffs_button.disabled = not _season.regular_done() or _season.done
 
 
 func _refresh_table() -> void:
@@ -271,35 +298,125 @@ func _ovr_at(t: SeasonTeam, week_number: int) -> float:
 	return total / 5.0
 
 
+## Turnierbaum: sichtbar, sobald die reguläre Saison vorbei ist. Vor dem Viertelfinale
+## stehen die Setzplätze aus der Tabelle drin, offene Plätze als Platzhalter.
 func _refresh_playoffs() -> void:
-	_clear(_quarter_list)
-	_clear(_semi_list)
-	_clear(_final_list)
-	var playoffs: Season.Playoffs = _season.playoffs
-	_bracket.visible = playoffs != null
-	_playoff_note_label.visible = playoffs == null
-	_awards_panel.visible = playoffs != null
-	if playoffs == null:
-		_champion_label.text = ""
-		var note: String = "Nach der regulären Saison spielen die Top 6 im Bo5: Platz 3 gegen 6 und 4 gegen 5 im Viertelfinale, Platz 1 und 2 steigen im Halbfinale ein."
-		if _preset["id"] == "lck":
-			note += " In der LCK sind das die Legend Group und der Erste der Rise Group."
-		elif _preset["id"] == "lpl":
-			note += " In der LPL kommen alle sechs aus der Ascend Group."
-		_playoff_note_label.text = note
+	var next_round: int = _season.next_playoff_round()
+	_quarter_button.disabled = next_round != 0
+	_semi_button.disabled = next_round != 1
+	_final_button.disabled = next_round != 2
+	_all_playoffs_button.disabled = next_round < 0
+	_awards_panel.visible = _season.done
+
+	var show_tree: bool = _season.regular_done()
+	_bracket_scroll.visible = show_tree
+	_playoff_note_label.text = _playoff_note(show_tree)
+	if not show_tree:
 		return
 
-	_champion_label.text = "Meister: %s" % _season.get_team(playoffs.champion).team.name
-	var lists: Array[VBoxContainer] = [_quarter_list, _semi_list, _final_list]
-	for r: int in mini(playoffs.rounds.size(), lists.size()):
-		var round_name: String = playoffs.rounds[r].name
-		for series: Season.Series in playoffs.rounds[r].series:
-			var row: SeriesResultRow = SERIES_RESULT_ROW.instantiate()
-			lists[r].add_child(row)
-			row.setup_result(series, _season)
-			row.pressed.connect(func(clicked: Season.Series) -> void:
-				_open_series(clicked, "Playoffs · %s" % round_name, -1))
-	_refresh_awards()
+	var seeds: Array[String] = _season.playoff_seeds()
+	var playoffs: Season.Playoffs = _season.playoffs
+	var rounds_played: int = 0 if playoffs == null else playoffs.rounds.size()
+	var qf_winners: Array[String] = _season.semifinal_opponents()
+
+	# Viertelfinale: Platz 3 gegen 6, Platz 4 gegen 5
+	_fill_match(_quarter_match_1, seeds, seeds[2], seeds[5], "", "", _played(0, 0))
+	_fill_match(_quarter_match_2, seeds, seeds[3], seeds[4], "", "", _played(0, 1))
+	# Halbfinale: Platz 1 gegen den schwächer gesetzten VF-Sieger, Platz 2 gegen den anderen
+	_fill_match(_semi_match_1, seeds, seeds[0], qf_winners[1] if qf_winners.size() == 2 else "",
+			"", "Schwächerer VF-Sieger", _played(1, 0))
+	_fill_match(_semi_match_2, seeds, seeds[1], qf_winners[0] if qf_winners.size() == 2 else "",
+			"", "Stärkerer VF-Sieger", _played(1, 1))
+	# Finale: Sieger HF 1 gegen Sieger HF 2
+	var sf_1: Season.Series = _played(1, 0)
+	var sf_2: Season.Series = _played(1, 1)
+	_fill_match(_final_match, seeds, sf_1.winner if sf_1 != null else "", sf_2.winner if sf_2 != null else "",
+			"Sieger HF 1", "Sieger HF 2", _played(2, 0))
+
+	if _season.done:
+		var champion: Team = _season.get_team(playoffs.champion).team
+		_champion_name_label.text = champion.name
+		_champion_info_label.text = "#%d der Tabelle" % (seeds.find(playoffs.champion) + 1)
+		_champion_box.tooltip_text = "%s (%s)" % [champion.name, champion.short]
+	else:
+		_champion_name_label.text = "?"
+		_champion_info_label.text = "Noch offen"
+		_champion_box.tooltip_text = ""
+
+	_update_bracket_lines(rounds_played, qf_winners)
+	if _season.done:
+		_refresh_awards()
+
+
+func _playoff_note(show_tree: bool) -> String:
+	if show_tree:
+		return "Top 6 im Bo5. Platz 1 und 2 haben ein Freilos und steigen im Halbfinale ein: Platz 1 gegen den schwächer gesetzten Viertelfinal-Sieger. Klick auf eine gespielte Paarung öffnet die Serie."
+	var note: String = "Nach der regulären Saison spielen die Top 6 im Bo5: Platz 3 gegen 6 und 4 gegen 5 im Viertelfinale, Platz 1 und 2 steigen im Halbfinale ein."
+	if _preset["id"] == "lck":
+		note += " In der LCK sind das die Legend Group und der Erste der Rise Group."
+	elif _preset["id"] == "lpl":
+		note += " In der LPL kommen alle sechs aus der Ascend Group."
+	return note
+
+
+## Gespielte Serie einer Playoff-Runde oder null.
+func _played(round_index: int, series_index: int) -> Season.Series:
+	var playoffs: Season.Playoffs = _season.playoffs
+	if playoffs == null or round_index >= playoffs.rounds.size():
+		return null
+	var series: Array[Season.Series] = playoffs.rounds[round_index].series
+	return series[series_index] if series_index < series.size() else null
+
+
+## Füllt eine Paarung im Baum. Leeres Kürzel = Platzhalter-Text.
+func _fill_match(box: BracketMatch, seeds: Array[String], short_a: String, short_b: String,
+		placeholder_a: String, placeholder_b: String, series: Season.Series) -> void:
+	box.set_slot(false, seeds.find(short_a) + 1, _team_or_null(short_a), placeholder_a)
+	box.set_slot(true, seeds.find(short_b) + 1, _team_or_null(short_b), placeholder_b)
+	box.set_result(series)
+
+
+func _team_or_null(short: String) -> Team:
+	if short.is_empty():
+		return null
+	var t: SeasonTeam = _season.get_team(short)
+	return t.team if t != null else null
+
+
+## Verbindungslinien: Viertelfinale -> Halbfinale. Solange das Viertelfinale offen
+## ist, führt jede VF-Box zu beiden HF-Boxen (wer gegen wen spielt, hängt vom
+## Setzplatz der Sieger ab). Danach nur die tatsächlichen Wege, hervorgehoben.
+func _update_bracket_lines(rounds_played: int, qf_winners: Array[String]) -> void:
+	var connections: Array = []
+	var quarters: Array[BracketMatch] = [_quarter_match_1, _quarter_match_2]
+	var semis: Array[BracketMatch] = [_semi_match_1, _semi_match_2]
+	if rounds_played >= 1 and qf_winners.size() == 2:
+		for i: int in 2:
+			var winner: String = _played(0, i).winner
+			# Schwächer gesetzter Sieger (qf_winners[1]) spielt in HF 1
+			var semi: BracketMatch = _semi_match_1 if winner == qf_winners[1] else _semi_match_2
+			connections.append([quarters[i], semi, true])
+	else:
+		for quarter: BracketMatch in quarters:
+			for semi: BracketMatch in semis:
+				connections.append([quarter, semi, false])
+	for i: int in 2:
+		connections.append([semis[i], _final_match, rounds_played >= 2])
+	connections.append([_final_match, _champion_box, rounds_played >= 3])
+	_bracket_lines.set_connections(connections)
+
+
+## Nach jedem Layout-Durchlauf der Spalten neu zeichnen (Positionen ändern sich).
+func _on_bracket_columns_sort_children() -> void:
+	_bracket_lines.queue_redraw()
+
+
+func _open_playoff_series(series: Season.Series) -> void:
+	var playoffs: Season.Playoffs = _season.playoffs
+	for r: Season.PlayoffRound in playoffs.rounds:
+		if r.series.has(series):
+			_open_series(series, "Playoffs · %s" % r.name, -1)
+			return
 
 
 func _refresh_awards() -> void:

@@ -10,6 +10,7 @@ func _ready() -> void:
 	_print_rng_check()
 	_print_match_check()
 	_print_season_check()
+	_print_playoff_rounds_check()
 	_summary_label.text = "%d Teams, %d Spieler geladen" % [
 		Database.get_team_count(), Database.get_player_count()]
 
@@ -108,3 +109,68 @@ func _print_season_check() -> void:
 	print("Database nach den Saisons: Gasi OVR %.2f (vorher %.2f), Form %.1f, DTS Chemistry %.1f  [%s]" % [
 		gasi.overall(), gasi_ovr_before, gasi.form, Database.get_team("DTS").chemistry,
 		"OK" if unchanged else "ABWEICHUNG, Database wurde verändert"])
+
+
+## Drei Wege durch die Playoffs müssen bei gleichem Seed exakt dasselbe Bracket
+## ergeben: am Stück (start_playoffs), rundenweise (play_playoff_round) und eine
+## Runde plus Rest (play_playoff_round, dann play_remaining_playoffs).
+## Außerdem müssen die Seeds der Tabelle nach der regulären Saison entsprechen
+## (Platz 1–6, wie playoffSeeds im Web-Simulator).
+func _print_playoff_rounds_check() -> void:
+	var checks: Array = [["LCK", "lck", 1], ["LEC", "single3", 7], ["LPL", "lpl", 42]]
+	for check: Array in checks:
+		var opt: Dictionary = {"seed": check[2], "preset": check[1], "bestOf": 3}
+
+		var at_once: Season = _regular_season(check[0], opt)
+		var table_seeds: PackedStringArray = []
+		for t: SeasonTeam in at_once.standings().slice(0, 6):
+			table_seeds.append(t.short())
+		at_once.start_playoffs()
+
+		var by_round: Season = _regular_season(check[0], opt)
+		var rounds_played: int = 0
+		while by_round.play_playoff_round():
+			rounds_played += 1
+
+		var mixed: Season = _regular_season(check[0], opt)
+		mixed.play_playoff_round()
+		mixed.play_remaining_playoffs()
+
+		var a: String = _bracket_text(at_once)
+		var seeds_ok: bool = PackedStringArray(at_once.playoffs.seeds) == table_seeds
+		var ok: bool = seeds_ok and rounds_played == 3 and a == _bracket_text(by_round) \
+				and a == _bracket_text(mixed) and at_once.done and by_round.done and mixed.done
+		print("Playoffs %s Seed %d: Seeds %s, Meister %s, am Stück = rundenweise = 1 Runde + Rest  [%s]" % [
+			check[0], check[2], ", ".join(table_seeds), at_once.playoffs.champion,
+			"OK" if ok else "ABWEICHUNG"])
+		if not ok:
+			print("  am Stück:   %s" % a)
+			print("  rundenweise: %s" % _bracket_text(by_round))
+			print("  gemischt:   %s" % _bracket_text(mixed))
+
+
+func _regular_season(league: String, opt: Dictionary) -> Season:
+	var season: Season = Season.create(Database.get_teams_in_league(league), opt)
+	while season.play_week():
+		pass
+	return season
+
+
+## Bracket als Text inklusive Einzelspiel-Ergebnissen, MVP und Form der Spieler,
+## damit auch kleinste Unterschiede auffallen.
+func _bracket_text(season: Season) -> String:
+	var parts: PackedStringArray = []
+	for r: Season.PlayoffRound in season.playoffs.rounds:
+		for s: Season.Series in r.series:
+			var games: PackedStringArray = []
+			for g: MatchResult in s.games:
+				games.append("%s%d/%d" % [g.winner, g.duration, g.gold14])
+			parts.append("%s %s %d:%d %s [%s]" % [r.name, s.a, s.wins_a, s.wins_b, s.b, ",".join(games)])
+	parts.append("Meister %s" % season.playoffs.champion)
+	parts.append("MVP %s" % season.awards().mvp.player.display_name())
+	var form_sum: float = 0.0
+	for t: SeasonTeam in season.teams:
+		for sp: SeasonPlayer in t.players:
+			form_sum += sp.player.form
+	parts.append("Formsumme %.6f" % form_sum)
+	return " | ".join(parts)

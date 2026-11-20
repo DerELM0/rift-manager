@@ -84,6 +84,10 @@ class PlayoffRound extends RefCounted:
 
 
 ## Die Playoffs (Top-6-Bracket).
+## Namen der Playoff-Runden in Spielreihenfolge.
+const PLAYOFF_ROUND_NAMES: Array[String] = ["Viertelfinale", "Halbfinale", "Finale"]
+
+
 class Playoffs extends RefCounted:
 	## Kürzel der 6 gesetzten Teams, Platz 1 zuerst.
 	var seeds: Array[String] = []
@@ -226,32 +230,95 @@ func standings() -> Array[SeasonTeam]:
 	return result
 
 
-## Spielt die Playoffs (startPlayoffs): Top 6 der Tabelle, Bo5.
+## Spielt die Playoffs komplett (startPlayoffs im Original): Top 6 der Tabelle, Bo5.
 ## Viertelfinale 3–6 und 4–5, Halbfinale gegen 1 und 2, dann Finale.
+## Wurden schon Runden gespielt, werden nur die restlichen gespielt.
 func start_playoffs() -> void:
+	play_remaining_playoffs()
+
+
+## Spielt alle noch offenen Playoff-Runden.
+func play_remaining_playoffs() -> void:
+	while play_playoff_round():
+		pass
+
+
+## Spielt die nächste Playoff-Runde (Viertelfinale, Halbfinale, Finale).
+## Gibt false zurück, wenn nichts mehr zu spielen ist (reguläre Saison läuft noch
+## oder Playoffs fertig).
+##
+## Rundenweise oder am Stück: Die Serien werden in genau derselben Reihenfolge
+## gespielt wie im Original (VF 3–6, VF 4–5, HF 1, HF 2, Finale), und die
+## Playoffs verbrauchen nur die Serien-Seeds (_seed_ctr), keine anderen
+## Zufallszahlen. Dazwischen ändert sich nichts an Teams oder Seeds. Deshalb ist
+## das Ergebnis bei gleichem Seed exakt gleich.
+func play_playoff_round() -> bool:
+	if done or not regular_done():
+		return false
+	if playoffs == null:
+		# Seeds erst aus der Tabelle holen, DANN das Playoffs-Objekt anlegen:
+		# playoff_seeds() liefert die gespeicherten Seeds, sobald playoffs existiert.
+		var table_seeds: Array[String] = playoff_seeds()
+		playoffs = Playoffs.new()
+		playoffs.seeds = table_seeds
+	var seeds: Array[String] = playoffs.seeds
+	match playoffs.rounds.size():
+		0:
+			var qf: Array[Series] = [
+				_play_series(seeds[2], seeds[5], 5, true),
+				_play_series(seeds[3], seeds[4], 5, true),
+			]
+			playoffs.rounds.append(_playoff_round(PLAYOFF_ROUND_NAMES[0], qf))
+		1:
+			var qf_winners: Array[String] = semifinal_opponents()
+			var sf: Array[Series] = [
+				_play_series(seeds[0], qf_winners[1], 5, true),
+				_play_series(seeds[1], qf_winners[0], 5, true),
+			]
+			playoffs.rounds.append(_playoff_round(PLAYOFF_ROUND_NAMES[1], sf))
+		2:
+			var sf: Array[Series] = playoffs.rounds[1].series
+			var final_series: Series = _play_series(sf[0].winner, sf[1].winner, 5, true)
+			var finals: Array[Series] = [final_series]
+			playoffs.rounds.append(_playoff_round(PLAYOFF_ROUND_NAMES[2], finals))
+			playoffs.champion = final_series.winner
+			done = true
+	return true
+
+
+## Die 6 Playoff-Teams (Kürzel), Platz 1 zuerst. Vor dem ersten Playoff-Spiel aus
+## der Tabelle, danach die festgelegten Seeds.
+func playoff_seeds() -> Array[String]:
+	if playoffs != null:
+		return playoffs.seeds
 	var seeds: Array[String] = []
 	var table: Array[SeasonTeam] = standings()
 	for i: int in mini(6, table.size()):
 		seeds.append(table[i].short())
-	playoffs = Playoffs.new()
-	playoffs.seeds = seeds
-	var qf: Array[Series] = [
-		_play_series(seeds[2], seeds[5], 5, true),
-		_play_series(seeds[3], seeds[4], 5, true),
-	]
-	playoffs.rounds.append(_playoff_round("Viertelfinale", qf))
-	var qf_winners: Array = RiftSim.stable_sort([qf[0].winner, qf[1].winner], func(x: String, y: String) -> bool:
+	return seeds
+
+
+## Index der nächsten Playoff-Runde (0 Viertelfinale, 1 Halbfinale, 2 Finale)
+## oder -1, wenn keine Runde ansteht.
+func next_playoff_round() -> int:
+	if done or not regular_done():
+		return -1
+	return 0 if playoffs == null else playoffs.rounds.size()
+
+
+## Viertelfinal-Sieger nach Setzplatz sortiert (besser gesetzter zuerst).
+## Der schwächer gesetzte spielt im Halbfinale gegen Platz 1, der andere gegen
+## Platz 2. Leer, solange das Viertelfinale nicht gespielt ist.
+func semifinal_opponents() -> Array[String]:
+	var result: Array[String] = []
+	if playoffs == null or playoffs.rounds.is_empty():
+		return result
+	var seeds: Array[String] = playoffs.seeds
+	var qf: Array[Series] = playoffs.rounds[0].series
+	var sorted: Array = RiftSim.stable_sort([qf[0].winner, qf[1].winner], func(x: String, y: String) -> bool:
 		return seeds.find(x) < seeds.find(y))
-	var sf: Array[Series] = [
-		_play_series(seeds[0], qf_winners[1], 5, true),
-		_play_series(seeds[1], qf_winners[0], 5, true),
-	]
-	playoffs.rounds.append(_playoff_round("Halbfinale", sf))
-	var final_series: Series = _play_series(sf[0].winner, sf[1].winner, 5, true)
-	var finals: Array[Series] = [final_series]
-	playoffs.rounds.append(_playoff_round("Finale", finals))
-	playoffs.champion = final_series.winner
-	done = true
+	result.assign(sorted)
+	return result
 
 
 ## Saisonauszeichnungen (awards). Berücksichtigt werden Spieler mit mindestens
