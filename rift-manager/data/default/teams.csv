@@ -1,0 +1,63 @@
+short,name,league,tier,team_language,chem,coach_name,coach_dra,coach_dev,coach_mot,coach_tac,coach_man,ovr_avg
+C7,Cloud 7,LCS,1,en,65,Bridge,76,72,74,78,84,79.7
+TAI,Team All In,CBLOL,1,pt,60,Regente,72,70,86,74,80,75.0
+BYN,Byeol Nebula,LCK,1,ko,70,Starchart,84,80,78,86,80,83.6
+LTD,Longteng Dragonforge,LPL,1,zh,70,Bamboo,82,76,86,80,78,81.2
+DTS,DT Signal,LCK,1,ko,70,Abacus,90,74,80,88,76,85.3
+MMF,Marshmallowfunk,EMEA T3,3,de,72,,,,,,,60.8
+SBR,Silberrücken Gaming,EMEA T3,3,de,70,,,,,,,63.3
+GSS,Glow Seoul Shine,LCK,1,ko,65,Gloss,80,62,84,80,82,82.9
+ALS,Annyeong Life Shields,LCK,1,ko,65,Actuary,78,66,70,84,76,81.0
+BMB,Banana Milk Bullets,LCK,1,ko,65,Dalkom,74,74,82,74,86,78.9
+KCF,Kimchi Cool Frost,LCK,1,ko,65,Fermenter,70,86,76,70,78,77.1
+HSH,Hagwon Study Hard,LCK,1,ko,65,Principal,72,88,68,76,70,77.7
+GFB,Gochu Firebowl,LCK,1,ko,65,Simmer,68,60,74,72,74,75.4
+CMC,Chimaek Crunch,LCK,1,ko,65,Batter,66,62,78,68,72,74.7
+BBP,Bang Bang PC,LCK,1,ko,65,Respawn,70,82,74,70,66,72.4
+NRD,Nordlicht Esports,LEC,1,en,60,Generator-Coach,60,60,60,60,60,79.0
+LUM,Lumière Collective,LEC,1,en,60,Generator-Coach,60,60,60,60,60,79.2
+TOR,Toro Rojo Gaming,LEC,1,en,60,Generator-Coach,60,60,60,60,60,77.5
+HUS,Husaria Esports,LEC,1,en,60,Generator-Coach,60,60,60,60,60,77.6
+BOS,Bosphorus Bulls,LEC,1,en,60,Generator-Coach,60,60,60,60,60,76.3
+OWL,Olympus Owls,LEC,1,en,60,Generator-Coach,60,60,60,60,60,74.9
+ALB,Albion Foxes,LEC,1,en,60,Generator-Coach,60,60,60,60,60,79.9
+VSV,Vesuvio Esports,LEC,1,en,60,Generator-Coach,60,60,60,60,60,74.1
+FJH,Fjordheim,LEC,1,en,60,Generator-Coach,60,60,60,60,60,76.7
+BPS,Brezel Premium Stars,LEC,1,en,60,Generator-Coach,60,60,60,60,60,80.2
+GGG,Golden Gate Gaming,LCS,1,en,60,Generator-Coach,60,60,60,60,60,75.5
+MPL,Maple Syndicate,LCS,1,en,60,Generator-Coach,60,60,60,60,60,74.7
+R66,Route 66 Esports,LCS,1,en,60,Generator-Coach,60,60,60,60,60,72.0
+BAB,Big Apple Brawlers,LCS,1,en,60,Generator-Coach,60,60,60,60,60,78.7
+BYK,Bayou Kings,LCS,1,en,60,Generator-Coach,60,60,60,60,60,71.8
+PPN,Pacific Pine,LCS,1,en,60,Generator-Coach,60,60,60,60,60,71.7
+COLA,Cosmo Cola Group,LCS,1,en,60,Generator-Coach,60,60,60,60,60,78.2
+CPV,Capivara Esports,CBLOL,1,pt,60,Generator-Coach,60,60,60,60,60,74.3
+ONC,Onça Esports,CBLOL,1,pt,60,Generator-Coach,60,60,60,60,60,74.0
+FEI,Feijoada Gaming,CBLOL,1,pt,60,Generator-Coach,60,60,60,60,60,70.4
+CRC,Carcará Esports,CBLOL,1,pt,60,Generator-Coach,60,60,60,60,60,72.2
+COPA,Copacabana Club,CBLOL,1,pt,60,Generator-Coach,60,60,60,60,60,73.5
+MTA,Mate Amargo Gaming,CBLOL,1,es,60,Generator-Coach,60,60,60,60,60,70.0
+SBD,Sambódromo Gaming,CBLOL,1,pt,60,Generator-Coach,60,60,60,60,60,70.9
+TQP,Tianqiao Phoenix,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,82.9
+HPT,Hongbao Pay Tigers,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,84.3
+MHG,Mala Hotpot Gaming,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,78.0
+PTE,Pearl Tea Esports,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,79.1
+KER,Kuaidi Express Rush,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,81.4
+PDL,PandaLive Gaming,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,77.5
+SRE,Silk Road Esports,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,78.1
+YZR,Yangtze Rapids,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,75.8
+TCW,Terracotta Warriors,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,81.9
+KLP,Kunlun Peaks,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,78.7
+DDY,Dumpling Dynasty,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,75.2
+NCQ,Neon Chongqing,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,76.3
+SZC,Shenzhen Circuit,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,80.4
+GKG,Golden Koi Gaming,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,75.4
+MGE,Moon Gate Esports,LPL,1,zh,60,Generator-Coach,60,60,60,60,60,76.5
+PSS,Pixel Shogun Studios,LCP,1,ja,60,Generator-Coach,60,60,60,60,60,74.5
+NKG,Nekomata Games,LCP,1,ja,60,Generator-Coach,60,60,60,60,60,71.6
+ONI,Oni Arcade,LCP,1,ja,60,Generator-Coach,60,60,60,60,60,69.4
+NMK,Night Market Gaming,LCP,1,zh,60,Generator-Coach,60,60,60,60,60,74.7
+YSE,Yushan Esports,LCP,1,zh,60,Generator-Coach,60,60,60,60,60,71.0
+PHO,Pho Real Gaming,LCP,1,vi,60,Generator-Coach,60,60,60,60,60,72.5
+HLB,Ha Long Esports,LCP,1,vi,60,Generator-Coach,60,60,60,60,60,69.1
+TUK,Tuk Tuk Turbo,LCP,1,en,60,Generator-Coach,60,60,60,60,60,68.6

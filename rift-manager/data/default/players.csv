@@ -1,0 +1,311 @@
+team_short,name,nickname,role,age,gender,language,english,mechanics,laning,macro,teamwork,mental,charisma,potential,ovr,traits
+C7,,Thanos,TOP,22,m,ko,20,92,86,72,62,74,40,93,80.6,Lane Bully;Late-Game-Monster
+C7,,Joker,JGL,20,m,en,100,86,70,74,72,62,88,92,74.0,Fan Favorite;Early-Game-Spezialist
+C7,,HypeTrain,MID,21,m,ko,20,85,84,76,66,72,45,88,79.3,Carry
+C7,,yawn,ADC,23,m,en;ko,100,84,80,68,78,76,60,84,79.5,Teamplayer
+C7,,CrownGG,SUP,29,m,ko,65,66,70,93,90,88,82,85,85.3,Shotcaller;Mentor;Vision Master;Clutch Player
+TAI,Rafael Moreira,Cascudo,TOP,25,m,pt,40,72,74,70,72,74,60,76,72.7,Weak-Side-Spezialist;Tilt-Proof
+TAI,Lucas Ferreira,Saci,JGL,20,m,pt,30,78,64,70,68,60,72,85,69.4,Invader
+TAI,,Gumigo,MID,22,m,pt,55,86,76,74,70,58,74,88,76.1,Hot-Headed;Sprachtalent
+TAI,Yoo Sung-min,Hwasal,ADC,24,m,ko,25,84,80,70,72,76,45,84,78.8,Carry
+TAI,Ana Carvalho,Brisa,SUP,26,f,pt,60,66,68,80,84,78,82,80,78.0,Shotcaller;Engage Caller
+BYN,Choi Hyun-woo,Crest,TOP,23,m,ko,20,84,85,78,76,78,55,86,81.4,Tilt-Proof
+BYN,Jung Tae-min,Drift,JGL,21,m,ko,20,88,72,78,74,60,76,90,76.2,Invader;Hot-Headed;Grinder
+BYN,Kim Ji-hoon,Reign,MID,25,m,ko,20,80,82,92,84,94,50,92,85.3,Risikoarm;Tilt-Proof
+BYN,Park Min-jae,Zeph,ADC,19,m,ko,20,96,86,74,78,80,35,97,86.5,Carry;Bühnentier;Late-Game-Monster
+BYN,Lee Seung-hyun,Onyx,SUP,26,m,ko,20,78,76,92,94,88,86,90,88.5,Shotcaller;Vision Master;Engage Caller;Mentor
+LTD,Wang Zihan,Taishan,TOP,26,m,zh,20,74,68,84,86,88,50,82,77.7,Weak-Side-Spezialist;Tilt-Proof
+LTD,Zhang Hao,Tempest,JGL,22,m,zh,20,84,74,82,76,66,68,88,78.4,Early-Game-Spezialist;Invader
+LTD,Chen Yutong,Yueshi,MID,22,m,zh,20,90,90,78,68,72,88,92,83.0,Lane Bully;Champion Ocean;Arrogant
+LTD,Sun Kai,Wuya,ADC,21,m,zh,20,86,82,72,80,76,50,86,81.5,Carry
+LTD,Lin Wei,Lotus,SUP,24,m,zh,20,86,78,82,92,84,84,88,85.5,Fan Favorite;Teamplayer
+DTS,Bae Jun-ho,Gasi,TOP,24,m,ko,20,84,86,80,78,80,50,86,82.6,Lane Bully;Tilt-Proof
+DTS,Kang Do-yun,Geuneul,JGL,23,m,ko,20,82,70,88,84,80,62,88,83.9,Vision Master;Teamplayer
+DTS,Seo Kang-jun,Cipher,MID,27,m,ko,30,95,92,96,88,90,80,99,93.3,Champion Ocean;Meta-Macher;Perfektionist;Clutch Player;Grinder
+DTS,Han Min-seok,Overclock,ADC,20,m,ko,20,90,84,72,76,70,55,93,82.3,Carry;Bühnenangst
+DTS,Oh Seo-yeon,Haessal,SUP,22,f,ko,20,80,78,86,88,82,78,90,84.5,Engage Caller;Medienprofi
+MMF,,Zwildo,TOP,37,m,de,80,48,52,80,58,30,55,60,51.4,Hot-Headed
+MMF,,Elmo,JGL,30,m,de,80,55,50,84,70,68,60,72,71.3,Vision Master;Teamplayer
+MMF,,Ikotatr,MID,28,m,de,80,72,64,66,70,60,58,72,67.1,Teamplayer
+MMF,,Lazar,ADC,24,m,de,80,40,42,48,66,78,64,58,49.1,Teamplayer;Tilt-Proof
+MMF,,Muffintaschi,SUP,34,f,de,80,38,50,72,74,62,70,66,65.0,Grinder;Teamplayer
+SBR,Werner,Brummbär,TOP,34,m,de,60,56,66,70,50,64,40,66,62.1,Lone Wolf;Weak-Side-Spezialist
+SBR,Günther,Heckengünther,JGL,31,m,de,60,62,50,66,58,60,68,68,61.9,Invader
+SBR,Josef,Eismann,MID,36,m,de,60,54,58,68,76,70,82,64,62.3,Teamplayer;Mentor
+SBR,Alfred,Kanonier,ADC,33,m,de,60,68,62,56,60,66,50,68,63.6,Late-Game-Monster
+SBR,Bernd,Starkstrom,SUP,35,m,de,60,52,56,70,72,68,64,67,66.6,Engage Caller
+GSS,Moon Ji-ho,Topcoat,TOP,25,m,ko,30,86,84,80,76,78,84,87,81.9,Fan Favorite;Lane Bully
+GSS,Kwon Ha-eun,Mosaic,JGL,24,f,ko,30,80,70,86,84,80,80,88,82.7,Vision Master;Medienprofi
+GSS,Lim Dong-hyun,Spectre,MID,26,m,ko,30,88,84,84,76,78,72,88,83.8,Late-Game-Monster;Arrogant
+GSS,Seo Ye-jun,Highlighter,ADC,23,m,ko,30,90,84,72,76,74,86,90,82.7,Carry;Bühnentier
+GSS,Hwang Min-ji,Primer,SUP,27,f,ko,30,74,74,86,88,84,88,86,83.5,Shotcaller;Fan Favorite
+ALS,Han Jae-min,Policy,TOP,27,m,ko,30,76,78,80,80,88,56,80,80.0,Tilt-Proof;Weak-Side-Spezialist
+ALS,Song Ji-hun,Premium,JGL,26,m,ko,30,76,66,84,82,86,60,82,81.4,Vision Master;Risikoarm
+ALS,Kang Min-ho,Coverage,MID,25,m,ko,30,80,80,84,80,88,50,84,81.8,Risikoarm;Tilt-Proof
+ALS,Oh Ji-won,Claim,ADC,24,m,ko,30,82,80,72,78,84,54,84,80.0,Tilt-Proof
+ALS,Yang Hyun-jun,Lifeline,SUP,28,m,ko,30,72,72,84,86,86,70,82,81.9,Shotcaller;Mentor
+BMB,Lee Jae-won,Straw,TOP,26,m,ko,30,80,80,76,76,76,70,82,78.2,Fan Favorite
+BMB,Kim Do-hyeon,Frappe,JGL,24,m,ko,30,84,72,78,74,66,64,85,76.3,Invader;Hot-Headed
+BMB,Park Joon-young,Ripe,MID,25,m,ko,30,84,84,78,72,74,58,85,80.3,Lane Bully
+BMB,Choi Seung-woo,Carton,ADC,23,m,ko,30,86,82,70,74,72,52,86,80.0,Late-Game-Monster
+BMB,Jang Eun-woo,Mellow,SUP,25,m,ko,30,70,72,82,84,80,76,82,79.8,Teamplayer;Engage Caller
+KCF,Ryu Seong-jin,Napa,TOP,19,m,ko,30,82,80,70,70,68,50,93,75.6,Lane Bully
+KCF,Nam Woo-jin,Onggi,JGL,18,m,ko,30,80,66,72,70,64,58,94,71.7,Early-Game-Spezialist
+KCF,Shin Hyun-soo,Kkakdugi,MID,20,m,ko,30,84,82,76,70,70,54,92,78.7,Champion Ocean
+KCF,Jeon Si-woo,Quarry,ADC,19,m,ko,30,86,80,66,68,66,48,93,77.5,Carry
+KCF,Song Ha-rin,Brine,SUP,30,f,ko,30,70,72,86,86,84,80,84,82.1,Mentor;Shotcaller;Teamplayer
+HSH,Yoon Tae-yang,Cram,TOP,20,m,ko,30,78,78,72,72,70,50,88,74.9,Grinder
+HSH,Yoon Jae-hyun,Essay,JGL,22,m,ko,30,80,68,80,76,72,56,88,77.4,Perfektionist
+HSH,Ahn Sung-hoon,Tutor,MID,29,m,ko,30,76,78,86,80,82,72,82,80.0,Mentor;Risikoarm
+HSH,Cho Min-kyu,Midterm,ADC,21,m,ko,30,84,82,70,72,68,60,89,78.6,Grinder;Bühnenangst
+HSH,Baek Seo-yun,Margin,SUP,21,f,ko,30,68,70,80,82,74,66,86,77.4,Vision Master
+GFB,Jung Dae-hyun,Ramyun,TOP,30,m,ko,30,70,74,80,76,78,72,75,74.9,Mentor;Fan Favorite
+GFB,Lee Sang-woo,Scoville,JGL,27,m,ko,30,78,68,80,74,70,58,80,76.3,Invader
+GFB,Hong Seok-jin,Capsaicin,MID,24,m,ko,30,84,80,72,66,62,70,84,76.0,Hot-Headed;Carry
+GFB,Kim Tae-hoon,Broth,ADC,29,m,ko,30,76,76,74,80,78,62,77,76.6,Teamplayer
+GFB,Seo Jin-woo,Stockpot,SUP,22,m,ko,30,70,70,74,76,70,60,82,73.3,Engage Caller
+CMC,Park Sung-jae,Drumstick,TOP,28,m,ko,30,74,76,74,72,74,76,76,74.4,Fan Favorite;Medienprofi
+CMC,Moon Hyuk,Wishbone,JGL,24,m,ko,30,80,66,74,70,64,54,82,72.5,Hot-Headed
+CMC,Yoo Ji-ah,Crispy,MID,22,f,ko,30,80,78,72,70,70,74,86,75.5,Lane Bully
+CMC,Kim Jun-seo,Drumette,ADC,25,m,ko,30,80,78,68,72,70,50,80,76.0,Egoist
+CMC,Lee Dong-gun,Tenders,SUP,26,m,ko,30,66,68,78,78,74,66,76,74.9,Teamplayer
+BBP,Choi Yong-jun,Hotkey,TOP,18,m,ko,30,84,76,60,58,60,50,90,70.6,Egoist
+BBP,Shin Dong-uk,Timeout,JGL,19,m,ko,30,80,64,66,62,62,66,88,67.3,Invader
+BBP,Ha Seung-min,Mainframe,MID,18,m,ko,30,86,80,64,60,58,60,95,73.6,Hot-Headed;Grinder
+BBP,Bae Su-ah,Headset,ADC,19,f,ko,30,84,78,62,64,66,58,90,75.2,Grinder
+BBP,Park Jung-hoon,Landlord,SUP,33,m,ko,30,64,66,80,78,76,70,75,75.2,Mentor;Shotcaller
+NRD,Mads Jensen,Kettle,TOP,26,m,da,93,73,83,77,80,87,86,83,80.1,Fan Favorite;Weak-Side-Spezialist;Lane Bully
+NRD,Pablo Navarro,Bellweather,JGL,20,m,es,92,72,79,78,74,80,73,86,76.4,Tilt-Proof;Engage Caller
+NRD,Elias Hansen,Smorrebrod,MID,22,m,da,93,80,86,82,76,86,88,91,82.2,Champion Ocean;Roamer
+NRD,Cho Hyun-woo,Paperplane,ADC,19,m,ko,48,76,83,71,78,80,38,91,78.3,Egoist
+NRD,Freja Hansen,Draugr,SUP,19,f,da,84,70,80,79,80,76,62,91,78.3,Roamer
+LUM,Pablo Sanchez,Cigarra,TOP,28,m,es,77,77,76,80,79,79,51,78,77.8,Tilt-Proof;Mentor;Grinder
+LUM,Szymon Wojcik,Zubr,JGL,22,m,pl,75,89,78,85,80,84,65,93,84.3,Invader;Vision Master;Champion Ocean
+LUM,Mathis Girard,Fleuret,MID,20,m,fr,85,81,76,78,72,79,70,91,77.9,Faul;Fan Favorite
+LUM,Isla Taylor,Foxfire,ADC,21,f,en,100,82,84,70,76,77,43,87,80.0,Fan Favorite;Grinder
+LUM,Baptiste Fontaine,Lueur,SUP,23,m,fr,82,68,70,79,78,78,75,83,76.1,Arrogant;Meta-Chaser
+TOR,Mario Romero,Chispa,TOP,23,m,es,88,73,85,80,67,71,38,83,76.7,Weak-Side-Spezialist;Perfektionist;Late Bloomer
+TOR,Alvaro Navarro,Tidecaller,JGL,18,m,es,93,78,72,78,77,77,61,90,77.4,Champion Ocean
+TOR,Andrea Colombo,Polestar,MID,23,m,it,78,81,72,76,78,73,68,83,76.4,Carry;Bühnentier
+TOR,Javier Lopez,Ironclad,ADC,25,m,es,94,84,75,80,84,72,85,84,79.7,Fan Favorite;Weak-Side-Spezialist;Medienprofi
+TOR,Diego Garcia,Tapas,SUP,24,m,es,94,79,76,78,77,80,66,83,77.7,Vision Master;Mentor
+HUS,Can Yilmaz,Flintlock,TOP,22,m,tr,74,74,78,70,77,80,38,83,76.1,Tilt-Proof;Weak-Side-Spezialist
+HUS,Szymon Kowalski,Moonrise,JGL,20,m,pl,84,76,66,79,79,74,38,85,77.0,Clutch Player;Engage Caller
+HUS,Alvaro Sanchez,Duende,MID,20,m,es,70,76,84,83,80,72,59,88,79.8,Roamer;Hot-Headed
+HUS,Jakub Kaminski,Smok,ADC,22,m,pl,35,84,78,75,67,72,65,83,77.5,Late-Game-Monster;Tilt-Proof
+HUS,Jakub Kowalski,Brushfire,SUP,19,m,pl,76,65,74,78,82,79,90,88,77.6,Grinder
+BOS,Oliver Clarke,Marigold,TOP,17,m,en,100,72,77,79,70,78,65,95,75.5,Bühnentier
+BOS,Burak Celik,Kartal,JGL,23,m,tr,40,67,69,77,72,60,70,76,71.1,Vision Master;Fan Favorite
+BOS,Kaan Kaya,Baklava,MID,19,m,tr,79,79,81,72,75,71,42,90,76.5,Arrogant
+BOS,Magnus Andersson,Springtide,ADC,21,m,da,76,82,76,69,83,76,53,86,78.4,Meta-Chaser;Carry
+BOS,Burak Sahin,Lokum,SUP,18,m,tr,91,76,75,85,78,83,83,94,80.0,Perfektionist
+OWL,Emre Yilmaz,Cobblestone,TOP,21,m,tr,75,80,81,61,74,76,42,86,76.0,Late-Game-Monster;Weak-Side-Spezialist
+OWL,Dimitris Nikolaidis,Thistle,JGL,23,m,el,92,71,69,76,72,79,42,80,74.3,Vision Master;Tilt-Proof
+OWL,Mert Demir,Cottonwood,MID,23,m,tr,82,80,74,72,72,76,77,77,75.3,Faul;Meta-Chaser
+OWL,Dimitris Karalis,Kyklops,ADC,23,m,el,81,73,79,70,70,75,69,79,74.3,Lane Bully;Grinder;Meta-Chaser
+OWL,Giorgos Papadopoulos,Compassrose,SUP,19,m,el,74,72,73,75,77,69,76,87,74.5,Egoist
+ALB,Paul Wolf,Hailstorm,TOP,20,m,de,80,85,85,82,80,83,60,92,83.7,Risikoarm;Weak-Side-Spezialist;Medienprofi
+ALB,Han Sang-hyuk,Hodu,JGL,22,m,ko,34,82,73,79,76,71,72,87,77.5,Engage Caller;Invader
+ALB,Andrea Ricci,Slipstream,MID,27,m,it,88,83,74,80,77,80,49,83,79.1,Roamer;Fan Favorite
+ALB,Chloe Dubois,Mayfly,ADC,21,f,fr,91,84,81,81,76,80,57,90,81.2,Late Bloomer;Tilt-Proof
+ALB,Lucas Rousseau,Stitchwork,SUP,20,m,fr,72,76,72,79,81,76,59,89,78.0,Vision Master;Tilt-Proof
+VSV,Matteo Romano,Lupetto,TOP,17,m,it,79,72,72,75,75,71,83,89,72.5,Fan Favorite
+VSV,Alessandro Greco,Nebbia,JGL,19,m,it,80,78,70,85,73,70,73,90,78.2,Vision Master
+VSV,Andrea Greco,Shortcut,MID,19,m,it,85,73,77,69,70,83,68,86,73.7,Meta-Chaser
+VSV,Diego Sanchez,Puddle,ADC,23,m,es,71,72,69,67,71,76,45,78,70.8,Weak-Side-Spezialist;Lone Wolf
+VSV,Lukas Sommer,Bratwurst,SUP,21,m,de,70,72,67,73,81,77,51,86,75.2,Egoist;Vision Master
+FJH,Mads Berg,Nordlys,TOP,23,m,da,81,77,75,80,70,72,80,79,75.2,Bühnentier;Medienprofi
+FJH,Viktor Hansen,Hygge,JGL,21,m,da,70,86,68,76,84,76,60,86,79.2,Early-Game-Spezialist;Grinder
+FJH,Mads Lindqvist,Dragonfly,MID,19,m,da,83,80,80,72,70,73,47,90,76.3,Carry
+FJH,Emil Larsen,Sugarcane,ADC,22,m,da,88,79,78,74,77,79,37,83,77.9,Weak-Side-Spezialist;Clutch Player
+FJH,Lucia Garcia,Relampago,SUP,28,f,es,84,73,87,71,73,77,38,76,74.9,Bühnentier;Vision Master
+BPS,Lukas Wolf,Ricochet,TOP,27,m,de,75,86,79,84,79,82,46,82,82.1,Late-Game-Monster;Clutch Player
+BPS,Jannik Sommer,Zwielicht,JGL,24,m,de,76,71,70,79,81,74,79,80,76.6,Arrogant;Mentor
+BPS,Harald Töpfer,Magecry,MID,20,m,de,80,82,80,74,70,70,60,88,77.1,Lane Bully
+BPS,Emil Jensen,Lagom,ADC,21,m,da,77,84,85,74,86,86,36,94,83.8,Fan Favorite;Late Bloomer;Weak-Side-Spezialist
+BPS,Antoine Laurent,Feufollet,SUP,19,m,fr,84,76,80,79,85,84,54,91,81.5,Roamer
+GGG,Yoon Jae-won,Dokkaebi,TOP,24,m,ko,37,68,68,64,67,76,75,69,68.9,Medienprofi;Faul;Weak-Side-Spezialist
+GGG,Hailey Miller,Interstate,JGL,20,f,en,100,65,69,79,83,79,36,86,76.5,Invader;Meta-Chaser
+GGG,Lim Dong-hyun,Jigsaw,MID,24,m,ko,47,77,76,77,70,62,49,79,74.5,Perfektionist;Late Bloomer
+GGG,Jordan Johnson,Nightjar,ADC,22,m,en,100,83,73,75,72,66,59,80,75.8,Carry;Teamplayer
+GGG,Ryan Thompson,Bison,SUP,26,m,en,100,84,78,84,79,86,37,82,81.5,Risikoarm;Engage Caller;Roamer
+MPL,Kim Hyun-woo,Sonagi,TOP,20,m,ko,37,71,73,66,70,70,45,83,70.5,Clutch Player;Tilt-Proof
+MPL,Liam Gagnon,Starboard,JGL,18,m,en,100,79,69,78,72,75,87,92,76.1,Early-Game-Spezialist
+MPL,Liam Roy,Quickstep,MID,21,m,en,100,76,79,74,73,64,86,82,74.8,Medienprofi;Fan Favorite
+MPL,Noah Gagnon,Blackbird,ADC,28,m,en,100,77,74,62,70,69,55,76,72.8,Weak-Side-Spezialist;Carry
+MPL,Yoon Ha-jun,Jihoonie,SUP,27,m,ko,48,74,73,80,85,73,55,83,79.4,Hot-Headed;Roamer
+R66,Samuel Gagnon,Snowshoe,TOP,26,m,en,100,71,74,75,66,64,79,75,70.6,Fan Favorite;Hot-Headed
+R66,Noah Campbell,Loonie,JGL,19,m,en,100,70,62,73,63,68,41,79,69.1,Ironman
+R66,Austin Anderson,Lampwick,MID,28,m,en,100,76,76,65,66,71,62,74,71.7,Late-Game-Monster;Grinder
+R66,Ethan Martin,Rodeo,ADC,20,m,en,100,73,86,70,74,81,38,87,77.5,Weak-Side-Spezialist;Faul
+R66,Jung Eun-seok,Hallasan,SUP,24,m,ko,31,64,68,75,70,74,39,76,71.0,Grinder;Roamer
+BAB,Tyler Harris,Nutmeg,TOP,18,m,en,100,69,79,81,79,79,86,90,76.8,Fan Favorite
+BAB,Shin Ji-ho,Gayageum,JGL,17,m,ko,44,78,74,78,81,81,44,98,78.9,Invader
+BAB,Tyler Rodriguez,Mustang,MID,20,m,en,100,85,81,85,86,80,76,96,83.6,One-Trick;Teamplayer;Roamer
+BAB,Shin Min-seo,Bungeoppang,ADC,27,f,ko,21,78,72,76,72,81,56,77,75.4,Late-Game-Monster;Tilt-Proof
+BAB,Caleb Johnson,Ballpark,SUP,24,m,en,100,67,67,80,86,78,78,84,78.6,Roamer;Vision Master;Risikoarm
+BYK,Seo Jae-won,Norae,TOP,27,m,ko,38,71,73,76,64,80,56,73,73.4,Weak-Side-Spezialist;Bühnenangst
+BYK,Austin Miller,Neonsign,JGL,23,m,en,100,80,58,71,73,72,87,80,72.7,Arrogant;Fan Favorite
+BYK,Seo Sung-min,Northpaw,MID,18,m,ko,33,68,74,67,74,71,38,85,70.1,Risikoarm
+BYK,Jordan White,Buckshot,ADC,21,m,en,100,72,73,63,71,70,63,78,71.0,Grinder;Weak-Side-Spezialist
+BYK,Brandon Garcia,Skyline,SUP,22,m,en,100,68,66,73,74,73,88,78,71.8,Arrogant;Engage Caller
+PPN,Ashley Harris,Hotrod,TOP,18,f,en,100,71,71,76,77,83,74,92,74.8,Tilt-Proof
+PPN,Lee Joon-ho,Pansori,JGL,23,m,ko,17,77,69,70,73,69,62,79,71.8,Perfektionist;Invader
+PPN,Noah Roy,Sidestep,MID,21,m,en,100,69,75,74,68,72,36,78,72.0,Lane Bully;Risikoarm
+PPN,Brandon Davis,Backflip,ADC,24,m,en,100,70,75,66,69,71,37,71,71.0,Teamplayer;Weak-Side-Spezialist
+PPN,Gabriel Campbell,Downpour,SUP,17,m,en,100,60,59,77,71,63,74,87,69.1,Fan Favorite
+COLA,Ashley Martin,Jukebox,TOP,19,f,en,100,75,79,77,81,87,36,90,79.5,Lone Wolf
+COLA,Kim Tae-yang,Tteok,JGL,17,m,ko,42,78,82,75,80,77,75,95,77.3,One-Trick
+COLA,Jung Sang-hyuk,Seoyeah,MID,22,m,ko,20,74,80,71,72,73,51,78,74.5,Lane Bully;Late Bloomer
+COLA,Amelia Smith,GetSmithed,ADC,17,f,en,100,82,78,64,70,66,72,92,75.6,Carry
+COLA,Ryan Rodriguez,Milkrun,SUP,22,m,en,100,77,77,87,87,85,58,88,84.3,Egoist;Engage Caller;Vision Master
+CPV,Gabriel Rodrigues,Tinderbox,TOP,19,m,pt,43,78,75,75,71,78,82,89,76.0,Fan Favorite
+CPV,Mateo Vargas,Alebrije,JGL,19,m,es,51,63,75,74,81,81,59,89,74.3,Teamplayer
+CPV,Diego Gomes,Malandro,MID,24,m,pt,62,80,75,76,67,73,79,79,75.8,Lone Wolf;Carry;Grinder
+CPV,Kwon Min-jun,Namsan,ADC,19,m,ko,38,77,74,64,65,64,45,86,71.7,Risikoarm
+CPV,Kwon Joon-ho,Hanok,SUP,24,m,ko,24,69,75,75,73,76,35,78,73.8,Clutch Player;Roamer
+ONC,Joao Pereira,Quindim,TOP,27,m,pt,51,71,72,71,66,74,73,75,71.4,Weak-Side-Spezialist;Bühnentier;Risikoarm
+ONC,Lucas Rodrigues,Guarana,JGL,24,m,pt,47,73,71,71,82,79,62,75,74.8,Tilt-Proof;Fan Favorite
+ONC,Thiago Santos,Frostbite,MID,20,m,pt,64,79,73,75,65,72,86,85,74.4,Roamer;Late Bloomer
+ONC,Larissa Pereira,Curupira,ADC,22,f,pt,35,73,76,73,76,74,67,83,74.5,Lone Wolf;Weak-Side-Spezialist
+ONC,Thiago Barbosa,Arara,SUP,24,m,pt,49,68,68,76,80,74,35,78,75.2,Champion Ocean;Engage Caller
+FEI,Pedro Costa,Coldsnap,TOP,23,m,pt,50,68,77,71,65,72,50,76,71.6,Ironman;Risikoarm;Lane Bully
+FEI,Felipe Lima,Saltwater,JGL,28,m,pt,49,60,60,75,67,69,82,72,68.8,Invader;Shotcaller;Mentor
+FEI,Luis Perez,Arepa,MID,26,m,es,41,69,64,67,66,70,86,68,67.1,Bühnentier;Mentor
+FEI,Diego Barbosa,Halfmoon,ADC,26,m,pt,35,73,77,66,72,76,37,77,73.6,Lane Bully;Arrogant
+FEI,Vinicius Nascimento,Meridian,SUP,19,m,pt,70,57,71,77,69,72,39,81,70.8,Vision Master
+CRC,Caio Rocha,Mandacaru,TOP,19,m,pt,39,73,83,75,70,73,74,88,76.0,Fan Favorite
+CRC,Benjamin Soto,Huaso,JGL,22,m,es,49,64,65,70,63,65,57,74,66.4,Clutch Player;Tilt-Proof
+CRC,Felipe Costa,Driftwood,MID,18,m,pt,60,78,67,74,67,71,84,89,72.4,Fan Favorite
+CRC,Bruno Almeida,Pinecone,ADC,25,m,pt,40,76,76,63,70,74,43,76,73.6,Weak-Side-Spezialist;Lone Wolf
+CRC,Juliana Oliveira,Overdrive,SUP,21,f,pt,33,67,69,72,75,77,37,82,72.6,Roamer;Faul
+COPA,Gabriel Ribeiro,Millstone,TOP,24,m,pt,35,72,81,82,76,78,85,78,77.8,Meta-Chaser;Tilt-Proof
+COPA,Matheus Rocha,Highnoon,JGL,21,m,pt,68,71,71,75,79,73,61,86,74.5,Invader;Engage Caller
+COPA,Jose Perez,Turpial,MID,18,m,es,64,64,69,67,66,68,45,79,66.6,Roamer
+COPA,Thiago Almeida,Outlier,ADC,23,m,pt,55,78,76,69,69,75,52,82,74.8,Grinder;Weak-Side-Spezialist;Late-Game-Monster
+COPA,Oh Ha-jun,Bukchon,SUP,20,m,ko,17,61,62,77,80,72,69,83,73.7,Shotcaller;Vision Master
+MTA,Facundo Sosa,Dulcito,TOP,24,m,es,45,70,66,67,69,67,50,68,67.6,Late-Game-Monster;Weak-Side-Spezialist;Ironman
+MTA,Martina Sosa,Pampero,JGL,20,f,es,68,71,65,73,68,70,83,79,70.8,Fan Favorite;Engage Caller
+MTA,Tomas Gimenez,Alfajor,MID,26,m,es,52,67,74,64,61,69,37,68,67.6,Tilt-Proof;Champion Ocean
+MTA,Park Ha-jun,Undertow,ADC,17,m,ko,31,72,73,68,70,65,49,89,70.9,Weak-Side-Spezialist
+MTA,Nicolas Ramirez,Peppermint,SUP,27,m,es,59,60,64,74,81,69,67,78,73.0,Mentor;One-Trick
+SBD,Sebastian Ramirez,Chamuco,TOP,21,m,es,56,73,71,78,71,72,64,79,72.8,Faul;Weak-Side-Spezialist
+SBD,Diego Oliveira,Lanternfish,JGL,23,m,pt,39,63,66,74,74,72,35,76,71.1,Champion Ocean;Grinder;Invader
+SBD,Rafael Carvalho,Yardstick,MID,24,m,pt,33,71,69,68,59,65,47,68,67.9,Clutch Player;Late-Game-Monster
+SBD,Ahn Dong-hyun,Greenlight,ADC,21,m,ko,17,77,71,65,74,73,79,82,73.1,Late Bloomer;Meta-Chaser
+SBD,Vinicius Carvalho,Candlewick,SUP,19,m,pt,61,64,66,75,70,64,88,85,69.7,Bühnentier
+TQP,Pham Phuc,HoiAn,TOP,18,m,vi,30,87,84,84,82,83,83,97,84.3,Meta-Chaser;Late-Game-Monster
+TQP,Guo Yifan,Dianxin,JGL,25,m,zh,36,78,74,92,74,84,53,89,83.5,Clutch Player;Medienprofi;Mentor
+TQP,Ma Chen,Pipa,MID,19,m,zh,16,78,87,72,78,69,66,88,77.9,Meta-Chaser
+TQP,Huang Kai,Mapo,ADC,18,m,zh,14,86,88,84,79,91,89,99,85.8,Fan Favorite;Medienprofi
+TQP,Zhou Rui,Rosebud,SUP,21,m,zh,33,80,76,86,85,81,69,89,83.0,Shotcaller;Risikoarm
+HPT,Zeng Yuxuan,Windmill,TOP,21,m,zh,28,83,86,84,86,81,48,92,84.0,Ironman;Clutch Player;Champion Ocean
+HPT,Zhao Peng,Stonewall,JGL,20,m,zh,40,83,79,83,92,77,38,93,83.7,Choker;Teamplayer;Engage Caller
+HPT,Kwon Seo-jun,Skylark,MID,25,m,ko,23,82,88,78,83,80,58,85,82.4,Roamer;Lane Bully;Medienprofi
+HPT,Chen Wei,Huajuan,ADC,19,m,zh,30,89,86,76,89,80,87,99,85.9,Late-Game-Monster;Hot-Headed
+HPT,Huang Jun,Woodpecker,SUP,23,m,zh,38,77,82,87,90,79,57,93,85.5,Roamer;Medienprofi;Hot-Headed;Vision Master
+MHG,Liang Jie,Dusktrail,TOP,19,m,zh,35,78,77,76,73,82,54,91,77.7,Tilt-Proof
+MHG,Deng Zihao,Qilinbro,JGL,27,m,zh,23,77,72,88,79,77,63,86,81.5,Medienprofi;Shotcaller
+MHG,Bui Trang,Bunbo,MID,19,f,vi,23,73,78,78,64,74,89,87,74.7,Grinder
+MHG,Peng Zeyu,Chaofan,ADC,19,m,zh,15,80,82,78,82,74,79,91,80.1,Weak-Side-Spezialist
+MHG,Zhang Peng,Thornbush,SUP,19,m,zh,23,73,80,75,75,79,42,88,76.0,Engage Caller
+PTE,Hu Bo,Wuxia,TOP,22,m,zh,21,74,87,84,80,80,61,88,81.2,Late Bloomer;Meta-Chaser
+PTE,Liu Kuan-yu,Lurou,JGL,18,m,zh,24,76,78,79,78,71,72,90,77.0,Invader
+PTE,Sun Tao,Niuniu,MID,24,m,zh,11,89,79,85,79,76,41,86,83.2,Carry;Faul
+PTE,Xie Tao,Farsight,ADC,28,m,zh,37,76,80,74,71,81,46,78,76.7,Tilt-Proof;Ironman;Weak-Side-Spezialist
+PTE,Sun Chen,Whirlwind,SUP,27,m,zh,23,72,70,81,79,79,61,80,77.6,Shotcaller;Engage Caller
+KER,Ma Yuxuan,Openroad,TOP,20,m,zh,19,79,83,83,80,77,71,92,80.5,One-Trick;Champion Ocean
+KER,Cho Seo-jun,Bibim,JGL,23,m,ko,24,81,74,87,86,72,88,90,82.7,Egoist;Medienprofi;Early-Game-Spezialist
+KER,Bai Lianjie,GinsengWerwolf,MID,23,m,zh,24,84,82,80,74,76,70,88,80.7,Late-Game-Monster;Bühnentier
+KER,Deng Siyuan,Daybreak,ADC,26,m,zh,39,90,83,78,85,78,87,89,84.7,Late-Game-Monster;Choker;Hot-Headed
+KER,Wang Xiaoyu,Baijiu,SUP,23,f,zh,29,69,64,83,83,79,90,80,78.3,Fan Favorite;Roamer
+PDL,Park Jun-woo,Hwatu,TOP,21,m,ko,25,72,80,75,80,77,55,84,76.7,Champion Ocean;Teamplayer
+PDL,Xie Haoran,Rooftop,JGL,28,m,zh,26,69,62,79,73,65,48,73,72.8,Clutch Player;Tilt-Proof
+PDL,Sun Long,Lajiao,MID,23,m,zh,24,85,77,82,86,75,77,87,81.3,Champion Ocean;Roamer
+PDL,Han Mengqi,Huangshan,ADC,23,f,zh,40,85,82,77,80,82,75,84,82.3,Grinder;Bühnentier;Teamplayer
+PDL,Peng Peng,Laoban,SUP,27,m,zh,25,71,68,79,74,76,73,79,74.5,Engage Caller;Roamer
+SRE,Cao Zeyu,Xiangqi,TOP,21,m,zh,32,84,77,73,74,85,78,89,79.4,Risikoarm;Late-Game-Monster
+SRE,Chang Kuan-yu,Twilight,JGL,28,m,zh,43,76,70,74,73,70,76,77,73.4,Champion Ocean;Shotcaller
+SRE,Huang Siyuan,Erhu,MID,19,m,zh,20,90,83,79,75,81,56,94,83.1,Carry
+SRE,Wu Xin,Yuebing,ADC,22,m,zh,25,81,66,69,71,64,50,81,72.1,Hot-Headed;Weak-Side-Spezialist
+SRE,Gao Yuxuan,Hongbao,SUP,24,m,zh,18,73,84,82,85,82,53,86,82.5,Clutch Player;Mentor
+YZR,Lin Junjie,Seashell,TOP,22,m,zh,19,72,84,73,74,70,90,80,75.6,Ironman;Grinder
+YZR,Feng Zhe,Zihanz,JGL,19,m,zh,25,71,62,74,78,68,77,87,72.7,Fan Favorite
+YZR,Kim Ji-ho,Dubu,MID,19,m,ko,40,79,75,73,75,70,71,86,75.2,Carry
+YZR,Tang Zeyu,Longxia,ADC,20,m,zh,38,77,70,70,78,71,88,86,73.8,Medienprofi;Clutch Player
+YZR,Yang Ruoxi,Youtiao,SUP,23,f,zh,14,71,73,88,84,77,71,84,81.5,Fan Favorite;Shotcaller
+TCW,Luo Tao,Afterburn,TOP,24,m,zh,13,72,88,78,75,79,90,79,79.4,Fan Favorite;Medienprofi
+TCW,Zhu Jun,Xiaomao,JGL,20,m,zh,22,82,76,88,82,80,87,93,83.8,Late Bloomer;Early-Game-Spezialist;Medienprofi
+TCW,Wu Yuxuan,Moonbeam,MID,27,m,zh,36,77,85,86,81,79,47,82,81.8,Teamplayer;Lane Bully;Roamer
+TCW,Hu Ruoxi,Huoguo,ADC,27,f,zh,27,87,83,85,81,83,48,85,84.3,Weak-Side-Spezialist;Tilt-Proof;Grinder
+TCW,Tang Hang,Sharpshot,SUP,25,m,zh,40,68,78,86,80,78,57,83,80.1,Mentor;Tilt-Proof
+KLP,Zhao Zihao,Zongzi,TOP,18,m,zh,15,84,82,81,80,86,40,95,83.0,Meta-Chaser
+KLP,Tang Ming,Gearshift,JGL,24,m,zh,30,75,70,83,80,76,89,82,79.1,Meta-Chaser;Perfektionist
+KLP,Lin Tao,Mockingbird,MID,19,m,zh,39,86,77,76,62,76,59,91,77.8,Risikoarm
+KLP,Zhang Siyuan,Brightside,ADC,23,m,zh,25,85,73,75,77,72,57,85,77.9,Champion Ocean;Teamplayer;Carry
+KLP,Chen Siyuan,Luoyang,SUP,21,m,zh,37,71,71,76,79,76,88,82,75.8,Perfektionist;Vision Master
+DDY,Li Siyuan,Sunspot,TOP,28,m,zh,20,76,83,80,76,76,81,79,78.7,Tilt-Proof;Medienprofi
+DDY,Gao Yi,Fenghuang,JGL,25,m,zh,15,73,69,76,72,76,84,78,74.3,Bühnentier;Mentor;Meta-Chaser
+DDY,Gao Junjie,Jiubei,MID,20,m,zh,12,76,77,82,74,72,87,89,77.2,Tilt-Proof;Fan Favorite
+DDY,Yang Yu-ting,Blueprint,ADC,22,m,zh,35,83,68,71,73,79,60,80,75.4,Tilt-Proof;Bühnentier
+DDY,Yang Rui,Lijiang,SUP,27,m,zh,18,74,70,70,69,75,73,72,70.5,Engage Caller;Tilt-Proof
+NCQ,He Siyuan,Tiehua,TOP,22,m,zh,26,75,77,68,75,81,48,82,75.8,Tilt-Proof;Weak-Side-Spezialist
+NCQ,Lin Rui,Xuehua,JGL,24,m,zh,35,70,69,72,67,77,81,72,71.2,Bühnenangst;Clutch Player
+NCQ,Zheng Ming,Shanshui,MID,23,m,zh,27,83,77,74,67,84,82,85,77.8,Carry;Fan Favorite
+NCQ,Wu Wei,Xingxing,ADC,21,m,zh,37,81,75,68,71,72,87,87,75.5,Meta-Chaser;Medienprofi
+NCQ,Zheng Jie,Guqin,SUP,26,m,zh,26,69,78,85,82,83,85,82,81.1,Roamer;Mentor
+SZC,Xu Jiayi,Halcyon,TOP,23,f,zh,21,79,78,75,79,77,47,81,77.7,Grinder;Egoist;Medienprofi
+SZC,Ahn Sung-min,Jangseung,JGL,19,m,ko,19,76,83,83,79,83,71,96,80.8,Early-Game-Spezialist
+SZC,Liu Ming,Redline,MID,23,m,zh,35,73,82,82,79,83,66,85,79.1,Roamer;Teamplayer
+SZC,Peng Xin,Qinggong,ADC,26,m,zh,35,83,83,76,85,80,65,83,82.3,Tilt-Proof;Teamplayer
+SZC,Deng Chen,Riptide,SUP,24,m,zh,34,73,74,84,88,79,81,83,82.3,Roamer;Engage Caller;Vision Master
+GKG,Ma Tianle,Jinyu,TOP,23,m,zh,21,73,79,76,79,75,53,81,76.3,Fan Favorite;Perfektionist;Weak-Side-Spezialist
+GKG,Li Tianle,Waypoint,JGL,20,m,zh,32,64,66,79,77,67,46,85,73.2,Choker;Ironman
+GKG,Xu Yang,Keystone,MID,20,m,zh,28,75,81,79,78,82,38,92,78.5,Clutch Player;One-Trick
+GKG,Gao Lei,Featherfall,ADC,26,m,zh,31,71,84,76,69,72,62,76,75.2,Teamplayer;Fan Favorite;Weak-Side-Spezialist
+GKG,Sun Jun,Weiwu,SUP,17,m,zh,11,70,70,78,76,66,53,88,74.1,Roamer
+MGE,Zhou Lei,Ambergris,TOP,22,m,zh,34,78,76,79,66,75,84,81,75.8,Fan Favorite;Tilt-Proof
+MGE,Luo Tianle,Jiaozi,JGL,21,m,zh,19,74,64,71,71,74,70,78,71.7,Invader;Shotcaller
+MGE,Sun Lei,Vanguard,MID,18,m,zh,21,75,89,85,72,74,66,93,80.6,Lane Bully
+MGE,Seo Dong-hyun,Hangang,ADC,20,m,ko,50,83,76,64,68,77,46,86,76.1,Weak-Side-Spezialist;Late-Game-Monster
+MGE,Zhou Jun,Baozi,SUP,20,m,zh,32,76,66,83,81,78,76,92,78.5,Meta-Chaser;Roamer
+PSS,Suzuki Takumi,Healthbar,TOP,27,m,ja,31,75,76,81,69,74,75,76,75.4,Grinder;Weak-Side-Spezialist
+PSS,Kobayashi Shota,Lichtblick,JGL,26,m,ja,18,72,67,74,74,70,70,73,72.7,Invader;Mentor
+PSS,Tanaka Kenta,Takoyaki,MID,18,m,ja,36,77,86,82,81,83,82,94,81.5,Lane Bully
+PSS,Song Sung-min,Haneul,ADC,19,m,ko,46,70,74,63,68,67,52,84,69.9,Meta-Chaser
+PSS,Watanabe Kenta,Schwert,SUP,20,m,ja,18,61,70,74,79,66,87,84,73.0,Fan Favorite;Choker
+NKG,Sato Shota,Continue,TOP,24,m,ja,34,75,82,71,64,70,52,76,74.4,Meta-Chaser;Lane Bully
+NKG,Sasaki Riku,Kitsune,JGL,18,m,ja,32,80,64,77,70,72,86,92,74.8,Vision Master
+NKG,Yoshida Ren,HighScore,MID,26,m,ja,32,68,70,71,63,59,48,72,67.9,Teamplayer;Choker
+NKG,Ito Daiki,Bulwark,ADC,23,m,ja,19,65,68,65,73,72,64,75,67.8,Clutch Player;Tilt-Proof
+NKG,Takahashi Ren,Bento,SUP,23,m,ja,40,69,68,74,75,76,53,77,73.1,Arrogant;Roamer
+ONI,Watanabe Hina,Flagpole,TOP,23,f,ja,40,69,70,69,60,67,60,73,68.0,Late Bloomer;Ironman;Grinder
+ONI,Lee Min-seo,Chalkline,JGL,17,f,ko,36,63,68,77,70,74,43,87,71.9,Early-Game-Spezialist
+ONI,Takahashi Hayato,Gotterfunke,MID,23,m,ja,30,67,69,66,64,69,50,69,67.1,Champion Ocean;Egoist;Roamer
+ONI,Inoue Hayato,Daruma,ADC,18,m,ja,15,71,62,69,66,67,59,80,66.9,Weak-Side-Spezialist
+ONI,Tanaka Takumi,Dpad,SUP,21,m,ja,28,69,66,74,75,77,65,84,73.0,Engage Caller;Medienprofi
+NMK,Chang Yu-ting,Quietstorm,TOP,19,m,zh,47,75,75,79,66,76,60,88,74.9,Faul
+NMK,Yang Chun-wei,Fieldmouse,JGL,21,m,zh,20,78,71,75,74,74,59,86,75.0,Early-Game-Spezialist;Vision Master
+NMK,Luo Xin,Breakwater,MID,27,m,zh,25,72,75,74,62,72,44,74,72.3,Meta-Chaser;Roamer;Egoist
+NMK,Chang Pei-shan,Sparkplug,ADC,20,f,zh,37,74,80,70,77,79,87,87,76.4,Tilt-Proof;Lane Bully
+NMK,Wu Tzu-hsuan,Heartwood,SUP,25,m,zh,44,67,69,77,77,76,85,80,74.7,Mentor;Fan Favorite
+YSE,Lin Kuan-yu,Afterimage,TOP,25,m,zh,28,65,76,78,72,75,51,74,73.0,Ironman;One-Trick
+YSE,Song Woo-jin,Eventide,JGL,23,m,ko,35,72,68,75,82,67,36,81,74.3,Arrogant;Tilt-Proof
+YSE,Yang Chia-hao,Backwater,MID,17,m,zh,41,65,66,66,65,69,41,85,65.9,Roamer
+YSE,Liu Chun-wei,Paintbrush,ADC,26,m,zh,28,71,75,73,69,75,79,78,72.5,Medienprofi;Weak-Side-Spezialist;One-Trick
+YSE,Wang Yi-chen,Boba,SUP,26,m,zh,34,54,72,75,70,62,77,73,69.4,Choker;Late Bloomer;Mentor
+PHO,Hoang Phuc,Mekong,TOP,22,m,vi,29,70,71,68,75,70,77,78,70.5,Weak-Side-Spezialist;Clutch Player
+PHO,Hoang Linh,Xoi,JGL,19,f,vi,46,71,59,77,73,69,69,86,72.9,Teamplayer
+PHO,Dang Quang,Chuoi,MID,20,m,vi,36,77,74,78,69,71,50,86,75.1,Grinder;One-Trick
+PHO,Nguyen Duc,Silverline,ADC,21,m,vi,40,76,71,74,72,71,36,82,73.2,Weak-Side-Spezialist;Late-Game-Monster
+PHO,Pham Bao,Cafesua,SUP,21,m,vi,41,63,69,74,70,76,74,79,70.9,Tilt-Proof;Faul
+HLB,Do Tuan,Boomerang,TOP,25,m,vi,45,66,76,62,73,65,71,71,68.9,Bühnenangst;Medienprofi;Weak-Side-Spezialist
+HLB,Le Linh,Bluefire,JGL,19,f,vi,31,66,62,72,67,65,52,81,68.3,Engage Caller
+HLB,Hoang Khoa,Kitetail,MID,22,m,vi,31,68,63,71,63,69,44,71,67.1,Champion Ocean;Grinder
+HLB,Phan Duc,Dalat,ADC,23,m,vi,28,69,78,70,63,75,56,79,71.5,Lane Bully;Bühnenangst
+HLB,Ahn Hyun-woo,Ondol,SUP,21,m,ko,37,68,62,67,77,68,87,78,70.0,Roamer;Medienprofi
+TUK,Thanakorn Wongsakul,Mamuang,TOP,23,m,th,53,73,66,71,68,75,76,76,70.5,Weak-Side-Spezialist;Tilt-Proof
+TUK,Krit Rattanakorn,Khaosan,JGL,21,m,th,60,68,64,73,67,69,44,81,69.8,Engage Caller;Early-Game-Spezialist
+TUK,Joshua Garcia,Cornerstone,MID,21,m,tl,83,65,66,75,64,61,57,76,67.3,Late Bloomer;One-Trick
+TUK,Lim Min-jun,Gyeongju,ADC,27,m,ko,37,72,73,62,66,66,48,75,69.8,Fan Favorite;Late Bloomer;Champion Ocean
+TUK,Nattapong Rattanakorn,Tuktuk,SUP,21,m,th,59,55,71,65,68,64,65,73,65.8,Medienprofi;Vision Master

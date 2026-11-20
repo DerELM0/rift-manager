@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rift Manager Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: Broadcast-Overlay – blaue und rote Seite links/rechts, Analyse darunter */
+  --bg: #eef1f6; --panel: #ffffff; --ink: #141a26; --muted: #5a6478; --line: #d9dee8; --soft: #f5f7fb;
+  --blue: #2563d6; --blue-t: rgba(37,99,214,.14); --red: #cf3b3b; --red-t: rgba(207,59,59,.14);
+  --gold: #b8860b; --good: #1f8a4c; --warn: #b7791f; --bad: #c0392b;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e121a; --panel: #161c27; --ink: #e7ebf3; --muted: #97a1b6; --line: #283043; --soft: #1b2230;
+    --blue: #5b93ff; --blue-t: rgba(91,147,255,.18); --red: #ff6e6e; --red-t: rgba(255,110,110,.16);
+    --gold: #e2b64c; --good: #4cc27e; --warn: #e3a341; --bad: #ff7a6b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e121a; --panel: #161c27; --ink: #e7ebf3; --muted: #97a1b6; --line: #283043; --soft: #1b2230;
+  --blue: #5b93ff; --blue-t: rgba(91,147,255,.18); --red: #ff6e6e; --red-t: rgba(255,110,110,.16);
+  --gold: #e2b64c; --good: #4cc27e; --warn: #e3a341; --bad: #ff7a6b; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.45; }
+.num, td.n, .tile b { font-variant-numeric: tabular-nums; }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding: 14px 20px; background: var(--panel); border-bottom: 1px solid var(--line); }
+header h1 { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: .02em; margin: 0; text-transform: uppercase; }
+header h1 span { color: var(--muted); font-weight: 500; }
+nav { display: flex; gap: 4px; flex-wrap: wrap; }
+nav a { font-family: var(--display); font-size: 17px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 6px; }
+nav a.on { color: var(--ink); background: var(--soft); box-shadow: inset 0 -3px 0 var(--gold); }
+nav a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+main { max-width: 1240px; margin: 0 auto; padding: 18px 16px 48px; display: grid; gap: 16px; }
+.view { display: none; gap: 16px; }
+.view.on { display: grid; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; font-size: 20px; margin: 0 0 10px; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; font-size: 16px; margin: 0 0 8px; color: var(--muted); }
+p.lead { margin: 0 0 12px; color: var(--muted); max-width: 70ch; }
+.matchup { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: start; }
+@media (max-width: 860px) { .matchup { grid-template-columns: 1fr; } }
+.side { border-top: 4px solid var(--blue); }
+.side.red { border-top-color: var(--red); }
+.side .head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.side .ovr { font-family: var(--display); font-size: 30px; font-weight: 700; line-height: 1; }
+.side.blue .ovr { color: var(--blue); } .side.red .ovr { color: var(--red); }
+.ctrl { display: grid; gap: 10px; align-content: start; min-width: 220px; }
+label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); font-weight: 500; }
+select, input[type=number], input[type=text] { font: inherit; color: var(--ink); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; min-width: 0; }
+input[type=range] { width: 100%; accent-color: var(--gold); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; }
+.row > label { flex: 1 1 120px; }
+button { font: inherit; font-weight: 600; cursor: pointer; border-radius: 6px; border: 1px solid var(--line); background: var(--soft); color: var(--ink); padding: 8px 12px; }
+button.primary { background: var(--ink); color: var(--panel); border-color: var(--ink); font-family: var(--display); text-transform: uppercase; letter-spacing: .04em; font-size: 18px; padding: 10px 16px; }
+button:disabled { opacity: .5; cursor: progress; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
+td.n, th.n { text-align: right; }
+.scroll { overflow-x: auto; }
+.chip { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--soft); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.chip.warn { color: var(--warn); border-color: var(--warn); }
+.chip.gold { color: var(--gold); border-color: var(--gold); }
+.chip.blue { color: var(--blue); border-color: var(--blue); } .chip.red { color: var(--red); border-color: var(--red); }
+.traits { color: var(--muted); font-size: 12px; }
+.tr { position: relative; display: inline-block; font-size: 12px; padding: 1px 7px; margin: 2px 4px 0 0; border-radius: 999px; background: var(--soft); border: 1px solid var(--line); color: var(--ink); cursor: help; }
+.tr.neg { border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+.tr.pos { border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+.tr .tip { display: none; position: absolute; z-index: 20; left: 0; top: calc(100% + 6px); width: 260px; padding: 8px 10px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.18); color: var(--ink); font-size: 12px; line-height: 1.4; white-space: normal; }
+.tr:hover .tip, .tr:focus .tip { display: block; }
+.tr .tip b { display: block; margin-bottom: 2px; }
+.grp td { background: var(--soft); color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.pgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.sbar { display: grid; grid-template-columns: 104px 1fr 96px; align-items: center; gap: 8px; margin: 4px 0; font-size: 13px; }
+.sbar .bar { height: 8px; background: var(--soft); border-radius: 4px; position: relative; overflow: hidden; }
+.sbar .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--gold); border-radius: 4px; }
+.sbar .bar b { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--ink); opacity: .55; }
+.spark { width: 100%; height: 70px; display: block; }
+tr.pl { cursor: pointer; } tr.pl:hover td { background: var(--soft); } tr.pl.on td { background: var(--soft); box-shadow: inset 3px 0 0 var(--gold); }
+tr.pl.on td + td { box-shadow: none; }
+.scoreboard { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
+.scoreboard .tn { font-family: var(--display); font-size: 26px; font-weight: 700; text-transform: uppercase; }
+.scoreboard .tn.blue { color: var(--blue); } .scoreboard .tn.red { color: var(--red); text-align: right; }
+.scoreboard .sc { font-family: var(--display); font-size: 44px; font-weight: 700; line-height: 1; letter-spacing: .04em; }
+.games { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+.games button { font-size: 13px; padding: 5px 10px; }
+.games button.on { border-color: var(--gold); box-shadow: inset 0 -3px 0 var(--gold); }
+.games .w-A { border-left: 4px solid var(--blue); } .games .w-B { border-left: 4px solid var(--red); }
+.facts { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.facts .chip { font-size: 12px; padding: 3px 9px; }
+.split2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px; }
+@media (max-width: 860px) { .split2 { grid-template-columns: 1fr; } }
+.log { max-height: 420px; overflow-y: auto; font-size: 13px; }
+.log div { display: grid; grid-template-columns: 34px 1fr; gap: 8px; padding: 4px 6px; border-left: 3px solid transparent; }
+.log div.A { border-left-color: var(--blue); } .log div.B { border-left-color: var(--red); }
+.log div.big { background: var(--soft); font-weight: 600; }
+.log div.end { font-weight: 700; }
+.log .m { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+.graph svg { width: 100%; height: auto; display: block; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.tile { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.tile span { display: block; font-size: 12px; color: var(--muted); }
+.tile b { font-family: var(--display); font-size: 28px; font-weight: 700; }
+.ok { color: var(--good); font-weight: 600; } .off { color: var(--warn); font-weight: 600; }
+.mvp { color: var(--gold); font-weight: 700; }
+.vs { display: grid; gap: 8px; margin-top: 12px; }
+.vs .r { display: grid; grid-template-columns: 90px 1fr 90px; align-items: center; gap: 10px; }
+.vs .r b { font-family: var(--display); font-size: 20px; font-weight: 700; }
+.vs .r b.a { color: var(--blue); text-align: right; } .vs .r b.b { color: var(--red); }
+.vs .bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--line); position: relative; }
+.vs .bar i { display: block; height: 100%; }
+.vs .bar i.a { background: var(--blue); } .vs .bar i.b { background: var(--red); }
+.vs .lbl { grid-column: 2; font-size: 11px; color: var(--muted); text-align: center; margin-top: -6px; text-transform: uppercase; letter-spacing: .05em; }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+.progress i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .1s; }
+.consts { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.note { font-size: 12px; color: var(--muted); }
+.teamlist td:first-child { font-weight: 600; }
+.season-ctrl { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.season-ctrl > label { flex: 0 1 200px; }
+.wk { font-family: var(--display); font-size: 22px; font-weight: 700; text-transform: uppercase; }
+.form5 { display: inline-flex; gap: 3px; }
+.form5 i { width: 16px; height: 16px; border-radius: 3px; font-style: normal; font-size: 10px; font-weight: 700; display: inline-grid; place-items: center; color: #fff; }
+.form5 i.S { background: var(--good); } .form5 i.N { background: var(--bad); }
+tr.click { cursor: pointer; } tr.click:hover td { background: var(--soft); } tr.sel td { background: var(--soft); } tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
+tr.cut td { border-bottom: 2px dashed var(--gold); }
+.res { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+.res button { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; text-align: left; font-weight: 500; }
+.res button .w { font-weight: 700; } .res button .sc { font-family: var(--display); font-size: 18px; font-weight: 700; }
+.res button span:last-child { text-align: right; }
+.delta.up { color: var(--good); } .delta.down { color: var(--bad); }
+.bracket { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .bracket { grid-template-columns: 1fr; } }
+.champ { font-family: var(--display); font-size: 26px; font-weight: 700; text-transform: uppercase; color: var(--gold); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Rift Manager <span>Simulator</span></h1>
+  <nav aria-label="Ansichten">
+    <a href="#match" id="nav-match">Match</a>
+    <a href="#saison" id="nav-saison">Saison</a>
+    <a href="#statistik" id="nav-statistik">Serien-Statistik</a>
+    <a href="#kalibrierung" id="nav-kalibrierung">Kalibrierung</a>
+    <a href="#daten" id="nav-daten">Daten</a>
+  </nav>
+</header>
+<main>
+  <!-- MATCH -->
+  <section class="view" id="view-match">
+    <div class="matchup">
+      <div class="card side blue" id="sideA"></div>
+      <div class="card ctrl">
+        <label for="fmt">Format
+          <select id="fmt"><option value="1">Bo1</option><option value="3">Bo3</option><option value="5" selected>Bo5</option></select>
+        </label>
+        <label for="pressure"><span><input type="checkbox" id="pressure"> Playoffs oder Finale (Druckspiel)</span></label>
+        <div class="row">
+          <label for="seed">Seed<input type="number" id="seed" value="2026"></label>
+          <button id="reseed" type="button">Neuer Seed</button>
+        </div>
+        <button class="primary" id="run" type="button">Serie simulieren</button>
+        <p class="note">Gleicher Seed, gleiche Teams, gleiches Ergebnis. So lassen sich Formeländerungen vergleichen.</p>
+      </div>
+      <div class="card side red" id="sideB"></div>
+    </div>
+    <div class="card" id="result"></div>
+  </section>
+
+  <!-- SAISON -->
+  <section class="view" id="view-saison">
+    <div class="card">
+      <h2>Saison</h2>
+      <p class="lead">Eine Liga mit Spielplan nach dem Vorbild der echten Liga. Jede Woche zwei Spieltage, danach Training, Chemistry und Spracherwerb. Form und Chemistry reagieren auf Siege und Niederlagen. Die Top 6 spielen Bo5-Playoffs.</p><p class="note" id="sFmtNote"></p>
+      <div class="season-ctrl">
+        <label for="sLeague">Liga<select id="sLeague"></select></label>
+        <label for="sFmt" style="flex-basis:300px">Format<select id="sFmt"></select></label>
+        <label for="sSeed">Seed<input type="number" id="sSeed" value="7"></label>
+        <button type="button" id="sNew">Neue Saison</button>
+        <button type="button" class="primary" id="sWeek">Nächste Woche</button>
+        <button type="button" id="sAll">Bis zu den Playoffs</button>
+        <button type="button" id="sPO">Playoffs spielen</button>
+      </div>
+    </div>
+    <div class="card"><div id="sHead"></div><div class="scroll"><table id="sTable"></table></div><p class="note">Gestrichelte Linie: Playoff-Plätze. Klick auf ein Team zeigt den Kader.</p></div>
+    <div class="split2">
+      <div class="card" id="sWeekBox"></div>
+      <div class="card" id="sTeamBox"></div>
+    </div>
+    <div class="card" id="sPlayerBox" hidden></div>
+    <div class="card" id="sPOBox"></div>
+  </section>
+
+  <!-- STATISTIK -->
+  <section class="view" id="view-statistik">
+    <div class="card">
+      <h2>Serien-Statistik</h2>
+      <p class="lead">Simuliert viele Spiele zwischen den beiden Teams aus der Match-Ansicht und zeigt Siegchancen, Spieldauer, Comebacks und die stärksten Spieler.</p>
+      <div class="row">
+        <label for="nBatch">Anzahl Spiele<input type="number" id="nBatch" value="2000" min="100" step="100"></label>
+        <button class="primary" id="runBatch" type="button">Statistik berechnen</button>
+      </div>
+      <div class="progress"><i id="pBatch"></i></div>
+    </div>
+    <div class="card" id="batchOut"></div>
+  </section>
+
+  <!-- KALIBRIERUNG -->
+  <section class="view" id="view-kalibrierung">
+    <div class="card">
+      <h2>Kalibrierung</h2>
+      <p class="lead">Zwei Testteams mit identischen Spielern, eines um eine feste OVR-Differenz stärker. Die Tabelle vergleicht die simulierte Siegchance mit den Zielen aus dem Dokument. Die Konstanten gelten sofort für alle Ansichten.</p>
+      <div class="consts" id="consts"></div>
+      <div class="row" style="margin-top:12px">
+        <label for="nCal">Spiele pro Zeile<input type="number" id="nCal" value="3000" min="500" step="500"></label>
+        <button class="primary" id="runCal" type="button">Kalibrierung laufen lassen</button>
+        <button id="resetConsts" type="button">Standardwerte</button>
+      </div>
+      <div class="progress"><i id="pCal"></i></div>
+    </div>
+    <div class="card" id="calOut"></div>
+  </section>
+
+  <!-- DATEN -->
+  <section class="view" id="view-daten">
+    <div class="card">
+      <h2>Datenbank exportieren</h2>
+      <p class="lead">Die Standarddatenbank lebt hier im Simulator. Der Export erzeugt zwei CSV-Dateien, die du in Excel oder LibreOffice bearbeiten und unten wieder laden kannst. Rohwerte wie Charisma und Potential sind enthalten.</p>
+      <div class="row">
+        <label for="expLeague">Liga<select id="expLeague"></select></label>
+        <button type="button" id="expTeams">Teams als CSV</button>
+        <button type="button" id="expPlayers">Spieler als CSV</button>
+      </div>
+      <p class="note" id="expMsg"></p>
+    </div>
+    <div class="card">
+      <h2>Eigene Daten laden</h2>
+      <p class="lead">CSV-Dateien im Format des Exports oben. Teams mit gleichem Kürzel werden ersetzt, neue kommen dazu. Jedes Team braucht je einen Spieler pro Rolle (TOP, JGL, MID, ADC, SUP). Fehlen Coach-, Chemistry- oder Potential-Spalten, setzt der Import Standardwerte.</p>
+      <div class="row">
+        <label for="fTeams">teams.csv<input type="file" id="fTeams" accept=".csv,text/csv"></label>
+        <label for="fPlayers">players.csv<input type="file" id="fPlayers" accept=".csv,text/csv"></label>
+        <button id="importBtn" type="button">Importieren</button>
+      </div>
+      <p class="note" id="importMsg"></p>
+    </div>
+    <div class="card">
+      <h2>Geladene Teams</h2>
+      <div class="row" style="margin-bottom:10px">
+        <label for="leagueFilter">Liga<select id="leagueFilter"></select></label>
+      </div>
+      <div class="scroll"><table class="teamlist" id="teamTable"></table></div>
+    </div>
+  </section>
+</main>
+
+<script src="sim.js"></script>
+<script src="season.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
