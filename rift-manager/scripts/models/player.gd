@@ -2,16 +2,13 @@ class_name Player
 extends RefCounted
 ## Ein Spieler, eine Zeile aus players.csv. Spielwerte 0–100.
 
-## Rollen-Kürzel wie in der CSV-Spalte role, in Aufstellungsreihenfolge.
-const ROLES: Array[String] = ["TOP", "JGL", "MID", "ADC", "SUP"]
-
 ## Kürzel des Teams (team_short), über das der Spieler seinem Team zugeordnet wird.
 var team_short: String = ""
 ## Echter Name (Spalte name), oft leer.
 var real_name: String = ""
 ## Ingame-Name (Spalte nickname).
 var nickname: String = ""
-## Eins von ROLES.
+## Eins von RiftSim.ROLES (TOP, JGL, MID, ADC, SUP).
 var role: String = ""
 var age: int = 0
 ## "m" oder "f".
@@ -31,9 +28,6 @@ var mental: int = 0
 var charisma: int = 0
 ## Höchster Wert, den der Spieler erreichen kann.
 var potential: int = 0
-## Gesamtwert. Vorerst aus der CSV-Spalte ovr übernommen;
-## die rollenabhängige Formel (web-sim/sim.js, ovrOf) wird später portiert.
-var overall: float = 0.0
 
 ## Eigenschaften à la Football Manager, z. B. ["Shotcaller", "Mentor"].
 var traits: PackedStringArray = []
@@ -42,6 +36,17 @@ var traits: PackedStringArray = []
 ## Name für die Anzeige: Nickname, sonst echter Name.
 func display_name() -> String:
 	return nickname if not nickname.is_empty() else real_name
+
+
+## Die fünf Spielwerte in der Reihenfolge, die RiftSim erwartet:
+## [Mechanics, Laning, Macro, Teamwork, Mental].
+func stats() -> Array[int]:
+	return [mechanics, laning, macro, teamwork, mental]
+
+
+## Gesamtwert, berechnet aus Rolle und Stats (RiftSim.ovr_of).
+func overall() -> float:
+	return RiftSim.ovr_of(role, stats())
 
 
 func has_trait(trait_name: String) -> bool:

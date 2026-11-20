@@ -27,11 +27,6 @@ func get_player(role: String) -> Player:
 	return null
 
 
-## Durchschnitt der Overall-Werte aller Spieler (wie teamOvr im Web-Simulator).
+## Team-Overall: Durchschnitt der 5 Spieler (RiftSim.team_ovr).
 func overall() -> float:
-	if players.is_empty():
-		return 0.0
-	var total: float = 0.0
-	for player: Player in players:
-		total += player.overall
-	return total / players.size()
+	return RiftSim.team_ovr(self)

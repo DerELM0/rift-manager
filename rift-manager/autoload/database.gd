@@ -21,6 +21,15 @@ var _teams: Array[Team] = []
 var _teams_by_short: Dictionary[String, Team] = {}
 var _player_count: int = 0
 
+## Erlaubte Abweichung zwischen berechnetem Overall und CSV-Spalte ovr.
+## Die CSV speichert ovr auf 1 Nachkommastelle gerundet, deshalb liegen Werte
+## wie 70.15 -> "70.1" genau 0.05 daneben. Das kleine Extra (1e-6) fängt den
+## Rechenrest von Kommazahlen ab, damit diese Fälle nicht als Abweichung zählen.
+const OVR_TOLERANCE: float = 0.05 + 1e-6
+## Zähler für den OVR-Check beim Laden.
+var _ovr_checked: int = 0
+var _ovr_matching: int = 0
+
 
 func _ready() -> void:
 	load_from_files(TEAMS_PATH, PLAYERS_PATH)
@@ -78,6 +87,8 @@ func load_from_files(teams_path: String, players_path: String) -> void:
 	_teams.clear()
 	_teams_by_short.clear()
 	_player_count = 0
+	_ovr_checked = 0
+	_ovr_matching = 0
 
 	for row: Dictionary in _read_csv(teams_path, TEAM_COLUMNS):
 		var team: Team = _team_from_row(row)
@@ -99,10 +110,11 @@ func load_from_files(teams_path: String, players_path: String) -> void:
 
 	for team: Team in _teams:
 		team.players.sort_custom(func(a: Player, b: Player) -> bool:
-			return Player.ROLES.find(a.role) < Player.ROLES.find(b.role))
+			return RiftSim.ROLES.find(a.role) < RiftSim.ROLES.find(b.role))
 		_check_roster(team)
 
 	print("Database: %d Teams, %d Spieler geladen." % [_teams.size(), _player_count])
+	print("OVR-Check: %d/%d stimmen überein" % [_ovr_matching, _ovr_checked])
 
 
 func _team_from_row(row: Dictionary) -> Team:
@@ -143,9 +155,9 @@ func _player_from_row(row: Dictionary) -> Player:
 	var label: String = "%s (%s)" % [player.display_name(), player.team_short]
 
 	player.role = row.get("role", "").to_upper()
-	if not Player.ROLES.has(player.role):
+	if not RiftSim.ROLES.has(player.role):
 		push_warning("Database: Spieler %s hat unbekannte Rolle '%s', übersprungen. Erlaubt: %s"
-				% [label, player.role, ", ".join(PackedStringArray(Player.ROLES))])
+				% [label, player.role, ", ".join(PackedStringArray(RiftSim.ROLES))])
 		return null
 
 	player.age = _to_int(row, "age", label)
@@ -159,16 +171,28 @@ func _player_from_row(row: Dictionary) -> Player:
 	player.mental = _to_int(row, "mental", label)
 	player.charisma = _to_int(row, "charisma", label)
 	player.potential = _to_int(row, "potential", label)
-	player.overall = _to_float(row, "ovr", label)
 	player.traits = _split_list(row.get("traits", ""))
+	_check_overall(player, row, label)
 	return player
+
+
+## Vergleicht den berechneten Overall mit der CSV-Spalte ovr und zählt Treffer.
+func _check_overall(player: Player, row: Dictionary, label: String) -> void:
+	_ovr_checked += 1
+	var csv_ovr: float = _to_float(row, "ovr", label)
+	var calc_ovr: float = player.overall()
+	if absf(calc_ovr - csv_ovr) > OVR_TOLERANCE:
+		push_warning("Database: OVR von %s weicht ab: berechnet %.2f, CSV %.2f."
+				% [label, calc_ovr, csv_ovr])
+	else:
+		_ovr_matching += 1
 
 
 ## Meldet, wenn ein Team nicht genau einen Spieler pro Rolle hat.
 func _check_roster(team: Team) -> void:
 	if team.players.size() != 5:
 		push_warning("Database: Team %s hat %d statt 5 Spieler." % [team.short, team.players.size()])
-	for role: String in Player.ROLES:
+	for role: String in RiftSim.ROLES:
 		var count: int = 0
 		for player: Player in team.players:
 			if player.role == role:

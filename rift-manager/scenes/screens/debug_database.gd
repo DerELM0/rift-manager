@@ -7,6 +7,7 @@ extends Control
 
 
 func _ready() -> void:
+	_print_rng_check()
 	_summary_label.text = "%d Teams, %d Spieler geladen" % [
 		Database.get_team_count(), Database.get_player_count()]
 
@@ -30,3 +31,13 @@ func _ready() -> void:
 			team_item.set_text(0, "%s – %s" % [team.short, team.name])
 			team_item.set_text(1, "%.1f" % team.overall())
 			team_item.set_text_alignment(1, HORIZONTAL_ALIGNMENT_RIGHT)
+
+
+## Gibt die ersten 5 Zufallszahlen für Seed 12345 aus, zum Vergleich mit
+## RiftSim.makeRng(12345) im Web-Simulator.
+func _print_rng_check() -> void:
+	var rng: RiftSim.Rng = RiftSim.make_rng(12345)
+	var numbers: PackedStringArray = []
+	for _i: int in 5:
+		numbers.append("%.17f" % rng.next_float())
+	print("RNG Seed 12345: ", ", ".join(numbers))
