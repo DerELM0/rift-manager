@@ -3,7 +3,8 @@ extends RefCounted
 ## Simulationskern, portiert aus web-sim/sim.js. Nur Konstanten und statische
 ## Funktionen, nichts davon kennt Szenen oder Nodes.
 ##
-## Teil 1: Rollen, Rollengewichte, Overall-Formeln und Zufallsgenerator.
+## Hier stehen Konstanten, Formeln und der Zufallsgenerator.
+## Die Match-Simulation selbst steht in match_sim.gd (MatchSim).
 
 ## Rollen in Aufstellungsreihenfolge. Im Web-Simulator heißen sie
 ## Top, Jungle, Mid, ADC, Support; hier die Kürzel aus der CSV.
@@ -18,6 +19,106 @@ const W: Dictionary = {
 	"ADC": [0.35, 0.30, 0.10, 0.15, 0.10],
 	"SUP": [0.10, 0.15, 0.30, 0.35, 0.10],
 }
+
+## Comp-Archetypen für den Draft. Die Reihenfolge ist wichtig für die Zufallsauswahl.
+const ARCH: Array[String] = ["Engage", "Poke", "Pick", "Split", "Scaling", "Control", "Teamfight"]
+
+## Zeitkurve je Archetyp: Bonus in Minute 14–24, 25–34 und ab 35.
+const CURVE: Dictionary = {
+	"Pick": [3, 1, -1], "Poke": [2, 2, 0], "Engage": [1, 3, 2], "Split": [1, 2, 3],
+	"Control": [0, 2, 3], "Teamfight": [-1, 3, 4], "Scaling": [-3, 1, 6],
+}
+
+## Counter-Matrix als Liste [Gewinner, Verlierer, Wert]. Gilt in beide Richtungen:
+## der Verlierer bekommt den Wert negativ (siehe counter()).
+const BEATS: Array = [
+	["Engage", "Poke", 3], ["Engage", "Split", 2], ["Scaling", "Engage", 2], ["Control", "Engage", 3],
+	["Poke", "Scaling", 3], ["Poke", "Control", 2], ["Pick", "Poke", 2], ["Poke", "Teamfight", 2],
+	["Pick", "Split", 3], ["Pick", "Scaling", 2], ["Control", "Pick", 2], ["Teamfight", "Pick", 3],
+	["Split", "Teamfight", 3], ["Split", "Control", 2], ["Scaling", "Split", 2],
+	["Teamfight", "Control", 2], ["Teamfight", "Scaling", 2],
+]
+
+## Stellschrauben der Simulation (DEFAULTS in sim.js). Über opt["consts"] einzeln
+## überschreibbar. Namen wie im Original, damit Werte 1:1 übertragbar sind.
+## Einzige Änderung: kdaBase ist nach den CSV-Rollen (TOP, JGL …) benannt.
+const DEFAULTS: Dictionary = {
+	"lane": 50, "jgl": 25, "kill": 400, "objDiv": 50, "objGold": 3500, "compDiv": 10,
+	"fightDiv": 80, "fightGold": 3, "throwBase": 0.10, "shutdown": 0.35, "sigmaBase": 8,
+	"mastery": 85, "killsPerLane": 2.5, "fightKills": 3.4, "skirmish": 0.6, "ratingBase": 60,
+	"ratingCompress": 0.7, "formCenter": 71, "formDiv": 12, "formAmp": 1.8, "formWeight": 0.3,
+	"morale": 2, "formDrift": 1.5, "chemLoss": 2, "chemWin": 1, "chemGrowth": 1.2,
+	"trainBase": 0.3, "statNoise": 0.9, "gankShare": 0.2,
+	"kdaBase": {"TOP": 4.5, "JGL": 6, "MID": 4.5, "ADC": 5, "SUP": 5.5},
+}
+
+## Counter-Matrix M[a][b] (aus BEATS aufgebaut, einmal beim ersten Zugriff).
+static var _counter_matrix: Dictionary = _build_counter_matrix()
+
+
+static func _build_counter_matrix() -> Dictionary:
+	var m: Dictionary = {}
+	for a: String in ARCH:
+		var row: Dictionary = {}
+		for b: String in ARCH:
+			row[b] = 0
+		m[a] = row
+	for entry: Array in BEATS:
+		m[entry[0]][entry[1]] = entry[2]
+		m[entry[1]][entry[0]] = -int(entry[2])
+	return m
+
+
+## Wie stark Archetyp a gegen Archetyp b ist (M[a][b] in sim.js). Positiv = a kontert b.
+static func counter(a: String, b: String) -> int:
+	return _counter_matrix[a][b]
+
+
+## Bester Konter gegen einen Archetyp. Bei Gleichstand gewinnt der zuerst in ARCH
+## genannte (wie die stabile Sortierung im Original).
+static func best_counter(against: String) -> String:
+	var best: String = ARCH[0]
+	for arch: String in ARCH:
+		if counter(arch, against) > counter(best, against):
+			best = arch
+	return best
+
+
+## Kommunikationswert K (commK in sim.js): 100, wenn der Spieler die Teamsprache spricht,
+## sonst sein Englisch bei englischer Teamsprache, sonst 10.
+static func comm_k(player: Player, team_language: String) -> int:
+	if player.languages.has(team_language):
+		return 100
+	if team_language == "en":
+		return player.english
+	return 10
+
+
+## Sigmoid-Funktion (sig in sim.js): macht aus einer Differenz eine Wahrscheinlichkeit 0–1.
+static func sig(x: float) -> float:
+	return 1.0 / (1.0 + exp(-x))
+
+
+## Runden wie Math.round in JavaScript: x.5 rundet immer nach oben (auch bei negativen
+## Zahlen: -2.5 -> -2). Godots round() rundet -2.5 auf -3, das würde Ergebnisse verändern.
+static func js_round(x: float) -> int:
+	var lower: float = floorf(x)
+	return int(lower) + (1 if x - lower >= 0.5 else 0)
+
+
+## Stabile Sortierung: bei Gleichstand bleibt die ursprüngliche Reihenfolge erhalten,
+## wie bei Array.sort in JavaScript. Godots sort_custom garantiert das nicht.
+## before(a, b) gibt true zurück, wenn a vor b gehört. Gibt eine neue Liste zurück.
+static func stable_sort(items: Array, before: Callable) -> Array:
+	var result: Array = items.duplicate()
+	for i: int in range(1, result.size()):
+		var item: Variant = result[i]
+		var j: int = i - 1
+		while j >= 0 and before.call(item, result[j]):
+			result[j + 1] = result[j]
+			j -= 1
+		result[j + 1] = item
+	return result
 
 
 ## Overall aus Rolle und Stats [Mechanics, Laning, Macro, Teamwork, Mental]

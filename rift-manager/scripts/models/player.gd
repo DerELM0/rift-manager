@@ -28,6 +28,10 @@ var mental: int = 0
 var charisma: int = 0
 ## Höchster Wert, den der Spieler erreichen kann.
 var potential: int = 0
+## Aktuelle Form (um 71 herum). Wird später von der Saison gesetzt.
+## Negativ heißt: noch keine Form, die Match-Simulation ignoriert sie dann
+## (wie "form == null" im Web-Simulator).
+var form: float = -1.0
 
 ## Eigenschaften à la Football Manager, z. B. ["Shotcaller", "Mentor"].
 var traits: PackedStringArray = []
@@ -47,6 +51,10 @@ func stats() -> Array[int]:
 ## Gesamtwert, berechnet aus Rolle und Stats (RiftSim.ovr_of).
 func overall() -> float:
 	return RiftSim.ovr_of(role, stats())
+
+
+func has_form() -> bool:
+	return form >= 0.0
 
 
 func has_trait(trait_name: String) -> bool:
