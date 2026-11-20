@@ -69,6 +69,8 @@ Jeder Spieler hat fünf Leistungswerte, die in die Simulation eingehen, und eine
 | Potential | POT | Obergrenze der Entwicklung | verdeckt, per Scouting als Sterne |
 | Rollenvertrautheit | FAM | Pro Rolle 0–100, Hauptrolle = 100 | ja |
 
+> **Prototyp-Stand:** Reputation (Spieler und Coach) fehlt noch in Daten und Modell. Charisma und Potential sind exakte Werte ohne Scouting-Spanne.
+
 ### Overall pro Rolle
 
 Der Overall ist eine rollengewichtete Summe der fünf Leistungswerte. Reputation zählt nicht mit.
@@ -93,6 +95,8 @@ OVR_{eff} = OVR_{Rolle} \cdot \left(0{,}75 + 0{,}25 \cdot \frac{FAM_{Rolle}}{100
 
 **Beispiel:** Ein Mid mit MEC 85, LAN 80, MAC 75, TEA 60, MEN 70 hat als Mid OVR 77. Als Jungler hätte er mit denselben Werten 73,5. Bei FAM 40 auf Jungle bleiben davon effektiv 62.
 
+> **Prototyp-Stand:** Keine Rollenvertrautheit. Jeder Spieler hat genau eine Rolle und spielt nur diese.
+
 ### Champion Pool
 
 Jeder Spieler hat pro Champion eine Mastery von 0 bis 100. Erst der Pool macht Draft und Meta-Wechsel spannend. In einem Match gilt für alle Leistungswerte:
@@ -106,6 +110,8 @@ Auf einem unbekannten Champion verliert ein Spieler also bis zu 15 %.
 - **Pool-Tiefe** ist die Zahl der Champions mit Mastery ≥ 70. Unter 3 macht den Spieler im Draft angreifbar.
 - **Meta-Tier** pro Patch: S +8, A +4, B 0, C −4, D −8 auf den PickWert im Draft. Im Spiel wirkt die Hälfte davon (MetaMod, +4 bis −4) auf die effektiven Werte des Spielers. Ein neuer Patch erscheint einmal pro Monat.
 - **Lernen und Verfall:** Gespielte Champions steigen um 1–3 pro Woche. Ungespielte verlieren 0,5 pro Woche bis zu einem Boden von 50.
+
+> **Prototyp-Stand:** Kein Champion Pool und keine Meta-Patches. Alle Spieler spielen mit einer festen Mastery von 85 (ChampMod 0,9775), MetaMod ist 0.
 
 ### Charisma
 
@@ -129,6 +135,8 @@ K wirkt im Match auf Teamwork und in der Woche auf Chemistry (siehe Teamwerte). 
 
 **Mehrere Sprachen:** Ein Spieler kann mehrere Sprachen sprechen. Für die Chemistry eines Paares zählt ihre beste gemeinsame Sprache: Zwei Koreaner in einem englischsprachigen Team verstehen sich untereinander voll, nur ihr K im Match hängt an der Teamsprache. Ein Spieler mit Englisch und Koreanisch wird so zur Brücke zwischen Imports und Team.
 
+> **Prototyp-Stand:** Gelernt wird nur Englisch: Ist die Teamsprache Englisch, steigt der Englischwert um 1,5 pro Woche (≤ 21: 2,5, Sprachtalent doppelt). Bei einer anderen fremden Teamsprache bleibt K dauerhaft bei 10.
+
 ## Traits
 
 Jeder Spieler hat 1 bis 5 Traits. Rookies starten mit 1–2, ein etablierter Profi hat 3, und 5 Traits haben nur Elite-Spieler. Traits verändern Werte nur in bestimmten Situationen und machen so aus Zahlen einen Charakter. Negative Traits sind gewollt: Ein Hot-Headed-Superstar ist eine Managemententscheidung.
@@ -141,7 +149,7 @@ Jeder Spieler hat 1 bis 5 Traits. Rookies starten mit 1–2, ein etablierter Pro
 | Lane Bully | positiv | +5 LAN in der Laning-Phase | Immer |
 | Weak-Side-Spezialist | positiv | Keine Laning-Strafe, wenn der eigene Jungler eine andere Lane fokussiert | Top oder ADC |
 | Roamer | positiv | +3 L in einer Nachbarlane, −2 L in der eigenen | Mid oder Support |
-| Late-Game-Monster | positiv | +4 MEC in Teamfights ab Minute 25 | Immer |
+| Late-Game-Monster | positiv | +4 MEC in Teamfights ab Minute 30 | Immer |
 | Early-Game-Spezialist | positiv | +4 auf alle Werte bis Minute 14 | Immer |
 | Carry | positiv | +4 MEC in Teamfights, wenn das eigene Team Gold vorn liegt | Mid oder ADC |
 | Engage Caller | positiv | +3 Teamfight-Stärke für das Team | Support oder Jungle |
@@ -183,7 +191,10 @@ Jeder Spieler hat 1 bis 5 Traits. Rookies starten mit 1–2, ein etablierter Pro
 - **Entscheidungen:** Interviews, Trainingsschwerpunkte und Rollen im Team können Traits auslösen. Zehn Wochen VOD-Review-Fokus geben zum Beispiel eine Chance auf Vision Master, eine Saison als Shotcaller festigt den Trait.
 - **Obergrenze 5:** Bei 5 Traits ersetzt ein neuer Trait einen alten. Im Career-Modus wählst du, im GM-Modus entscheidet der Zufall gewichtet nach Werten.
 - **Mentor:** Ein Mentor kann einen negativen Trait eines jungen Spielers mit 10 % pro Saison entfernen.
-- **Daten:** Die Trait-Liste liegt in einer eigenen CSV, damit neue Traits ohne Code dazukommen können.
+- **Daten:** Traits werden als Daten in `traits.csv` gepflegt (Format siehe CSV-Import). Jeder Trait setzt sich aus programmierten Effekt-Bausteinen zusammen, zum Beispiel Wertebonus in einer Spielphase, Faktor auf die Mental-Schwankung, Trainings- oder Chemistry-Faktor, mit Bedingungen wie Rolle, Druckspiel oder internationales Turnier. Neue Traits aus vorhandenen Bausteinen brauchen keinen Code, nur neue Bausteine.
+- **Maßgeblich:** Die Traits wirken so, wie sie in diesem Dokument stehen (Rollenbedingungen, Bühnenangst nur bei internationalen Turnieren usw.), nicht wie im Web-Simulator.
+
+> **Prototyp-Stand:** Die Traits sind noch fest im Code (MatchSim, Season) und folgen dem Web-Simulator. Abweichungen zu dieser Tabelle: Carry, Engage Caller und Vision Master wirken ohne Rollenbedingung; Bühnenangst wirkt in Playoffs und Entscheidungsspielen; Early-Game-Spezialist wirkt nur auf Laning- und Jungle-Werte; Invader gibt statt doppelter Kills und Tode ein zusätzliches Kill-Ereignis und mehr Kill-Anteil; Weak-Side-Spezialist halbiert die Strafe nur; Late-Game-Monster wirkt in allen Teamfights (ab Minute 25). Es fehlen: Tilt-Proof (Formverlust), Perfektionist (−3 Form), Hot-Headed (Chemistry), zwei Shotcaller (Chemistry), Risikoarm (−3 MEC) sowie alle Traits, die Burnout, Champions, Reputation oder Interviews brauchen. Die Tooltip-Texte stammen aus dem Web-Simulator. Der Abgleich mit dieser Tabelle steht im Backlog.
 
 ## Coach
 
@@ -219,17 +230,25 @@ Das Team hat drei Werte: Form (kurzfristig), Chemistry (mittelfristig) und den C
 
 ### Form
 
-Jeder Spieler hat eine Form von 0 bis 100, Start bei 50. Nach jedem Spiel fließt seine Spielbewertung G (siehe Match-Simulation) ein:
+Jeder Spieler hat eine Form zwischen 25 und 99. Saisonstart ist 71 (die Formmitte, sie entspricht der typischen Spielbewertung). Nach jedem Spiel zieht die Spielbewertung G (siehe Match-Simulation) die Form verstärkt mit:
 
 ```latex
-Form_{neu} = 0{,}8 \cdot Form_{alt} + 0{,}2 \cdot G
+Ziel = 71 + 1{,}8 \cdot (G - 71), \qquad Form_{neu} = \mathrm{clamp}\left(0{,}7 \cdot Form_{alt} + 0{,}3 \cdot Ziel,\ 25,\ 99\right)
 ```
 
-Bei einer Niederlage wird nur der Verlust unter 50 mit dem Motivation-Faktor des Coaches gemildert. Die Team-Form ist der Durchschnitt der fünf Starter. Im Match gilt pro Spieler ein Bonus auf alle Leistungswerte:
+Liegt das Ziel unter der aktuellen Form, mildert der Coach den Einbruch: Ziel = Form − (Form − Ziel) × (1 − 0,4 × MOT/100).
+
+**Moral nach jeder Serie:** Der Sieger bekommt +2 Form, ab der dritten gewonnenen Serie in Folge +3. Der Verlierer bekommt −2, ab der dritten verlorenen Serie in Folge −3.
+
+**Wochendrift:** Jede Woche schwankt die Form zufällig um N(0; 1,5), das sind kleine Krisen und Höhenflüge.
+
+Die Team-Form ist der Durchschnitt der fünf Starter. Im Match gilt pro Spieler ein Bonus auf alle Leistungswerte:
 
 ```latex
-FormMod = \frac{Form - 50}{10} \quad (-5 \text{ bis } +5)
+FormMod = \mathrm{clamp}\left(\frac{Form - 71}{12},\ -4,\ +4\right)
 ```
+
+So reagiert die Form deutlich auf Ergebnisse (zwischen den Teams einer Liga rund 30 Punkte Spanne), wirkt im Spiel aber nur mit einem Wertepunkt je 12 Formpunkte (Kalibrierung 15.11.2026).
 
 ### Chemistry
 
@@ -239,26 +258,39 @@ Chemistry wird pro Spielerpaar gespeichert. Fünf Spieler ergeben zehn Paare. Di
 Chem_{Team} = \frac{\sum_{Paare} g_p \cdot Chem_p}{\sum_{Paare} g_p}, \quad g_p = 2 \text{ für Duos, sonst } 1
 ```
 
-Neue Paare starten bei 20, Paare mit gemeinsamer Vergangenheit bei 40. Wöchentliches Wachstum pro Paar:
+Neue Paare starten bei 20, Paare mit gemeinsamer Vergangenheit bei 40.
+
+> **Prototyp-Stand:** Chemistry ist noch ein einziger Teamwert (Startwert pro Team aus teams.csv, Spalte `chem`). Paare werden nicht gespeichert, Duos nicht doppelt gewichtet, es gibt keine Startwerte 20/40 und keinen Scrim-Faktor S. Die Formeln unten beschreiben den kalibrierten Teamwert, so wie er im Code läuft. Ziel bleibt die Chemistry pro Spielerpaar.
+
+**Wöchentliches Wachstum (Teamwert, kalibriert):** Für jedes der zehn Paare wird ein Beitrag berechnet, der Mittelwert wächst umso langsamer, je höher die Chemistry schon ist:
 
 ```latex
-\Delta Chem_p = 3 \cdot \left(0{,}5 + \frac{CHA_{\varnothing}}{100}\right) \cdot L \cdot \left(0{,}8 + 0{,}4 \cdot \frac{MAN}{100}\right) \cdot S
+\Delta Chem = 1{,}2 \cdot \frac{1}{10} \sum_{Paare} \left(0{,}5 + \frac{CHA_1 + CHA_2}{200}\right) \cdot L \cdot \left(0{,}8 + 0{,}4 \cdot \frac{MAN}{100}\right) \cdot f_{Traits} \;\cdot\; \left(1 - \frac{Chem}{110}\right)
 ```
 
-- CHA⌀ ist das Charisma-Mittel der beiden Spieler.
-- L ist der Sprachfaktor: L = 0,5 + 0,5 × min(K₁, K₂)/100, mit K als Sprachwert der beiden Spieler in ihrer besten gemeinsamen Sprache (siehe Sprache).
+- CHA₁ und CHA₂ sind das Charisma der beiden Spieler.
+- L ist der Sprachfaktor: L = 0,5 + 0,5 × min(K₁, K₂)/100. Sprechen beide eine gemeinsame Sprache, ist L = 1 (siehe Sprache).
 - MAN ist das Man-Management des Coaches.
-- S ist der Scrim-Faktor aus dem Wochenplan: viele Scrims 1,3, normal 1,0, Pause 0,5.
+- f\_Traits: Teamplayer ×1,3, Lone Wolf ×0,5, Arrogant ×0,8 je beteiligtem Spieler.
+- Ziel (noch nicht gebaut): S als Scrim-Faktor aus dem Wochenplan, viele Scrims 1,3, normal 1,0, Pause 0,5.
 
-Chemistry sinkt durch Konflikte (−5 bis −15 pro Ereignis) und durch negative Traits. Ein komplett neues Line-up startet also bei etwa 20 und wächst bei durchschnittlichem Charisma um etwa 3 pro Woche. Es braucht also Preseason plus ein halbes Split (rund 13 Wochen), um auf 60 zu kommen. Das ist das Gegengewicht zum Superteam-Kauf.
+**Nach jeder Serie:** Der Sieger bekommt +1. Der Verlierer verliert
+
+```latex
+2 \cdot \left(1 - 0{,}4 \cdot \frac{MAN}{100}\right) \cdot \left(1{,}3 \text{ ab 3 Niederlagen in Folge, sonst } 1\right) \cdot \min\left(1,\ \frac{Chem}{50}\right)
+```
+
+mit einem Boden von 15. Unter 50 bröckelt sie also langsamer.
+
+Chemistry sinkt außerdem durch Konflikte (−5 bis −15 pro Ereignis) und durch negative Traits. Bei durchschnittlichem Charisma und Coach wächst ein Team bei Chemistry 20 um etwa 1,2 pro Woche, bei 60 nur noch um etwa 0,65. Ein komplett neues Line-up braucht also lange, um zusammenzuwachsen. Das ist das Gegengewicht zum Superteam-Kauf.
 
 Im Match wirkt Chemistry auf Teamwork:
 
 ```latex
-TEA_{eff} = TEA \cdot \left(0{,}85 + 0{,}30 \cdot \frac{Chem_{Team}}{100}\right) \cdot \left(0{,}80 + 0{,}20 \cdot \frac{K}{100}\right)
+TEA_{eff} = TEA \cdot \left(0{,}80 + 0{,}40 \cdot \frac{Chem_{Team}}{100}\right) \cdot \left(0{,}80 + 0{,}20 \cdot \frac{K}{100}\right)
 ```
 
-Bei Chemistry 0 kommen also nur 85 % des Teamworks an, bei 100 sind es 115 %. Ein Spieler ohne Teamsprache (K = 10) verliert zusätzlich 18 %.
+Bei Chemistry 0 kommen also nur 80 % des Teamworks an, bei 50 sind es 100 %, bei 100 sind es 120 %. Ein Spieler ohne Teamsprache (K = 10) verliert zusätzlich 18 %.
 
 ## Konflikte
 
@@ -352,6 +384,8 @@ PickWert = Mastery_{Spieler} + MetaTier + Synergie + Counter
 - Jeder Archetyp hat eine Zeitkurve, die den Comp-Score je nach Spielphase verändert (siehe Phase 4).
 - Mit Wahrscheinlichkeit p aus dem DRA-Wert des Coaches wählt die KI den besten Counter, sonst den bequemsten Pick.
 
+> **Prototyp-Stand:** Keine Picks und Bans. Per Zufall wird bestimmt, welches Team zuerst seinen Archetyp festlegt; es bekommt einen zufälligen Archetyp. Das andere Team wählt mit Chance p (DRA) den besten Counter, sonst ebenfalls einen zufälligen. Der Comp-Score ist round(Zufall × 3 + 2 × DRA/100), begrenzt auf 0 bis 5.
+
 ### Phase 2: Laning (Minute 0–14)
 
 Jede Lane hat einen Laning-Wert. Bot ist ein Duo:
@@ -396,7 +430,7 @@ Goldwerte: Turm 550, Drache 300 plus Buff-Stack, Herold 600.
 
 ### Phase 4: Teamfights (ab Minute 25)
 
-Jetzt läuft eine Serie von Teamfights, etwa alle 3 Minuten einer. Die Fight-Stärke eines Teams:
+Jetzt läuft eine Serie von Teamfights. Der Abstand zwischen zwei Fights ist zufällig 1,2 bis 3 Minuten (im Schnitt 2,1). Die Fight-Stärke eines Teams:
 
 ```latex
 F = \sum_{5\ Spieler} \left(0{,}5 \cdot MEC_{eff} + 0{,}3 \cdot TEA_{eff} + 0{,}2 \cdot MAC_{eff}\right) + Comp(t) + 2 \cdot \frac{\Delta Gold}{1000}
@@ -430,7 +464,7 @@ Im Midgame fließt die Differenz ΔComp(t) auch in die Objective-Chance ein.
 
 Jeder Spieler bekommt eine Bewertung G von 0 bis 100. Sie setzt sich aus Ergebnis, Duell mit dem Gegenspieler derselben Rolle und KDA zusammen.
 
-**KDA:** Kills, Tode und Assists entstehen aus den Events. Lane-Kills gehen an den Gewinner des Duells. In Teamfights verteilt das Siegerteam 1 bis 4 Kills, gewichtet nach MEC\_eff. Die anderen Beteiligten bekommen mit der Chance TEA/100 einen Assist. Tode treffen eher Spieler mit niedrigem MEN.
+**KDA:** Kills, Tode und Assists entstehen aus den Events. Lane-Kills gehen an den Gewinner des Duells. In jedem Teamfight erzielt das Siegerteam im Schnitt 3,4 Kills (Poisson, mindestens 1, höchstens 5), das Verliererteam etwa ein Drittel davon (Poisson mit 3,4/3, höchstens 4). Wer den Kill macht, ist nach MEC\_eff² gewichtet. Die anderen Spieler des Teams bekommen mit der Chance TEA/100 einen Assist. Tode treffen eher Spieler mit niedrigem MEN.
 
 ```latex
 KDA = \frac{K + A}{\max(1,\ D)}
@@ -442,7 +476,15 @@ W ist +1 bei Sieg und −1 bei Niederlage. Das Ergebnis zählt damit ±5, die KD
 G = \mathrm{clamp}\!\left(60 + 5W + 0{,}4 \cdot (OVR_{eff} - OVR_{eff,Gegner}) + 2 \cdot \mathrm{clamp}(KDA - KDA_{Rolle},\ -4,\ 4) + d,\ 0,\ 100\right)
 ```
 
-KDA\_Rolle ist die typische KDA der Rolle: Top und Mid 4, ADC 4,5, Support 5, Jungle 5,5. So werden Jungler und Supports mit ihren vielen Assists nicht automatisch MVP. Im Schnitt erreichen Sieger damit 68, Verlierer 50 und der MVP 82 Punkte, die besten 10 % der MVPs liegen über 90.
+KDA\_Rolle ist die typische KDA der Rolle (kalibriert, siehe „Gold und Kills“): Top und Mid 4,5, ADC 5, Support 5,5, Jungle 6. So werden Jungler und Supports mit ihren vielen Assists nicht automatisch MVP.
+
+**Notenstauchung:** Die angezeigte Bewertung wird nach oben gestaucht. Der Boden steigt, die Spitze bleibt:
+
+```latex
+G_{Anzeige} = \mathrm{round}\left(100 - (100 - G) \cdot 0{,}7\right)
+```
+
+Damit liegen Sieger im Schnitt bei rund 77 und Verlierer bei rund 65. Form, Saisonschnitt und MVP nutzen die gestauchte Bewertung.
 
 MVP ist der Spieler mit dem höchsten G im Siegerteam. Ausgegeben werden ein Gold-Graph pro Minute, ein Event-Log, K/D/A pro Spieler, die Objectives und die Bewertungen. KDA und Bewertung werden über die Saison gesammelt und fließen in Auszeichnungen und den Marktwert ein.
 
@@ -516,6 +558,8 @@ Die anderen vier Leistungswerte steigen um 30 % davon. B sammelt die Boni: Mento
 
 **Wochenplan des Teams:** Scrims (Chemistry ×1,3), Solo Queue (Fokus MEC/LAN), VOD-Review (Fokus MAC), Pause (Burnout sinkt, Chemistry ×0,5).
 
+> **Prototyp-Stand:** Kein Wochenplan. Der Trainingsfokus ist pro Rolle fest: Top LAN, Jungle MAC, Mid und ADC MEC, Support TEA. Zusätzlich gilt B × (1 + (Form − 71)/60), gute Form trainiert also besser, und jeder Wert schwankt pro Woche um N(0; 0,9). Der Altersfaktor A ist im Code 1,3 / 1,0 / 0,6 bis 25 Jahre, 0,2 von 26 bis 28 und 0,1 ab 29. Alterung und Burnout fehlen noch.
+
 **Burnout (0–100):** Einstellung, standardmäßig an. Steigt pro Woche ohne Pause um 3 bis 5. Ab 70 gibt es −5 auf Form und mehr Konflikte. Grinder steigt 50 % schneller. Ältere Spieler brennen schneller aus: +10 % Burnout-Zuwachs pro Lebensjahr über 27 (Ironman und Langlebig halbieren den Zuschlag).
 
 ### Jahresablauf (Stand 2026)
@@ -547,13 +591,17 @@ Tier-2- und Tier-3-Ligen spielen in der Regel zwei Splits parallel zu Split 2 un
 | Liga | Teams | Split 1 → First Stand | Split 2 → MSI | Split 3 → Worlds |
 | --- | --- | --- | --- | --- |
 | LCK | 10 | LCK Cup: Gruppen, Play-In, Bo5-Playoffs; beide Finalisten | Runden 1–2: doppelte Runde im Bo3; Top 6 spielen „Road to MSI“; 2 Plätze | Runden 3–4: Legend Group (Top 5) und Rise Group getrennt, Bilanz läuft weiter; Play-In (Legend 5 und Rise 1–3); Playoffs; Plätze 1–3 (+4. bei MSI-Bonus) |
-| LPL | 14 | Drei Gruppen: Ascend (6), Perseverance (4), Nirvana (4); Play-In „Knight's Road“; Playoffs; beide Finalisten | Zwei Gruppen nach Split-1-Leistung; Playoffs; 2 Plätze | Ascend und Nirvana; Playoffs (Sieger fährt zu Worlds); restliche Plätze per Regional Finals der Top 4 nach Championship Points |
+| LPL | 14 (Einstellung: 16) | Drei Gruppen: Ascend (6), Perseverance (4), Nirvana (4); Play-In „Knight's Road“; Playoffs; beide Finalisten | Zwei Gruppen nach Split-1-Leistung; Playoffs; 2 Plätze | Ascend und Nirvana; Playoffs (Sieger fährt zu Worlds); restliche Plätze per Regional Finals der Top 4 nach Championship Points |
 | LEC | 10 (+2 Gäste aus Tier 2 in Split 1) | LEC Versus: einfache Runde im Bo1 mit 12 Teams, Top 8 in Double-Elimination-Playoffs; Sieger | Einfache Runde im Bo3, Top 6 in Bo5-Playoffs; beide Finalisten | Wie Split 2; Plätze 1–3 |
 | LCS | 8 | Lock-In: Swiss Stage im Bo3, Top 6 in Double Elimination im Bo5; Sieger | Einfache Runde im Bo3, Top-6-Playoffs; Plätze 1–2 | Wie Split 2; Plätze 1–3 |
 | CBLOL | 8 (7 Partner + 1 Gast) | CBLOL Cup im Bo1; Sieger | Bo3-Saison und Playoffs; Sieger | Bo3-Saison und Playoffs; Plätze 1–2 |
 | LCP | 8 (6 Partner + 2 Gäste) | Einfache Runde im Bo3, Top 6 in K.-o.-Phase im Bo5; Sieger | Wie Split 1; Plätze 1–2 | Swiss Stage, dann Playoffs mit 4 Teams; Plätze 1–3 |
 
 **Championship Points:** LPL und LCP vergeben Punkte für Platzierungen in allen drei Splits. Sie entscheiden über Worlds-Plätze (LPL) und darüber, welche Gastteams ihren Platz verteidigen müssen (LCP). Die Punktetabellen liegen in den Daten.
+
+**LPL mit 14 oder 16 Teams (Einstellung):** Standard sind 14 Teams im Format wie 2026 mit den Gruppen Ascend (6), Perseverance (4) und Nirvana (4). Die Standarddatenbank hat 16 LPL-Teams. Im 14er-Modus spielen die 2 überzähligen Teams in der LPL-Academy-Liga (Tier 2). Mit der Einstellung „LPL mit 16 Teams“ spielen alle 16 in der LPL, aufgeteilt in Ascend Group (8 stärkste nach OVR) und Nirvana Group (8), jede mit doppelter Runde im Bo3; die Top 6 der Ascend Group erreichen die Playoffs (wie im Web-Simulator).
+
+> **Prototyp-Stand:** Gebaut ist nur der 16er-Modus (Preset `lpl` in Season.PRESETS).
 
 **Preset „Einheitlich“ (Einstellung):** Alle Tier-1-Ligen spielen dasselbe Format. Split 1 als einfache Runde im Bo1, Split 2 und 3 als einfache Runde im Bo3, jeweils Top 6 in Bo5-Playoffs. Keine Championship Points. Die Plätze bei First Stand, MSI und Worlds bleiben wie oben.
 
@@ -597,7 +645,7 @@ Die Welt hat sieben Regionen mit bis zu drei Ligastufen. Erst diese Tiefe macht 
 | EMEA | LEC | Prime League, LFL, TCL, LES; dazu EMEA Masters als Turnier | Je eine zweite Division unter jeder Tier-2-Liga | 10 + 32 + 32 = 74 |
 | Nordamerika | LCS | Academy-Liga | Amateurliga | 8 + 8 + 8 = 24 |
 | Brasilien und Lateinamerika | CBLOL | CBLOL Academy (CD), LRS | Je eine Amateurliga | 8 + 16 + 16 = 40 |
-| China | LPL | Academy-Liga | Amateurliga | 16 + 16 + 16 = 48 |
+| China | LPL | Academy-Liga | Amateurliga | 14 + 18 + 16 = 48 (Einstellung „LPL mit 16 Teams“: 16 + 16 + 16) |
 | APAC | LCP | PCS, VCS, LJL | Je eine Amateurliga | 8 + 22 + 24 = 54 |
 | Korea | LCK | LCK CL | LCK Academy | 10 + 10 + 10 = 30 |
 | Ozeanien | – (Weg über die LCP-Promotion) | Regionale Liga (Vorbild FLASH Oceania) | Amateurliga | 8 + 8 = 16 |
@@ -732,7 +780,7 @@ Das sind rund 7 Schnappschüsse pro Saison mit je etwa 30 Werten pro Spieler, zu
 
 ## Standarddatenbank: erste Teams und Spieler
 
-Die Standarddatenbank (Teams, Kader, Werte, Traits, Coaches) lebt im [Simulator](https://claude.ai/artifact/XvmGdYHrTw5KKyvjQdMkFw), nicht in diesem Dokument. Unter **Daten** lässt sie sich je Liga oder komplett als zwei CSV-Dateien exportieren (Teams mit Coach und Start-Chemistry, Spieler mit allen Rohwerten inklusive Charisma und Potential) und nach dem Bearbeiten wieder importieren. Hier stehen nur die Regeln, nach denen die Datenbank aufgebaut ist.
+Die Standarddatenbank (Teams, Kader, Werte, Traits, Coaches) liegt im Godot-Projekt unter `data/default/*.csv` (derzeit `teams.csv` mit Coach und Start-Chemistry, `players.csv` mit allen Rohwerten inklusive Charisma und Potential), nicht in diesem Dokument. Dort wird sie gepflegt. Der [Simulator](https://claude.ai/artifact/XvmGdYHrTw5KKyvjQdMkFw) und seine `data.js` sind nur noch Referenz und werden nicht mehr angepasst. Hier stehen nur die Regeln, nach denen die Datenbank aufgebaut ist.
 
 **Aufbau der Welt:**
 
@@ -801,6 +849,8 @@ Die gesamte Welt wird aus sieben CSV-Dateien geladen. Die Standarddatenbank mit 
 - Fehlende Werte werden generiert. Fehlen zum Beispiel `charisma` oder `potential`, würfelt das Spiel passend zu Alter und OVR.
 - Rollen sind `TOP`, `JGL`, `MID`, `ADC`, `SUP`. Jedes Team braucht mindestens einen Spieler pro Rolle und höchstens 8 Spieler.
 - Beim Import prüft das Spiel alles und zeigt eine Fehlerliste mit Zeilennummern, statt abzustürzen.
+
+> **Prototyp-Stand:** Geladen werden nur `data/default/teams.csv` und `players.csv` im Exportformat des Web-Simulators: Teams über das Kürzel `short` verknüpft (`team_short` in players.csv), Coach-Werte als Spalten in teams.csv, Start-Chemistry `chem`, dazu `ovr` und `ovr_avg` nur zur Prüfung. Fehlende oder ungültige Zahlen werden als 0 übernommen und als Warnung gemeldet, nicht generiert. Jedes Team braucht genau 5 Spieler, einen pro Rolle; Abweichungen werden gemeldet. staff.csv, champions.csv, traits.csv, leagues.csv und chemistry.csv gibt es noch nicht.
 
 **teams.csv**
 
@@ -872,7 +922,7 @@ Der erste Meilenstein ist kein Spiel, sondern ein Simulator: Zwei Teams aus CSV 
 2. **Saison-Loop:** Liga mit 10 Teams, Wochentakt, Form, Chemistry, Training und Playoffs. Noch ohne Transfers. Erster Stand am 15.11.2026 im Simulator: alle Tier-1-Ligen spielbar, Formate nach den echten Ligen 2026: LCK mit Runden 1–2 (doppelte Runde aller Teams) und Runden 3–4 in Legend und Rise Group, LPL mit Ascend und Nirvana Group, LEC, LCS, CBLOL und LCP mit einfacher Runde im Bo3 (LEC Versus und CBLOL Cup im Bo1). Top 6 in Bo5-Playoffs, Auszeichnungen für Split-MVP, All-Pro-Team, Rookie und größte Steigerung. Form reagiert verstärkt auf Bewertungen, Siege und Serien (Spanne zwischen Teams rund 30 Punkte), wirkt aber nur mit 1 Wertepunkt je 12 Formpunkte. Chemistry sinkt nach verlorenen Serien (Man-Management dämpft das, unter 50 bröckelt sie langsamer). Werte schwanken wöchentlich leicht. Bewertungen sind nach oben gestaucht (Sieger rund 77, Verlierer 65). Spieleransicht mit Werteverlauf und Trait-Tooltips. Noch nicht enthalten: Burnout, Konflikte, Meta-Patches, Wochenplan pro Spieler.
 3. **GM-Modus:** Kader, Verträge, Coach, Transfermarkt und Vorstandsziele.
 4. **Career-Modus:** Eigener Spieler, Wochenentscheidungen, Interviews, Vertragsangebote.
-5. **Port nach Godot 4:** Der Sim-Kern wird 1:1 in GDScript übertragen. Die CSV-Dateien bleiben unverändert. Danach kommen UI, Speicherstände und Feinschliff. Erledigt am 20.11.2026: Match-Simulation, Saison-Loop und Playoffs 1:1 portiert und gegen Referenz-Seeds geprüft, dazu Match- und Saison-Bildschirm mit Turnierbaum.
+5. **Port nach Godot 4:** Der Sim-Kern wird 1:1 in GDScript übertragen. Die CSV-Dateien bleiben unverändert. Danach kommen UI, Speicherstände und Feinschliff. Erledigt am 20.11.2026: Match-Simulation, Saison-Loop und Playoffs 1:1 portiert und gegen Referenz-Seeds geprüft, dazu Match- und Saison-Bildschirm mit Turnierbaum. Die Standarddaten werden seitdem in `data/default/*.csv` gepflegt. Ab dem Trait-Abgleich mit diesem Dokument ist der Godot-Stand die Referenz für Prüfwerte, nicht mehr der Web-Simulator. Offene Punkte stehen in `docs/BACKLOG.md`.
 6. **Welt und Jahresablauf:** Alle Ligen parallel im Wochenkalender, drei Splits, First Stand, MSI, Worlds, Offseason mit Alterung, Rücktritten und Rookies, Auf- und Abstieg, Speicherstände.
 
 **Entscheidungen:**
@@ -897,6 +947,13 @@ Der erste Meilenstein ist kein Spiel, sondern ein Simulator: Zwei Teams aus CSV 
 | Staff | Markt für Head Coach, Assistant Coach, Analyst, Scout und Sportpsychologe; nicht jedes Team hat vollen Staff |
 | Weltentwicklung | Alle Teams entwickeln sich nach denselben Regeln, KI-Manager machen Transfers |
 | Historie | Schnappschüsse nach jedem Split, Turnier und jeder Saison |
+| Traits als Daten | Traits werden in traits.csv gepflegt, aufgebaut aus programmierten Effekt-Bausteinen. Neue Traits aus vorhandenen Bausteinen brauchen keinen Code (20.11.2026) |
+| Trait-Regeln | Traits folgen diesem Dokument (Rollenbedingungen, Bühnenangst nur international usw.), nicht mehr dem Web-Simulator (20.11.2026) |
+| Late-Game-Monster | Wirkt ab Minute 30 (20.11.2026) |
+| LPL-Größe | Standard 14 Teams (Ascend/Perseverance/Nirvana 6/4/4 wie 2026), die 2 überzähligen Teams spielen in der LPL-Academy-Liga. Einstellung „LPL mit 16 Teams“ mit Ascend/Nirvana 8/8 wie im Web-Simulator (20.11.2026) |
+| Datenquelle | Standarddaten werden in data/default/*.csv gepflegt; der Web-Simulator ist nur noch Referenz für Formeln (20.11.2026) |
+| Prüfwerte | Ab dem Trait-Abgleich ist der Godot-Stand die Referenz für Prüfwerte, nicht mehr der Web-Simulator (20.11.2026) |
+| Kalibrierte Formeln | Form, Chemistry als Teamwert, Notenstauchung 0,7, Teamfight-Kills und Fight-Takt wie im Simulator kalibriert; Ziele wie Chemistry pro Paar bleiben bestehen (20.11.2026) |
 
 **Noch offen:**
 

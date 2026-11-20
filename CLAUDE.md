@@ -31,12 +31,18 @@ Der User ist Game Designer mit begrenzter Programmiererfahrung:
 - Wird eine Design-Entscheidung getroffen oder geändert, wird das GDD im selben Schritt
   angepasst, inklusive der Entscheidungstabelle am Ende.
 - Weicht Code vom GDD ab: nicht stillschweigend anpassen, sondern den User darauf hinweisen.
+- Hinweise „Prototyp-Stand“ im GDD beschreiben bewusste Vereinfachungen im Code; die offenen
+  Punkte stehen als Checkliste in `docs/BACKLOG.md`. Wird ein Punkt gebaut: Backlog abhaken
+  und den Prototyp-Hinweis im GDD anpassen.
 
 ## Daten und Web-Simulator
 
 - Die Standarddaten werden ab jetzt in `data/default/*.csv` gepflegt (Quelle der Wahrheit).
-- `web-sim/` (Repo-Root) ist nur noch Referenz für Formeln und Prüfwerte und wird nur gelesen.
+- `web-sim/` (Repo-Root) ist nur noch Referenz für Formeln und wird nur gelesen.
   `web-sim/data.js` wird nicht mehr angepasst; Abweichungen zu den CSVs sind gewollt.
+- Prüfwerte: Bis zum Trait-Abgleich mit dem GDD stammen die Referenzwerte in der Debug-Szene
+  aus dem Web-Simulator. Ab dem Trait-Abgleich ist der Godot-Stand die Referenz: Die
+  Prüfwerte werden dann einmal mit Godot neu erzeugt und gelten danach als Sollwerte.
 
 ## Datenmodell
 
