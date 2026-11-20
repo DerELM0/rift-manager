@@ -1,0 +1,15 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Builds
+/export/
+/builds/
+
+# Claude Code (lokale Einstellungen)
+.claude/settings.local.json
+
+# Betriebssystem
+.DS_Store
+Thumbs.db
+desktop.ini
