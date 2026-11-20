@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/log_entry_row.gd" id="1_log"]
+
+[node name="LogEntryRow" type="HBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_log")
+
+[node name="SideBar" type="ColorRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(3, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="MinuteLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"MutedLabel"
+text = "0'"
+horizontal_alignment = 2
+
+[node name="TextLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ereignis"
+autowrap_mode = 3

@@ -1,0 +1,223 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/game_panel.gd" id="1_game"]
+
+[node name="GamePanel" type="PanelContainer"]
+theme_type_variation = &"Card"
+script = ExtResource("1_game")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderButton" type="Button" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GameHeaderButton"
+toggle_mode = true
+text = "[+] Spiel 1"
+alignment = 0
+
+[node name="Details" type="VBoxContainer" parent="VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Facts" type="HFlowContainer" parent="VBox/Details"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="WinnerChip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Sieg"
+
+[node name="KillsChip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Kills"
+
+[node name="Gold14Chip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Gold @14"
+
+[node name="MvpChip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MvpChipLabel"
+text = "MVP"
+
+[node name="DraftChip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Comps"
+
+[node name="PlansChip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Jungle"
+
+[node name="DrakesChip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Drachen"
+
+[node name="TeamGoldChip" type="Label" parent="VBox/Details/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Gold"
+
+[node name="Columns" type="HBoxContainer" parent="VBox/Details"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="LogColumn" type="VBoxContainer" parent="VBox/Details/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LogTitle" type="Label" parent="VBox/Details/Columns/LogColumn"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Spielverlauf"
+
+[node name="LogScroll" type="ScrollContainer" parent="VBox/Details/Columns/LogColumn"]
+custom_minimum_size = Vector2(0, 360)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="LogList" type="VBoxContainer" parent="VBox/Details/Columns/LogColumn/LogScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="RatingsColumn" type="VBoxContainer" parent="VBox/Details/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="TeamATitle" type="Label" parent="VBox/Details/Columns/RatingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TeamALabel"
+text = "Team A"
+
+[node name="RatingsHeaderA" type="HBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RoleHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Rolle"
+
+[node name="NameHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MutedLabel"
+text = "Spieler"
+
+[node name="KdaLineHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "K/D/A"
+horizontal_alignment = 2
+
+[node name="KdaHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "KDA"
+horizontal_alignment = 2
+
+[node name="GoldHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Gold"
+horizontal_alignment = 2
+
+[node name="GradeHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Note"
+horizontal_alignment = 2
+
+[node name="RatingsListA" type="VBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBox/Details/Columns/RatingsColumn"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="TeamBTitle" type="Label" parent="VBox/Details/Columns/RatingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TeamBLabel"
+text = "Team B"
+
+[node name="RatingsHeaderB" type="HBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RoleHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Rolle"
+
+[node name="NameHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MutedLabel"
+text = "Spieler"
+
+[node name="KdaLineHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "K/D/A"
+horizontal_alignment = 2
+
+[node name="KdaHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "KDA"
+horizontal_alignment = 2
+
+[node name="GoldHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Gold"
+horizontal_alignment = 2
+
+[node name="GradeHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Note"
+horizontal_alignment = 2
+
+[node name="RatingsListB" type="VBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="toggled" from="VBox/HeaderButton" to="." method="_on_header_button_toggled"]

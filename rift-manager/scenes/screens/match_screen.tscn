@@ -1,0 +1,181 @@
+[gd_scene format=3 uid="uid://teaqna8g0suq"]
+
+[ext_resource type="Script" uid="uid://frcwts66ouhp" path="res://scenes/screens/match_screen.gd" id="1_screen"]
+[ext_resource type="Theme" path="res://themes/rift_dark.tres" id="2_theme"]
+
+[node name="MatchScreen" type="PanelContainer" unique_id=164964804]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+theme_type_variation = &"Background"
+script = ExtResource("1_screen")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=729111835]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="Layout" type="VBoxContainer" parent="Margin" unique_id=339706058]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Margin/Layout" unique_id=989022997]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Match-Simulator"
+
+[node name="ControlsPanel" type="PanelContainer" parent="Margin/Layout" unique_id=638435781]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="Controls" type="HFlowContainer" parent="Margin/Layout/ControlsPanel" unique_id=425188558]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
+
+[node name="TeamABox" type="VBoxContainer" parent="Margin/Layout/ControlsPanel/Controls" unique_id=1969037474]
+layout_mode = 2
+
+[node name="TeamALabel" type="Label" parent="Margin/Layout/ControlsPanel/Controls/TeamABox" unique_id=1837324964]
+layout_mode = 2
+theme_type_variation = &"TeamALabel"
+text = "Team A (Blau)"
+
+[node name="TeamAOption" type="OptionButton" parent="Margin/Layout/ControlsPanel/Controls/TeamABox" unique_id=1473575447]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="VsLabel" type="Label" parent="Margin/Layout/ControlsPanel/Controls" unique_id=472322634]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"MutedLabel"
+text = "gegen"
+
+[node name="TeamBBox" type="VBoxContainer" parent="Margin/Layout/ControlsPanel/Controls" unique_id=288692880]
+layout_mode = 2
+
+[node name="TeamBLabel" type="Label" parent="Margin/Layout/ControlsPanel/Controls/TeamBBox" unique_id=849118228]
+layout_mode = 2
+theme_type_variation = &"TeamBLabel"
+text = "Team B (Rot)"
+
+[node name="TeamBOption" type="OptionButton" parent="Margin/Layout/ControlsPanel/Controls/TeamBBox" unique_id=1223497901]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="FormatBox" type="VBoxContainer" parent="Margin/Layout/ControlsPanel/Controls" unique_id=1853991571]
+layout_mode = 2
+
+[node name="FormatLabel" type="Label" parent="Margin/Layout/ControlsPanel/Controls/FormatBox" unique_id=1681084335]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Format"
+
+[node name="FormatOption" type="OptionButton" parent="Margin/Layout/ControlsPanel/Controls/FormatBox" unique_id=702132608]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+selected = 1
+item_count = 3
+popup/item_0/text = "Bo1"
+popup/item_0/id = 1
+popup/item_1/text = "Bo3"
+popup/item_1/id = 3
+popup/item_2/text = "Bo5"
+popup/item_2/id = 5
+
+[node name="SeedBox" type="VBoxContainer" parent="Margin/Layout/ControlsPanel/Controls" unique_id=1055938556]
+layout_mode = 2
+
+[node name="SeedLabel" type="Label" parent="Margin/Layout/ControlsPanel/Controls/SeedBox" unique_id=1345976071]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Seed"
+
+[node name="SeedRow" type="HBoxContainer" parent="Margin/Layout/ControlsPanel/Controls/SeedBox" unique_id=1179231965]
+layout_mode = 2
+
+[node name="SeedSpin" type="SpinBox" parent="Margin/Layout/ControlsPanel/Controls/SeedBox/SeedRow" unique_id=674536193]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+max_value = 4294967295.0
+value = 1.0
+rounded = true
+
+[node name="RandomSeedButton" type="Button" parent="Margin/Layout/ControlsPanel/Controls/SeedBox/SeedRow" unique_id=788657720]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Zufälligen Seed setzen"
+text = "Zufall"
+
+[node name="SimulateButton" type="Button" parent="Margin/Layout/ControlsPanel/Controls" unique_id=75884231]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"AccentButton"
+text = "Simulieren"
+
+[node name="ResultPanel" type="PanelContainer" parent="Margin/Layout" unique_id=31696049]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="ResultBox" type="VBoxContainer" parent="Margin/Layout/ResultPanel" unique_id=571240148]
+layout_mode = 2
+
+[node name="ScoreRow" type="HBoxContainer" parent="Margin/Layout/ResultPanel/ResultBox" unique_id=1334125403]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="TeamANameLabel" type="Label" parent="Margin/Layout/ResultPanel/ResultBox/ScoreRow" unique_id=1890723818]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ScoreTeamALabel"
+text = "Team A"
+horizontal_alignment = 2
+
+[node name="ScoreLabel" type="Label" parent="Margin/Layout/ResultPanel/ResultBox/ScoreRow" unique_id=318500206]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ScoreLabel"
+text = "– : –"
+horizontal_alignment = 1
+
+[node name="TeamBNameLabel" type="Label" parent="Margin/Layout/ResultPanel/ResultBox/ScoreRow" unique_id=1140654479]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ScoreTeamBLabel"
+text = "Team B"
+
+[node name="SeriesInfoLabel" type="Label" parent="Margin/Layout/ResultPanel/ResultBox" unique_id=1661125668]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Teams wählen und „Simulieren“ drücken."
+horizontal_alignment = 1
+
+[node name="GamesScroll" type="ScrollContainer" parent="Margin/Layout" unique_id=1130819233]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="GamesList" type="VBoxContainer" parent="Margin/Layout/GamesScroll" unique_id=1689292595]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[connection signal="pressed" from="Margin/Layout/ControlsPanel/Controls/SeedBox/SeedRow/RandomSeedButton" to="." method="_on_random_seed_button_pressed"]
+[connection signal="pressed" from="Margin/Layout/ControlsPanel/Controls/SimulateButton" to="." method="_on_simulate_button_pressed"]
