@@ -25,6 +25,8 @@ const FARM: Dictionary = {"TOP": 320, "JGL": 290, "MID": 340, "ADC": 360, "SUP":
 ## Gewicht jeder Rolle beim Macro-Wert des Teams.
 const MACRO_WEIGHT: Dictionary = {"TOP": 1.0, "JGL": 1.5, "MID": 1.0, "ADC": 1.0, "SUP": 1.25}
 const LANES: Array[String] = ["Top", "Mid", "Bot"]
+## Eigene Lane je Rolle (für den Trait-Baustein roam).
+const OWN_LANE: Dictionary = {"TOP": "Top", "MID": "Mid", "ADC": "Bot", "SUP": "Bot"}
 ## Midgame-Objectives: [Minute, Name, Gold].
 const OBJECTIVES: Array = [
 	[15, "Herold", 600], [17, "Drache", 300], [20, "Turm", 550], [22, "Drache", 300], [24, "Turm", 550],
@@ -60,11 +62,12 @@ class PreparedTeam extends RefCounted:
 	func by(role: String) -> PreparedPlayer:
 		return ps[RiftSim.ROLES.find(role)]
 
-	func has_any_trait(trait_name: String) -> bool:
+	## Die Spieler des Teams (für Team-Boni aus Traits).
+	func players() -> Array[Player]:
+		var result: Array[Player] = []
 		for pp: PreparedPlayer in ps:
-			if pp.p.has_trait(trait_name):
-				return true
-		return false
+			result.append(pp.p)
+		return result
 
 
 # Zustand eines laufenden Spiels (eine MatchSim-Instanz pro Spiel).
@@ -179,10 +182,13 @@ func _run(team_a: Team, team_b: Team, opt: Dictionary, seed_value: int) -> Match
 	var kill_events: Array = []
 	for lane: String in LANES:
 		var n: int = _rng.poisson(_c["killsPerLane"])
-		var invader: bool = (plan_a == lane and _a.by("JGL").p.has_trait("Invader")) \
-				or (plan_b == lane and _b.by("JGL").p.has_trait("Invader"))
-		if invader:
-			n += 1
+		# Trait-Baustein fokus_lane_kills: Extra-Kills in der Lane, die ein Jungler fokussiert
+		var extra: int = 0
+		if plan_a == lane:
+			extra = maxi(extra, TraitRules.focus_lane_kills(_a.by("JGL").p))
+		if plan_b == lane:
+			extra = maxi(extra, TraitRules.focus_lane_kills(_b.by("JGL").p))
+		n += extra
 		for _i: int in n:
 			var a: float = lane_eff[lane][0]
 			var b: float = lane_eff[lane][1]
@@ -197,27 +203,15 @@ func _run(team_a: Team, team_b: Team, opt: Dictionary, seed_value: int) -> Match
 				killer = killers[0] if _rng.next_float() < 0.6 else killers[1]
 			var jg: PreparedPlayer = w_team.by("JGL")
 			if w_plan == lane:
-				# Gank-Anteil hängt an Jungler und Laner
-				var share: float = _c["gankShare"]
-				if jg.p.has_trait("Invader"):
-					share += 0.08
-				if jg.p.has_trait("Early-Game-Spezialist"):
-					share += 0.05
-				if killer.p.has_trait("Lane Bully"):
-					share -= 0.08
-				if killer.p.has_trait("Carry"):
-					share -= 0.05
-				if killer.p.has_trait("Egoist"):
-					share -= 0.08
-				if killer.p.has_trait("Teamplayer"):
-					share += 0.05
+				# Gank-Anteil hängt an Jungler und Laner (Trait-Baustein gank_anteil)
+				var share: float = TraitRules.gank_share(_c["gankShare"], jg.p, killer.p)
 				if _rng.next_float() < clampf(share, 0.05, 0.45):
 					killer = jg
 			var victim: PreparedPlayer = victims[0]
 			if victims.size() > 1:
 				var weights: Array[float] = []
 				for vp: PreparedPlayer in victims:
-					weights.append((100 - vp.s[4]) * (0.7 if vp.p.has_trait("Risikoarm") else 1.0))
+					weights.append(TraitRules.death_weight(vp.p, 100 - vp.s[4]))
 				victim = _rng.weighted(victims, weights)
 			killer.kills += 1
 			victim.deaths += 1
@@ -404,36 +398,19 @@ func _prep_team(team: Team) -> PreparedTeam:
 	pt.team = team
 	pt.coach = team.coach if team.coach != null else Coach.fallback()
 	pt.chem = team.chemistry
-	var pressure: bool = bool(_opt.get("pressure", false))
 	var champ: float = 0.85 + 0.15 * _c["mastery"] / 100.0
 	for role: String in RiftSim.ROLES:
 		var p: Player = team.get_player(role)
-		var mec: float = p.mechanics
-		var lan: float = p.laning
-		var mac: float = p.macro
-		var tea: float = p.teamwork
-		var men: float = p.mental
-		if p.has_trait("Arrogant"):
-			men += 3
-		if p.has_trait("Egoist"):
-			mec += 3
-			tea -= 4
-		if pressure:
-			if p.has_trait("Clutch Player"):
-				mec += 5
-			if p.has_trait("Choker"):
-				men -= 5
-			if p.has_trait("Bühnentier"):
-				mec += 3
-			if p.has_trait("Bühnenangst"):
-				mec -= 4
+		# Trait-Bausteine stat_bonus (phase spiel) und schwankung
+		var stats: Array[float] = p.stats()
+		TraitRules.apply_stat_bonuses(p, stats, "spiel", _trait_context())
+		var mec: float = stats[0]
+		var lan: float = stats[1]
+		var mac: float = stats[2]
+		var tea: float = stats[3]
+		var men: float = stats[4]
 		var sd: float = _c["sigmaBase"] * (1.5 - men / 100.0)
-		if p.has_trait("Hot-Headed"):
-			sd *= 1.5
-		if p.has_trait("Tilt-Proof"):
-			sd *= 0.75
-		if pressure and p.has_trait("Clutch Player"):
-			sd *= 0.5
+		sd = TraitRules.variance_factor(p, sd, _trait_context())
 		var d: float = _rng.gauss() * sd
 		var k: float = RiftSim.comm_k(p, team.language)
 		var fm: float = 0.0
@@ -485,14 +462,16 @@ func _comp_at(side: String, minute: int) -> int:
 
 # --- Laning -----------------------------------------------------------------
 
-func _early(pp: PreparedPlayer) -> float:
-	return 4.0 if pp.p.has_trait("Early-Game-Spezialist") else 0.0
+## Effektive Werte in der Laning-Phase: Spielwerte plus Trait-Boni (stat_bonus phase laning).
+func _laning_stats(pp: PreparedPlayer) -> Array[float]:
+	var stats: Array[float] = pp.s.duplicate()
+	TraitRules.apply_stat_bonuses(pp.p, stats, "laning", _trait_context())
+	return stats
 
 
 func _lane_value(pp: PreparedPlayer) -> float:
-	var e: float = _early(pp)
-	var lan: float = pp.s[1] + e + (5 if pp.p.has_trait("Lane Bully") else 0)
-	return 0.6 * lan + 0.4 * (pp.s[0] + e)
+	var stats: Array[float] = _laning_stats(pp)
+	return 0.6 * stats[1] + 0.4 * stats[0]
 
 
 ## Lane-Stärke je Lane (L im Original).
@@ -506,24 +485,27 @@ func _lane_values(team: PreparedTeam) -> Dictionary:
 ## Jungle-Stärke (Jval im Original).
 func _jungle_value(team: PreparedTeam) -> float:
 	var j: PreparedPlayer = team.by("JGL")
-	var e: float = _early(j)
-	return 0.6 * (j.s[2] + e) + 0.4 * (j.s[0] + e) + (3 if j.p.has_trait("Invader") else 0)
+	var stats: Array[float] = _laning_stats(j)
+	return 0.6 * stats[2] + 0.4 * stats[0] + TraitRules.jungle_pressure(j.p)
 
 
+## Trait-Baustein roam: Bonus auf die schwächste andere Lane, Abzug auf der eigenen.
+## Spieler in Rollenreihenfolge (Mid vor Support), Jungler haben keine eigene Lane.
 func _apply_roamers(team: PreparedTeam, mine: Dictionary, theirs: Dictionary) -> void:
-	for role: String in ["MID", "SUP"]:
-		var pp: PreparedPlayer = team.by(role)
-		if pp.p.has_trait("Roamer"):
-			var own: String = "Mid" if role == "MID" else "Bot"
-			# Schwächste andere Lane; bei Gleichstand die zuerst genannte
-			var weakest: String = ""
-			for lane: String in LANES:
-				if lane == own:
-					continue
-				if weakest.is_empty() or mine[lane] - theirs[lane] < mine[weakest] - theirs[weakest]:
-					weakest = lane
-			mine[weakest] += 3
-			mine[own] -= 2
+	for pp: PreparedPlayer in team.ps:
+		var effect: TraitEffect = TraitRules.roam_effect(pp.p)
+		if effect == null or not OWN_LANE.has(pp.role):
+			continue
+		var own: String = OWN_LANE[pp.role]
+		# Schwächste andere Lane; bei Gleichstand die zuerst genannte
+		var weakest: String = ""
+		for lane: String in LANES:
+			if lane == own:
+				continue
+			if weakest.is_empty() or mine[lane] - theirs[lane] < mine[weakest] - theirs[weakest]:
+				weakest = lane
+		mine[weakest] += effect.num("bonus")
+		mine[own] += effect.num("eigene")
 
 
 ## Jungle-Plan: stärkste Lane bei klarem Vorsprung, sonst Objectives, sonst schwächste Lane.
@@ -552,9 +534,11 @@ func _proximity(team: PreparedTeam, plan: String, j: float, lane: String) -> flo
 		lane_player = team.by("TOP")
 	elif lane == "Bot":
 		lane_player = team.by("ADC")
-	if lane_player != null and lane_player.p.has_trait("Weak-Side-Spezialist"):
-		return 0.05 * j
-	return 0.025 * j
+	# Trait-Baustein weak_side ersetzt den Faktor 0,025
+	var factor: float = 0.025
+	if lane_player != null:
+		factor = TraitRules.weak_side_factor(lane_player.p, factor)
+	return factor * j
 
 
 func _lane_players(team: PreparedTeam, lane: String) -> Array[PreparedPlayer]:
@@ -575,33 +559,41 @@ func _macro(team: PreparedTeam) -> float:
 		s += MACRO_WEIGHT[pp.role] * pp.s[2]
 		w += MACRO_WEIGHT[pp.role]
 	var m: float = s / w
+	# Trait-Baustein shotcaller: nur der Shotcaller mit dem höchsten Charisma zählt
 	var best_charisma: int = -1
+	var best_value: float = 0.0
 	for pp: PreparedPlayer in team.ps:
-		if pp.p.has_trait("Shotcaller"):
-			best_charisma = maxi(best_charisma, pp.p.charisma)
+		var value: float = TraitRules.shotcaller_value(pp.p)
+		if value >= 0.0 and pp.p.charisma > best_charisma:
+			best_charisma = pp.p.charisma
+			best_value = value
 	if best_charisma >= 0:
-		m += 4.0 * best_charisma / 100.0
+		m += best_value * best_charisma / 100.0
 	m += (team.coach.tactics - 50) / 10.0
 	return m
 
 
+## Trait-Baustein team_macro (z. B. Vision Master), einmal je Team.
 func _vision(team: PreparedTeam) -> float:
-	return 3.0 if team.has_any_trait("Vision Master") else 0.0
+	return TraitRules.team_bonus(team.players(), "team_macro")
 
 
 ## Teamfight-Stärke einer Seite (F im Original).
 func _fight_value(team: PreparedTeam, side: String, tm: int) -> float:
 	var ahead: bool = _gd > 0 if side == "A" else _gd < 0
 	var f: float = 0.0
+	var ctx: Dictionary = _trait_context()
+	ctx["gold_vorne"] = ahead
+	ctx["minute"] = tm
 	for pp: PreparedPlayer in team.ps:
-		var mec: float = pp.s[0]
-		if pp.p.has_trait("Late-Game-Monster"):
-			mec += 4
-		if pp.p.has_trait("Carry") and ahead:
-			mec += 4
-		f += 0.5 * mec + 0.3 * pp.s[3] + 0.2 * pp.s[2]
-	if team.has_any_trait("Engage Caller"):
-		f += 3
+		# Trait-Baustein stat_bonus mit phase teamfight
+		var stats: Array[float] = pp.s.duplicate()
+		TraitRules.apply_stat_bonuses(pp.p, stats, "teamfight", ctx)
+		f += 0.5 * stats[0] + 0.3 * stats[3] + 0.2 * stats[2]
+	# Trait-Baustein team_fight (z. B. Engage Caller), einmal je Team
+	var team_fight: float = TraitRules.team_bonus(team.players(), "team_fight")
+	if team_fight != 0.0:
+		f += team_fight
 	f += _comp_at(side, tm) + _drakes[side]
 	if _baron_buff[side] >= tm:
 		f += 5
@@ -628,12 +620,17 @@ func _do_fight_kills(winners: PreparedTeam, losers: PreparedTeam, n: int) -> voi
 		_pay_kill(killer, assists)
 
 
-## Opfer-Gewichte: wenig Mental = eher Opfer; "Risikoarm" senkt das Risiko.
+## Opfer-Gewichte: wenig Mental = eher Opfer; Trait-Baustein todes_gewicht ändert das.
 func _victim_weights(team: PreparedTeam) -> Array[float]:
 	var weights: Array[float] = []
 	for x: PreparedPlayer in team.ps:
-		weights.append(maxf(1.0, 100 - x.s[4]) * (0.7 if x.p.has_trait("Risikoarm") else 1.0))
+		weights.append(TraitRules.death_weight(x.p, maxf(1.0, 100 - x.s[4])))
 	return weights
+
+
+## Kontext für Trait-Bedingungen: "druck" = Playoffs oder Entscheidungsspiel.
+func _trait_context() -> Dictionary:
+	return {"druck": bool(_opt.get("pressure", false))}
 
 
 # --- Gold, Log, Bewertung ---------------------------------------------------

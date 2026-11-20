@@ -556,26 +556,17 @@ func _weekly_development() -> void:
 	for t: SeasonTeam in teams:
 		var coach: Coach = t.team.coach if t.team.coach != null else Coach.fallback()
 		var mdev: float = 0.6 + 0.8 * coach.development / 100.0
-		var mentor: bool = false
-		for p: Player in t.team.players:
-			if p.has_trait("Mentor") and p.age >= 24:
-				mentor = true
 		for sp: SeasonPlayer in t.players:
 			var p: Player = sp.player
 			var ovr: float = p.overall()
+			# Trait-Bausteine mentor (Team) und training (eigene Traits)
 			var boost: float = 1.0
-			if mentor and p.age <= 21:
-				boost += 0.15
-			if p.has_trait("Grinder"):
-				boost += 0.10
-			if p.has_trait("Faul"):
-				boost -= 0.20
-			if p.has_trait("Perfektionist"):
-				boost += 0.15
+			var mentor: float = TraitRules.mentor_bonus(t.team.players, p)
+			if mentor > 0.0:
+				boost += mentor
+			boost = TraitRules.training_bonus(p, boost)
 			boost *= 1 + (p.form - _c["formCenter"]) / 60.0  # gute Form trainiert besser
-			var age: int = p.age
-			if p.has_trait("Late Bloomer") and age <= 25:
-				age = mini(age, 22)
+			var age: int = TraitRules.training_age(p)  # Trait-Baustein spaetstarter
 			var d: float = _c["trainBase"] * _age_factor(age) * mdev * boost * maxf(0.0, (p.potential - ovr) / 20.0)
 			# Wochenschwankung: Tagesform im Training, Selbstvertrauen, kleine Rückschläge
 			var old: Array[float] = p.stats()
@@ -609,12 +600,7 @@ func _weekly_development() -> void:
 				var l: float = 0.5 + 0.5 * kmin / 100.0
 				var f: float = 1.0
 				for p: Player in [a, b]:
-					if p.has_trait("Teamplayer"):
-						f *= 1.3
-					if p.has_trait("Lone Wolf"):
-						f *= 0.5
-					if p.has_trait("Arrogant"):
-						f *= 0.8
+					f = TraitRules.chemistry_factor(p, f)  # Trait-Baustein chemie
 				total += _c["chemGrowth"] * (0.5 + (a.charisma + b.charisma) / 200.0) * l \
 						* (0.8 + 0.4 * coach.management / 100.0) * f
 				n += 1
@@ -624,7 +610,7 @@ func _weekly_development() -> void:
 		# Englisch lernen, wenn die Teamsprache Englisch ist
 		for p: Player in t.team.players:
 			if not p.languages.has(t.team.language) and t.team.language == "en":
-				p.english = minf(100.0, p.english + (2.5 if p.age <= 21 else 1.5) * (2 if p.has_trait("Sprachtalent") else 1))
+				p.english = minf(100.0, p.english + (2.5 if p.age <= 21 else 1.5) * TraitRules.language_factor(p))
 
 
 # --- Hilfsfunktionen --------------------------------------------------------

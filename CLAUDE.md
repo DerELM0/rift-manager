@@ -47,7 +47,13 @@ Der User ist Game Designer mit begrenzter Programmiererfahrung:
 ## Datenmodell
 
 - Spielerwerte 0–100: Mechanics, Macro, Mental, Teamwork, Laning, Reputation + Overall.
-- Traits à la Football Manager (Shotcaller, Clutch Player, Mentor …).
+- Traits à la Football Manager (Shotcaller, Clutch Player, Mentor …) als Daten in
+  `data/default/traits.csv`: pro Trait Name, Art, Effekte und Tooltip. Effekte sind
+  Bausteine (`typ|parameter=wert`, mehrere mit `;`), jeder Baustein-Typ ist genau einmal in
+  `scripts/sim/trait_rules.gd` programmiert. Liste der Bausteine und Anleitung „Neuen Trait
+  anlegen“: GDD, Abschnitt „Traits als Daten: Bausteine“. MatchSim und Season fragen nur
+  TraitRules ab und enthalten keine Trait-Namen. Die Zeilenreihenfolge in traits.csv ist die
+  Anwendungsreihenfolge; Umsortieren ändert Ergebnisse bei gleichem Seed.
 - Teamwerte: Form, Chemistry, Coach (Coach hat eigene Stats).
 - 5 Spieler pro Team auf Top/Jungle/Mid/ADC/Support.
 

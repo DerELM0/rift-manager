@@ -6,7 +6,8 @@ Offene Punkte zwischen dem aktuellen Godot-Stand und dem Design in `docs/GDD.md`
 
 ## Traits
 
-- [ ] `traits.csv` einführen: Traits als Daten aus programmierten Effekt-Bausteinen (Wertebonus je Phase, Mental-Schwankung, Training, Chemistry, Bedingungen Rolle/Druck/international). Neue Traits ohne Code.
+- [x] `traits.csv` einführen: Traits als Daten aus programmierten Effekt-Bausteinen (Wertebonus je Phase, Mental-Schwankung, Training, Chemistry, Bedingungen Rolle/Druck). Neue Traits ohne Code. Erledigt am 20.11.2026, ohne Verhaltensänderung.
+- [ ] Kontext „international“ für Trait-Bausteine (braucht internationale Turniere)
 - [ ] Trait-Abgleich mit der GDD-Tabelle (danach ist der Godot-Stand Referenz für Prüfwerte, Debug-Szene neu kalibrieren):
   - [ ] Rollenbedingungen: Carry nur Mid/ADC, Engage Caller und Vision Master nur Support/Jungle
   - [ ] Bühnenangst nur bei internationalen Turnieren

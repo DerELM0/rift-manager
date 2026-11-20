@@ -194,7 +194,40 @@ Jeder Spieler hat 1 bis 5 Traits. Rookies starten mit 1–2, ein etablierter Pro
 - **Daten:** Traits werden als Daten in `traits.csv` gepflegt (Format siehe CSV-Import). Jeder Trait setzt sich aus programmierten Effekt-Bausteinen zusammen, zum Beispiel Wertebonus in einer Spielphase, Faktor auf die Mental-Schwankung, Trainings- oder Chemistry-Faktor, mit Bedingungen wie Rolle, Druckspiel oder internationales Turnier. Neue Traits aus vorhandenen Bausteinen brauchen keinen Code, nur neue Bausteine.
 - **Maßgeblich:** Die Traits wirken so, wie sie in diesem Dokument stehen (Rollenbedingungen, Bühnenangst nur bei internationalen Turnieren usw.), nicht wie im Web-Simulator.
 
-> **Prototyp-Stand:** Die Traits sind noch fest im Code (MatchSim, Season) und folgen dem Web-Simulator. Abweichungen zu dieser Tabelle: Carry, Engage Caller und Vision Master wirken ohne Rollenbedingung; Bühnenangst wirkt in Playoffs und Entscheidungsspielen; Early-Game-Spezialist wirkt nur auf Laning- und Jungle-Werte; Invader gibt statt doppelter Kills und Tode ein zusätzliches Kill-Ereignis und mehr Kill-Anteil; Weak-Side-Spezialist halbiert die Strafe nur; Late-Game-Monster wirkt in allen Teamfights (ab Minute 25). Es fehlen: Tilt-Proof (Formverlust), Perfektionist (−3 Form), Hot-Headed (Chemistry), zwei Shotcaller (Chemistry), Risikoarm (−3 MEC) sowie alle Traits, die Burnout, Champions, Reputation oder Interviews brauchen. Die Tooltip-Texte stammen aus dem Web-Simulator. Der Abgleich mit dieser Tabelle steht im Backlog.
+### Traits als Daten: Bausteine
+
+Jeder Trait ist eine Zeile in `data/default/traits.csv` mit den Spalten `name`, `art` (positiv, gemischt, negativ), `effekte` und `tooltip`. Die Effekte sind eine Liste von Bausteinen, getrennt mit `;`. Jeder Baustein hat die Form `typ|parameter=wert|parameter=wert`. Beispiel Clutch Player:
+
+```text
+stat_bonus|stat=mec|wert=5|kontext=druck;schwankung|faktor=0.5|kontext=druck
+```
+
+| Baustein | Parameter | Wirkung |
+| --- | --- | --- |
+| stat_bonus | stat, wert, [phase], [kontext], [rolle], [ab_minute] | +wert auf MEC, LAN, MAC, TEA oder MEN. phase: spiel (ganzes Spiel, Standard), laning (Lane- und Jungle-Wert bis Minute 14), teamfight (Fight-Stärke); ab_minute nur bei teamfight |
+| schwankung | faktor, [kontext], [rolle] | Tagesform-Schwankung σ\_d × faktor |
+| jungle\_druck | wert | Jungle-Wert J + wert |
+| fokus\_lane\_kills | wert | + wert Kill-Ereignisse in der Lane, die der Jungler fokussiert |
+| gank\_anteil | wer, wert | Anteil der Lane-Kills für den Jungler + wert; wer: jungler oder killer (Trait beim Laner) |
+| todes\_gewicht | faktor | Chance, Opfer eines Kills zu werden × faktor |
+| roam | bonus, eigene, [rolle] | + bonus auf die schwächste andere Lane, + eigene auf die eigene Lane |
+| weak\_side | faktor, [rolle] | Jungle-Hilfe bei Fokus auf eine andere Lane: faktor × J statt 0,025 × J |
+| shotcaller | wert | Team-Macro + wert × CHA/100, nur der Shotcaller mit dem höchsten CHA zählt |
+| team\_macro | wert | Team-Macro bei Objectives + wert, einmal je Team |
+| team\_fight | wert | Fight-Stärke + wert, einmal je Team |
+| training | wert | Trainingsfaktor B + wert (0.10 = +10 %) |
+| mentor | wert, min\_alter, schueler\_bis | Spieler bis schueler\_bis Jahre trainieren + wert, wenn der Mentor mindestens min\_alter ist |
+| spaetstarter | bis\_alter, wie\_alter | Bis bis\_alter Jahre trainiert der Spieler wie ein wie\_alter-Jähriger |
+| chemie | faktor | Chemistry-Wachstum seiner Paare × faktor |
+| sprache\_lernen | faktor | Sprach-Lernen × faktor |
+
+Bedingungen: `kontext=druck` (Playoffs und Entscheidungsspiel einer Serie) oder `kontext=gold_vorne` (eigenes Team liegt in Gold vorn), `rolle=MID/SUP` (mehrere Rollen mit `/`), `ab_minute=30`. Zahlen mit Punkt als Dezimaltrenner.
+
+**Neuen Trait anlegen:** Eine Zeile in traits.csv ergänzen und den Namen bei den Spielern in players.csv (Spalte traits) eintragen. Reichen die vorhandenen Bausteine nicht, braucht es einen neuen Baustein im Code (`scripts/sim/trait_rules.gd`). Beim Start prüft das Spiel alle Traits und meldet unbekannte Bausteine, fehlende oder falsche Parameter und Spieler mit unbekannten Traits als Warnung.
+
+**Reihenfolge:** Effekte werden in der Reihenfolge der Zeilen angewendet. Weil Kommazahlen je nach Reihenfolge minimal anders gerundet werden, ändert ein Umsortieren die Ergebnisse bei gleichem Seed. Danach müssen die Prüfwerte in der Debug-Szene neu erzeugt werden.
+
+> **Prototyp-Stand:** Die Traits stehen seit 20.11.2026 als Bausteine in traits.csv, bilden aber noch genau das Verhalten des Web-Simulators ab. Kontext „international“ gibt es noch nicht (es gibt keine internationalen Turniere). Abweichungen zu dieser Tabelle: Carry, Engage Caller und Vision Master wirken ohne Rollenbedingung; Bühnenangst wirkt in Playoffs und Entscheidungsspielen; Early-Game-Spezialist wirkt nur auf Laning- und Jungle-Werte; Invader gibt statt doppelter Kills und Tode ein zusätzliches Kill-Ereignis und mehr Kill-Anteil; Weak-Side-Spezialist halbiert die Strafe nur; Late-Game-Monster wirkt in allen Teamfights (ab Minute 25). Es fehlen: Tilt-Proof (Formverlust), Perfektionist (−3 Form), Hot-Headed (Chemistry), zwei Shotcaller (Chemistry), Risikoarm (−3 MEC) sowie alle Traits, die Burnout, Champions, Reputation oder Interviews brauchen. Die Tooltip-Texte stammen aus dem Web-Simulator. Der Abgleich mit dieser Tabelle steht im Backlog. Nur für einen Trait gebaut sind bisher die Bausteine fokus\_lane\_kills (Invader), roam (Roamer), weak\_side (Weak-Side-Spezialist), shotcaller und spaetstarter (Late Bloomer).
 
 ## Coach
 
@@ -850,7 +883,7 @@ Die gesamte Welt wird aus sieben CSV-Dateien geladen. Die Standarddatenbank mit 
 - Rollen sind `TOP`, `JGL`, `MID`, `ADC`, `SUP`. Jedes Team braucht mindestens einen Spieler pro Rolle und höchstens 8 Spieler.
 - Beim Import prüft das Spiel alles und zeigt eine Fehlerliste mit Zeilennummern, statt abzustürzen.
 
-> **Prototyp-Stand:** Geladen werden nur `data/default/teams.csv` und `players.csv` im Exportformat des Web-Simulators: Teams über das Kürzel `short` verknüpft (`team_short` in players.csv), Coach-Werte als Spalten in teams.csv, Start-Chemistry `chem`, dazu `ovr` und `ovr_avg` nur zur Prüfung. Fehlende oder ungültige Zahlen werden als 0 übernommen und als Warnung gemeldet, nicht generiert. Jedes Team braucht genau 5 Spieler, einen pro Rolle; Abweichungen werden gemeldet. staff.csv, champions.csv, traits.csv, leagues.csv und chemistry.csv gibt es noch nicht.
+> **Prototyp-Stand:** Geladen werden nur `data/default/teams.csv` und `players.csv` im Exportformat des Web-Simulators: Teams über das Kürzel `short` verknüpft (`team_short` in players.csv), Coach-Werte als Spalten in teams.csv, Start-Chemistry `chem`, dazu `ovr` und `ovr_avg` nur zur Prüfung. Fehlende oder ungültige Zahlen werden als 0 übernommen und als Warnung gemeldet, nicht generiert. Jedes Team braucht genau 5 Spieler, einen pro Rolle; Abweichungen werden gemeldet. Dazu kommt `data/default/traits.csv` im Format unten (ohne `id`, Traits über den Namen verknüpft). staff.csv, champions.csv, leagues.csv und chemistry.csv gibt es noch nicht.
 
 **teams.csv**
 
@@ -886,12 +919,12 @@ CH01,Orianna,MID,Control:3;Teamfight:3;Scaling:2,A
 CH02,Sejuani,JGL;TOP,Engage:3;Teamfight:2,S
 ```
 
-**traits.csv** (Effekte als Schlüssel=Wert-Paare, damit neue Traits ohne Code entstehen)
+**traits.csv** (Effekte als Bausteine mit Schlüssel=Wert-Parametern, damit neue Traits ohne Code entstehen; Bausteine siehe Traits)
 
 ```csv
-id,name,type,condition,effects
-TR01,Clutch Player,positive,high_pressure,mec=+5;mental_variance=x0.5
-TR02,Lane Bully,positive,phase_laning,lan=+5
+name,art,effekte,tooltip
+Clutch Player,positiv,stat_bonus|stat=mec|wert=5|kontext=druck;schwankung|faktor=0.5|kontext=druck,"In Playoffs und Entscheidungsspielen +5 Mechanics und nur halb so große Schwankung."
+Lane Bully,positiv,stat_bonus|stat=lan|wert=5|phase=laning;gank_anteil|wer=killer|wert=-0.08,"+5 Laning in der Lane-Phase."
 ```
 
 **leagues.csv** (parent = Liga, in die Talente aufsteigen; slots = Plätze bei First Stand, MSI, Worlds)

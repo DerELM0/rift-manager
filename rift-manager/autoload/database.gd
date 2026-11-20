@@ -7,6 +7,8 @@ extends Node
 
 const TEAMS_PATH: String = "res://data/default/teams.csv"
 const PLAYERS_PATH: String = "res://data/default/players.csv"
+const TRAITS_PATH: String = "res://data/default/traits.csv"
+const TRAIT_COLUMNS: Array[String] = ["name", "art", "effekte", "tooltip"]
 
 const TEAM_COLUMNS: Array[String] = [
 	"short", "name", "league", "tier", "team_language", "chem",
@@ -32,6 +34,7 @@ var _ovr_matching: int = 0
 
 
 func _ready() -> void:
+	load_traits(TRAITS_PATH)
 	load_from_files(TEAMS_PATH, PLAYERS_PATH)
 
 
@@ -82,7 +85,46 @@ func get_player_count() -> int:
 
 # --- Laden ------------------------------------------------------------------
 
+## Lädt die Traits aus traits.csv, prüft die Effekt-Bausteine und gibt sie an
+## TraitRules weiter. Muss vor den Spielern geladen werden.
+func load_traits(path: String) -> void:
+	var traits: Array[TraitDef] = []
+	var seen: Dictionary = {}
+	for row: Dictionary in _read_csv(path, TRAIT_COLUMNS):
+		var trait_name: String = row.get("name", "")
+		if trait_name.is_empty():
+			push_warning("Database: Trait ohne Namen in %s, übersprungen." % path)
+			continue
+		if seen.has(trait_name):
+			push_warning("Database: Trait '%s' ist doppelt, zweiter Eintrag übersprungen." % trait_name)
+			continue
+		seen[trait_name] = true
+		var t := TraitDef.new()
+		t.name = trait_name
+		t.art = row.get("art", "")
+		if not TraitRules.is_valid_art(t.art):
+			push_warning("Database: Trait '%s' hat unbekannte Art '%s' (erlaubt: %s)."
+					% [trait_name, t.art, ", ".join(PackedStringArray(TraitRules.ARTS))])
+		t.tooltip = row.get("tooltip", "")
+		var errors: PackedStringArray = []
+		t.effects = TraitRules.parse_effects(row.get("effekte", ""), trait_name, errors)
+		for error: String in errors:
+			push_warning("Database: Trait %s" % error)
+		traits.append(t)
+	TraitRules.register(traits)
+	print("Database: %d Traits geladen." % traits.size())
+
+
+## Meldet Traits eines Spielers, die es in traits.csv nicht gibt (sie wirken nicht).
+func _check_player_traits(player: Player) -> void:
+	for trait_name: String in player.traits:
+		if TraitRules.get_trait(trait_name) == null:
+			push_warning("Database: Spieler %s (%s) hat unbekannten Trait '%s', der Trait wirkt nicht."
+					% [player.display_name(), player.team_short, trait_name])
+
+
 ## Lädt die Datenbank neu aus zwei CSV-Dateien. Vorherige Daten werden verworfen.
+## Die Traits (load_traits) sollten vorher geladen sein.
 func load_from_files(teams_path: String, players_path: String) -> void:
 	_teams.clear()
 	_teams_by_short.clear()
@@ -107,6 +149,7 @@ func load_from_files(teams_path: String, players_path: String) -> void:
 			continue
 		team.players.append(player)
 		_player_count += 1
+		_check_player_traits(player)
 
 	for team: Team in _teams:
 		team.players.sort_custom(func(a: Player, b: Player) -> bool:
