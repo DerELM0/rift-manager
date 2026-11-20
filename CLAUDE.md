@@ -24,6 +24,12 @@ Der User ist Game Designer mit begrenzter Programmiererfahrung:
 - Fiktive Spielernamen. Teams/Spieler/Stats kommen per CSV-Import aus `data/default/`.
 - Zwei Modi: GM-Modus und Career-Modus.
 
+## Daten und Web-Simulator
+
+- Die Standarddaten werden ab jetzt in `data/default/*.csv` gepflegt (Quelle der Wahrheit).
+- `web-sim/` (Repo-Root) ist nur noch Referenz für Formeln und Prüfwerte und wird nur gelesen.
+  `web-sim/data.js` wird nicht mehr angepasst; Abweichungen zu den CSVs sind gewollt.
+
 ## Datenmodell
 
 - Spielerwerte 0–100: Mechanics, Macro, Mental, Teamwork, Laning, Reputation + Overall.

@@ -42,7 +42,11 @@ func _on_match_screen_back_to_season_requested() -> void:
 	_show_screen(_season_screen, _season_nav_button)
 
 
+## Zeigt einen Bildschirm und markiert genau seinen Navigations-Button.
+## Alle Buttons werden ausdrücklich gesetzt: set_pressed_no_signal() umgeht die
+## ButtonGroup, sonst blieben beim Wechsel per Code zwei Buttons markiert.
 func _show_screen(screen: Control, nav_button: Button) -> void:
 	for s: Control in _screens():
 		s.visible = s == screen
-	nav_button.set_pressed_no_signal(true)
+	for button: Button in [_match_nav_button, _season_nav_button]:
+		button.set_pressed_no_signal(button == nav_button)
