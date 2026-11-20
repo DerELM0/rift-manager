@@ -24,6 +24,14 @@ Der User ist Game Designer mit begrenzter Programmiererfahrung:
 - Fiktive Spielernamen. Teams/Spieler/Stats kommen per CSV-Import aus `data/default/`.
 - Zwei Modi: GM-Modus und Career-Modus.
 
+## Design-Dokument
+
+- `docs/GDD.md` (Repo-Root) ist die verbindliche Design-Grundlage. Vor größeren Features
+  den passenden Abschnitt lesen.
+- Wird eine Design-Entscheidung getroffen oder geändert, wird das GDD im selben Schritt
+  angepasst, inklusive der Entscheidungstabelle am Ende.
+- Weicht Code vom GDD ab: nicht stillschweigend anpassen, sondern den User darauf hinweisen.
+
 ## Daten und Web-Simulator
 
 - Die Standarddaten werden ab jetzt in `data/default/*.csv` gepflegt (Quelle der Wahrheit).
