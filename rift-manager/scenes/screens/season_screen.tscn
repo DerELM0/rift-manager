@@ -1,0 +1,686 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/screens/season_screen.gd" id="1_screen"]
+[ext_resource type="Theme" path="res://themes/rift_dark.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/components/spark_chart.tscn" id="3_spark"]
+
+[node name="SeasonScreen" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+theme_type_variation = &"Background"
+script = ExtResource("1_screen")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="Scroll" type="ScrollContainer" parent="Margin"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Layout" type="VBoxContainer" parent="Margin/Scroll"]
+layout_mode = 2
+theme_override_constants/separation = 16
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TitleLabel" type="Label" parent="Margin/Scroll/Layout"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Saison"
+
+[node name="SetupPanel" type="PanelContainer" parent="Margin/Scroll/Layout"]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="SetupBox" type="VBoxContainer" parent="Margin/Scroll/Layout/SetupPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SetupRow" type="HFlowContainer" parent="Margin/Scroll/Layout/SetupPanel/SetupBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
+
+[node name="LeagueBox" type="VBoxContainer" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow"]
+layout_mode = 2
+
+[node name="LeagueLabel" type="Label" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/LeagueBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Liga"
+
+[node name="LeagueOption" type="OptionButton" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/LeagueBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+
+[node name="FormatBox" type="VBoxContainer" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow"]
+layout_mode = 2
+
+[node name="FormatLabel" type="Label" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/FormatBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Format"
+
+[node name="FormatOption" type="OptionButton" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/FormatBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="SeedBox" type="VBoxContainer" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow"]
+layout_mode = 2
+
+[node name="SeedLabel" type="Label" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/SeedBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Seed"
+
+[node name="SeedRow" type="HBoxContainer" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/SeedBox"]
+layout_mode = 2
+
+[node name="SeedSpin" type="SpinBox" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/SeedBox/SeedRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+max_value = 4294967295.0
+value = 1.0
+rounded = true
+
+[node name="RandomSeedButton" type="Button" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/SeedBox/SeedRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Zufall"
+tooltip_text = "Zufälligen Seed setzen"
+
+[node name="NewSeasonButton" type="Button" parent="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentButton"
+text = "Neue Saison"
+size_flags_vertical = 8
+
+[node name="FormatNoteLabel" type="Label" parent="Margin/Scroll/Layout/SetupPanel/SetupBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Beschreibung des Formats"
+autowrap_mode = 3
+
+[node name="ProgressPanel" type="PanelContainer" parent="Margin/Scroll/Layout"]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="ProgressRow" type="HFlowContainer" parent="Margin/Scroll/Layout/ProgressPanel"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 8
+
+[node name="ProgressLabel" type="Label" parent="Margin/Scroll/Layout/ProgressPanel/ProgressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Noch keine Saison angelegt."
+size_flags_vertical = 4
+
+[node name="PresetChip" type="Label" parent="Margin/Scroll/Layout/ProgressPanel/ProgressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChipLabel"
+text = "Format"
+size_flags_vertical = 4
+
+[node name="NextWeekButton" type="Button" parent="Margin/Scroll/Layout/ProgressPanel/ProgressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Nächste Woche"
+
+[node name="FinishRegularButton" type="Button" parent="Margin/Scroll/Layout/ProgressPanel/ProgressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reguläre Saison zu Ende spielen"
+
+[node name="PlayoffsButton" type="Button" parent="Margin/Scroll/Layout/ProgressPanel/ProgressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentButton"
+text = "Playoffs"
+
+[node name="TablePanel" type="PanelContainer" parent="Margin/Scroll/Layout"]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="TableBox" type="VBoxContainer" parent="Margin/Scroll/Layout/TablePanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TableTitle" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Tabelle"
+
+[node name="TableHeaderMargin" type="MarginContainer" parent="Margin/Scroll/Layout/TablePanel/TableBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 11
+theme_override_constants/margin_right = 8
+
+[node name="TableHeader" type="HBoxContainer" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlaceHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "#"
+horizontal_alignment = 2
+
+[node name="TeamHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MutedLabel"
+text = "Team"
+
+[node name="GroupHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Gruppe"
+
+[node name="RecordHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "S-N"
+horizontal_alignment = 1
+
+[node name="MapsHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Maps"
+horizontal_alignment = 1
+
+[node name="LastHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Letzte 5"
+
+[node name="StreakHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Serie"
+horizontal_alignment = 1
+
+[node name="FormHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Form Ø"
+horizontal_alignment = 2
+
+[node name="ChemHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Chemistry"
+horizontal_alignment = 2
+
+[node name="OvrHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "OVR"
+horizontal_alignment = 2
+
+[node name="TableRows" type="VBoxContainer" parent="Margin/Scroll/Layout/TablePanel/TableBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TableNote" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Klick auf ein Team zeigt den Kader. Die Linie markiert den letzten Playoff-Platz. S = Sieg, N = Niederlage. In Klammern: Veränderung seit Saisonstart."
+autowrap_mode = 3
+
+[node name="Columns" type="HBoxContainer" parent="Margin/Scroll/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LeftColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns"]
+layout_mode = 2
+theme_override_constants/separation = 16
+size_flags_horizontal = 3
+
+[node name="WeeksPanel" type="PanelContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn"]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="WeeksBox" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/WeeksPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WeeksTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/WeeksPanel/WeeksBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Spieltage"
+
+[node name="WeeksList" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/WeeksPanel/WeeksBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayoffsPanel" type="PanelContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn"]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="PlayoffsBox" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlayoffsHeader" type="HBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox"]
+layout_mode = 2
+
+[node name="PlayoffsTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SectionLabel"
+text = "Playoffs"
+
+[node name="ChampionLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/PlayoffsHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ChampionLabel"
+text = ""
+
+[node name="PlayoffNoteLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Nach der regulären Saison spielen die Top 6 im Bo5."
+autowrap_mode = 3
+
+[node name="Bracket" type="HBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+visible = false
+
+[node name="QuarterColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket"]
+layout_mode = 2
+theme_override_constants/separation = 6
+size_flags_horizontal = 3
+
+[node name="QuarterTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/QuarterColumn"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Viertelfinale"
+
+[node name="QuarterList" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/QuarterColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SemiColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket"]
+layout_mode = 2
+theme_override_constants/separation = 6
+size_flags_horizontal = 3
+
+[node name="SemiTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/SemiColumn"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Halbfinale"
+
+[node name="SemiList" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/SemiColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="FinalColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket"]
+layout_mode = 2
+theme_override_constants/separation = 6
+size_flags_horizontal = 3
+
+[node name="FinalTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/FinalColumn"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Finale"
+
+[node name="FinalList" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/PlayoffsPanel/PlayoffsBox/Bracket/FinalColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="AwardsPanel" type="PanelContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Card"
+visible = false
+
+[node name="AwardsBox" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AwardsTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Auszeichnungen"
+
+[node name="AwardsGrid" type="GridContainer" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="MvpAwardTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Split-MVP"
+size_flags_vertical = 0
+
+[node name="MvpAwardLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+
+[node name="AllProTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "All-Pro-Team"
+size_flags_vertical = 0
+
+[node name="AllProLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+
+[node name="RookieTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Rookie des Splits"
+size_flags_vertical = 0
+
+[node name="RookieLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+
+[node name="ImprovedTitle" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Größte Steigerung"
+size_flags_vertical = 0
+
+[node name="ImprovedLabel" type="Label" parent="Margin/Scroll/Layout/Columns/LeftColumn/AwardsPanel/AwardsBox/AwardsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+
+[node name="RightColumn" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns"]
+layout_mode = 2
+theme_override_constants/separation = 16
+size_flags_horizontal = 3
+
+[node name="RosterPanel" type="PanelContainer" parent="Margin/Scroll/Layout/Columns/RightColumn"]
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="RosterBox" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="RosterTitleLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Kader"
+
+[node name="RosterHeaderMargin" type="MarginContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 11
+theme_override_constants/margin_right = 8
+
+[node name="RosterHeader" type="HBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RoleHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Rolle"
+
+[node name="NameHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MutedLabel"
+text = "Spieler"
+
+[node name="OvrHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "OVR"
+horizontal_alignment = 2
+
+[node name="OvrDeltaHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = ""
+
+[node name="FormHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Form"
+horizontal_alignment = 2
+
+[node name="GamesHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Spiele"
+horizontal_alignment = 2
+
+[node name="GradeHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Ø Note"
+horizontal_alignment = 2
+
+[node name="KdaHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "K/D/A"
+horizontal_alignment = 2
+
+[node name="MvpHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "MVP"
+horizontal_alignment = 2
+
+[node name="RosterRows" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="CoachLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Coach: –"
+autowrap_mode = 3
+
+[node name="RosterNote" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Klick auf einen Spieler zeigt Werte, Verlauf und Traits."
+autowrap_mode = 3
+
+[node name="PlayerPanel" type="PanelContainer" parent="Margin/Scroll/Layout/Columns/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Card"
+visible = false
+
+[node name="PlayerBox" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayerHeader" type="HBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+layout_mode = 2
+
+[node name="PlayerTitleLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SectionLabel"
+text = "Spieler"
+
+[node name="ClosePlayerButton" type="Button" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Schließen"
+
+[node name="PlayerInfoLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = ""
+autowrap_mode = 3
+
+[node name="StatsHint" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Werte jetzt, Strich = Saisonstart, ★ = wichtig für die Rolle"
+autowrap_mode = 3
+
+[node name="StatBars" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LanguagesLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = ""
+autowrap_mode = 3
+
+[node name="FormInfoLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Form"
+autowrap_mode = 3
+
+[node name="FormChart" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox" instance=ExtResource("3_spark")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="OvrChartTitle" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "OVR-Verlauf je Woche"
+
+[node name="OvrChart" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox" instance=ExtResource("3_spark")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GradesTitleLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Bewertung je Spiel"
+
+[node name="GradesChart" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox" instance=ExtResource("3_spark")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerStatsGrid" type="GridContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="GamesTitle" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Spiele"
+
+[node name="GamesValueLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "–"
+
+[node name="KdaTitle" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "K/D/A"
+
+[node name="KdaValueLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "–"
+
+[node name="GoldTitle" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Gold je Spiel"
+
+[node name="GoldValueLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "–"
+
+[node name="MvpTitle" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "MVP-Titel"
+
+[node name="MvpValueLabel" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerStatsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "–"
+
+[node name="TraitsTitle" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Traits (Maus drüber zeigt die Wirkung)"
+
+[node name="TraitsFlow" type="HFlowContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[connection signal="pressed" from="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/SeedBox/SeedRow/RandomSeedButton" to="." method="_on_random_seed_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/NewSeasonButton" to="." method="_on_new_season_button_pressed"]
+[connection signal="item_selected" from="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/LeagueBox/LeagueOption" to="." method="_on_league_option_item_selected"]
+[connection signal="item_selected" from="Margin/Scroll/Layout/SetupPanel/SetupBox/SetupRow/FormatBox/FormatOption" to="." method="_on_format_option_item_selected"]
+[connection signal="pressed" from="Margin/Scroll/Layout/ProgressPanel/ProgressRow/NextWeekButton" to="." method="_on_next_week_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/ProgressPanel/ProgressRow/FinishRegularButton" to="." method="_on_finish_regular_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/ProgressPanel/ProgressRow/PlayoffsButton" to="." method="_on_playoffs_button_pressed"]
+[connection signal="pressed" from="Margin/Scroll/Layout/Columns/RightColumn/PlayerPanel/PlayerBox/PlayerHeader/ClosePlayerButton" to="." method="_on_close_player_button_pressed"]

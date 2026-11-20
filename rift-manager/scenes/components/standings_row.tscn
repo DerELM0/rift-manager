@@ -1,0 +1,103 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/standings_row.gd" id="1_stand"]
+
+[node name="StandingsRow" type="VBoxContainer"]
+theme_override_constants/separation = 2
+script = ExtResource("1_stand")
+
+[node name="GroupLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GroupLabel"
+text = "Group"
+visible = false
+
+[node name="RowPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"TableRow"
+
+[node name="Row" type="HBoxContainer" parent="RowPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlaceLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 2
+
+[node name="TeamLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Team"
+clip_text = true
+
+[node name="GroupColumnLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = ""
+
+[node name="RecordLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+text = "0-0"
+horizontal_alignment = 1
+
+[node name="MapsLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "0:0"
+horizontal_alignment = 1
+
+[node name="LastLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+text = ""
+
+[node name="StreakLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "–"
+horizontal_alignment = 1
+
+[node name="FormLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+text = "71"
+horizontal_alignment = 2
+
+[node name="ChemLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+
+[node name="OvrLabel" type="Label" parent="RowPanel/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+text = "0.0"
+horizontal_alignment = 2
+
+[node name="CutLine" type="HSeparator" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[connection signal="gui_input" from="RowPanel" to="." method="_on_row_panel_gui_input"]

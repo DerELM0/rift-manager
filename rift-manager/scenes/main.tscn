@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_main"]
+[ext_resource type="Theme" path="res://themes/rift_dark.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/screens/match_screen.tscn" id="3_match"]
+[ext_resource type="PackedScene" path="res://scenes/screens/season_screen.tscn" id="4_season"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_nav"]
+
+[node name="Main" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+theme_type_variation = &"Background"
+script = ExtResource("1_main")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="NavBar" type="PanelContainer" parent="Layout"]
+layout_mode = 2
+theme_type_variation = &"NavBar"
+
+[node name="NavRow" type="HBoxContainer" parent="Layout/NavBar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AppTitleLabel" type="Label" parent="Layout/NavBar/NavRow"]
+layout_mode = 2
+theme_type_variation = &"NavTitleLabel"
+text = "Rift Manager"
+
+[node name="NavSpacer" type="Control" parent="Layout/NavBar/NavRow"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="MatchNavButton" type="Button" parent="Layout/NavBar/NavRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NavButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_nav")
+text = "Match"
+
+[node name="SeasonNavButton" type="Button" parent="Layout/NavBar/NavRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NavButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_nav")
+text = "Saison"
+
+[node name="ScreenArea" type="Control" parent="Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MatchScreen" parent="Layout/ScreenArea" instance=ExtResource("3_match")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="SeasonScreen" parent="Layout/ScreenArea" instance=ExtResource("4_season")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="Layout/NavBar/NavRow/MatchNavButton" to="." method="_on_match_nav_button_pressed"]
+[connection signal="pressed" from="Layout/NavBar/NavRow/SeasonNavButton" to="." method="_on_season_nav_button_pressed"]

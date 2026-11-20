@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/trait_chip.gd" id="1_trait"]
+
+[node name="TraitChip" type="Label"]
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+theme_type_variation = &"ChipLabel"
+text = "Trait"
+script = ExtResource("1_trait")

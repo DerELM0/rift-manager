@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/series_result_row.gd" id="1_row"]
+
+[node name="SeriesResultRow" type="HBoxContainer"]
+theme_override_constants/separation = 10
+script = ExtResource("1_row")
+
+[node name="TeamALabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Team A"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="ScoreLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+text = "–"
+horizontal_alignment = 1
+
+[node name="TeamBLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Team B"
+clip_text = true
+

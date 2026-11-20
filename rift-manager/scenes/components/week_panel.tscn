@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/week_panel.gd" id="1_week"]
+
+[node name="WeekPanel" type="VBoxContainer"]
+theme_override_constants/separation = 6
+script = ExtResource("1_week")
+
+[node name="HeaderButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GameHeaderButton"
+toggle_mode = true
+text = "[+] Woche 1"
+alignment = 0
+
+[node name="Details" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Days" type="VBoxContainer" parent="Details"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[connection signal="toggled" from="HeaderButton" to="." method="_on_header_button_toggled"]
