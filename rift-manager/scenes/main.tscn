@@ -70,3 +70,5 @@ layout_mode = 1
 
 [connection signal="pressed" from="Layout/NavBar/NavRow/MatchNavButton" to="." method="_on_match_nav_button_pressed"]
 [connection signal="pressed" from="Layout/NavBar/NavRow/SeasonNavButton" to="." method="_on_season_nav_button_pressed"]
+[connection signal="back_to_season_requested" from="Layout/ScreenArea/MatchScreen" to="." method="_on_match_screen_back_to_season_requested"]
+[connection signal="series_opened" from="Layout/ScreenArea/SeasonScreen" to="." method="_on_season_screen_series_opened"]

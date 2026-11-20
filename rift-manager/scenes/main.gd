@@ -8,8 +8,8 @@ extends PanelContainer
 ## Button in NavRow mit derselben ButtonGroup anlegen und hier in _screens()
 ## und einer _on_..._pressed-Funktion ergänzen.
 
-@onready var _match_screen: Control = %MatchScreen
-@onready var _season_screen: Control = %SeasonScreen
+@onready var _match_screen: MatchScreen = %MatchScreen
+@onready var _season_screen: SeasonScreen = %SeasonScreen
 @onready var _match_nav_button: Button = %MatchNavButton
 @onready var _season_nav_button: Button = %SeasonNavButton
 
@@ -27,6 +27,18 @@ func _on_match_nav_button_pressed() -> void:
 
 
 func _on_season_nav_button_pressed() -> void:
+	_show_screen(_season_screen, _season_nav_button)
+
+
+## Klick auf ein Saisonergebnis: zum Match-Bildschirm wechseln und die Serie zeigen.
+## Die Saison bleibt dabei unverändert im (unsichtbaren) Saison-Bildschirm.
+func _on_season_screen_series_opened(series: SeriesResult, team_a: Team, team_b: Team, label: String,
+		ovr_a: float, ovr_b: float) -> void:
+	_match_screen.show_series(series, team_a, team_b, label, ovr_a, ovr_b)
+	_show_screen(_match_screen, _match_nav_button)
+
+
+func _on_match_screen_back_to_season_requested() -> void:
 	_show_screen(_season_screen, _season_nav_button)
 
 

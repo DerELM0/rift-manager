@@ -4,6 +4,9 @@ extends VBoxContainer
 
 const SERIES_RESULT_ROW: PackedScene = preload("res://scenes/components/series_result_row.tscn")
 
+## Klick auf ein Ergebnis; day_title ist die Überschrift, z. B. "Spieltag 5".
+signal series_pressed(series: Season.Series, day_title: String)
+
 @onready var _day_label: Label = %DayLabel
 @onready var _results: VBoxContainer = %Results
 
@@ -15,6 +18,7 @@ func setup_results(title: String, series: Array, season: Season) -> void:
 		var row: SeriesResultRow = SERIES_RESULT_ROW.instantiate()
 		_results.add_child(row)
 		row.setup_result(s, season)
+		row.pressed.connect(func(clicked: Season.Series) -> void: series_pressed.emit(clicked, title))
 
 
 ## Angesetzter Spieltag: pairs ist eine Liste von [kürzel_a, kürzel_b].

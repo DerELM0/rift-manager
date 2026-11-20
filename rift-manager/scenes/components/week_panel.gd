@@ -5,6 +5,9 @@ extends VBoxContainer
 
 const MATCH_DAY_BLOCK: PackedScene = preload("res://scenes/components/match_day_block.tscn")
 
+## Klick auf ein Ergebnis dieser Woche; label z. B. "Woche 3 · Spieltag 5".
+signal series_pressed(series: Season.Series, week_number: int, label: String)
+
 @onready var _header_button: Button = %HeaderButton
 @onready var _details: Control = %Details
 @onready var _days: VBoxContainer = %Days
@@ -21,6 +24,8 @@ func setup_week(week: Season.Week, season: Season, expanded: bool) -> void:
 		var block: MatchDayBlock = MATCH_DAY_BLOCK.instantiate()
 		_days.add_child(block)
 		block.setup_results("Spieltag %d" % ((week.number - 1) * 2 + i + 1), week.days[i], season)
+		block.series_pressed.connect(func(series: Season.Series, day_title: String) -> void:
+			series_pressed.emit(series, week.number, "Woche %d · %s" % [week.number, day_title]))
 	_set_expanded(expanded)
 
 

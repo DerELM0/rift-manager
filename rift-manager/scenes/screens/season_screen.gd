@@ -1,3 +1,4 @@
+class_name SeasonScreen
 extends PanelContainer
 ## Saison-Bildschirm: Liga und Format wählen, Woche für Woche spielen, Tabelle,
 ## Spieltage, Playoffs, Auszeichnungen, Kader und Spielerentwicklung.
@@ -7,6 +8,11 @@ extends PanelContainer
 ## Farben und Schriftgrößen zentral im Theme themes/rift_dark.tres.
 ## Per Code entstehen nur die wiederholten Zeilen (Komponenten in scenes/components/).
 ## Die Buttons und Dropdowns sind im Editor verbunden (Node-Dock > Signale).
+
+## Klick auf ein Ergebnis (Spieltag oder Playoffs). main.gd wechselt daraufhin
+## zum Match-Bildschirm. label z. B. "LCK · Woche 3 · Spieltag 5";
+## ovr_a/ovr_b = Team-OVR zum Zeitpunkt des Spiels.
+signal series_opened(series: SeriesResult, team_a: Team, team_b: Team, label: String, ovr_a: float, ovr_b: float)
 
 const STANDINGS_ROW: PackedScene = preload("res://scenes/components/standings_row.tscn")
 const TABLE_GROUP_HEADER: PackedScene = preload("res://scenes/components/table_group_header.tscn")
@@ -234,6 +240,35 @@ func _refresh_weeks() -> void:
 		var panel: WeekPanel = WEEK_PANEL.instantiate()
 		_weeks_list.add_child(panel)
 		panel.setup_week(_season.results[i], _season, i == _season.results.size() - 1)
+		panel.series_pressed.connect(_on_week_series_pressed)
+
+
+func _on_week_series_pressed(series: Season.Series, week_number: int, label: String) -> void:
+	_open_series(series, label, week_number)
+
+
+## Meldet eine gespielte Serie zum Ansehen im Match-Bildschirm.
+## week_number: Woche der regulären Saison, -1 für Playoffs.
+func _open_series(series: Season.Series, label: String, week_number: int) -> void:
+	var result := SeriesResult.new()
+	result.games = series.games
+	result.wins_a = series.wins_a
+	result.wins_b = series.wins_b
+	var team_a: SeasonTeam = _season.get_team(series.a)
+	var team_b: SeasonTeam = _season.get_team(series.b)
+	series_opened.emit(result, team_a.team, team_b.team, "%s · %s" % [_league, label],
+			_ovr_at(team_a, week_number), _ovr_at(team_b, week_number))
+
+
+## Team-OVR zum Zeitpunkt eines Spiels. Die Werte ändern sich nur am Wochenende
+## (Training); history[n - 1] sind also genau die Werte, mit denen in Woche n
+## gespielt wurde. Playoffs (week_number -1): Werte nach der letzten Woche.
+func _ovr_at(t: SeasonTeam, week_number: int) -> float:
+	var total: float = 0.0
+	for sp: SeasonPlayer in t.players:
+		var index: int = week_number - 1 if week_number > 0 else sp.history.size() - 1
+		total += float(sp.history[clampi(index, 0, sp.history.size() - 1)]["ovr"])
+	return total / 5.0
 
 
 func _refresh_playoffs() -> void:
@@ -257,10 +292,13 @@ func _refresh_playoffs() -> void:
 	_champion_label.text = "Meister: %s" % _season.get_team(playoffs.champion).team.name
 	var lists: Array[VBoxContainer] = [_quarter_list, _semi_list, _final_list]
 	for r: int in mini(playoffs.rounds.size(), lists.size()):
+		var round_name: String = playoffs.rounds[r].name
 		for series: Season.Series in playoffs.rounds[r].series:
 			var row: SeriesResultRow = SERIES_RESULT_ROW.instantiate()
 			lists[r].add_child(row)
 			row.setup_result(series, _season)
+			row.pressed.connect(func(clicked: Season.Series) -> void:
+				_open_series(clicked, "Playoffs · %s" % round_name, -1))
 	_refresh_awards()
 
 

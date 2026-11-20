@@ -1,3 +1,4 @@
+class_name MatchScreen
 extends PanelContainer
 ## Match-Bildschirm: zwei Teams wählen, Format und Seed setzen, Serie simulieren.
 ## Vorlage ist die Match-Ansicht im Web-Simulator. Simuliert wird mit MatchSim.
@@ -6,6 +7,13 @@ extends PanelContainer
 ## Farben und Schriftgrößen zentral im Theme themes/rift_dark.tres.
 ## Per Code entsteht nur die Liste der Spiele (je Spiel eine GamePanel-Karte).
 ## Die Buttons sind im Editor verbunden (Node-Dock > Signale).
+##
+## Saisonspiele: show_series() zeigt eine bereits gespielte Serie, ohne neu zu
+## simulieren. Dann ist statt der Eingabeleiste (ControlsPanel) die SeasonBar
+## sichtbar, mit Spielkontext und "Zurück zur Saison".
+
+## "Zurück zur Saison" gedrückt; main.gd wechselt zum Saison-Bildschirm.
+signal back_to_season_requested
 
 const GAME_PANEL: PackedScene = preload("res://scenes/components/game_panel.tscn")
 ## Vorauswahl beim Start (wie im Web-Simulator).
@@ -21,6 +29,10 @@ const DEFAULT_TEAM_B: String = "BYN"
 @onready var _team_b_name_label: Label = %TeamBNameLabel
 @onready var _series_info_label: Label = %SeriesInfoLabel
 @onready var _games_list: VBoxContainer = %GamesList
+@onready var _controls_panel: Control = %ControlsPanel
+@onready var _season_bar: Control = %SeasonBar
+@onready var _season_context_label: Label = %SeasonContextLabel
+@onready var _season_ovr_label: Label = %SeasonOvrLabel
 
 
 func _ready() -> void:
@@ -65,10 +77,44 @@ func _on_simulate_button_pressed() -> void:
 	var best_of: int = _format_option.get_selected_id()
 	var seed_value: int = int(_seed_spin.value)
 	var series: SeriesResult = MatchSim.simulate_series(team_a, team_b, best_of, {}, seed_value)
-	_show_series(team_a, team_b, best_of, seed_value, series)
+	_show_result(team_a, team_b, series, "Bo%d · Seed %d" % [best_of, seed_value])
 
 
-func _show_series(team_a: Team, team_b: Team, best_of: int, seed_value: int, series: SeriesResult) -> void:
+## Zeigt eine bereits gespielte Serie an, ohne neu zu simulieren (z. B. aus der Saison).
+## season_label: Spielkontext, z. B. "LCK · Woche 3 · Spieltag 5". Ist er gesetzt,
+## wird statt der Eingabeleiste die SeasonBar mit "Zurück zur Saison" gezeigt.
+## ovr_a/ovr_b: Team-OVR zum Zeitpunkt des Spiels (negativ = nicht anzeigen).
+func show_series(series: SeriesResult, team_a: Team, team_b: Team, season_label: String = "",
+		ovr_a: float = -1.0, ovr_b: float = -1.0) -> void:
+	var from_season: bool = not season_label.is_empty()
+	_set_season_mode(from_season)
+	if from_season:
+		_season_context_label.text = season_label
+		if ovr_a >= 0.0 and ovr_b >= 0.0:
+			_season_ovr_label.text = "Team-OVR zum Spielzeitpunkt: %s %.1f · %s %.1f" % [
+				team_a.short, ovr_a, team_b.short, ovr_b]
+		else:
+			_season_ovr_label.text = ""
+	_show_result(team_a, team_b, series, "Saisonspiel" if from_season else "")
+
+
+func _set_season_mode(enabled: bool) -> void:
+	_season_bar.visible = enabled
+	_controls_panel.visible = not enabled
+
+
+func _on_back_to_season_button_pressed() -> void:
+	back_to_season_requested.emit()
+
+
+## Blendet die Eingabeleiste wieder ein; das angezeigte Ergebnis bleibt stehen,
+## bis neu simuliert wird.
+func _on_own_match_button_pressed() -> void:
+	_set_season_mode(false)
+
+
+## Ergebnisbereich und Spielkarten füllen. info steht vor dem Sieger, z. B. "Bo3 · Seed 1".
+func _show_result(team_a: Team, team_b: Team, series: SeriesResult, info: String) -> void:
 	_team_a_name_label.text = team_a.name
 	_team_b_name_label.text = team_b.name
 	_score_label.text = "%d : %d" % [series.wins_a, series.wins_b]
@@ -76,7 +122,11 @@ func _show_series(team_a: Team, team_b: Team, best_of: int, seed_value: int, ser
 		_series_info_label.text = "Nicht simuliert: Einem Team fehlt ein Spieler (siehe Warnungen im Debugger)."
 	else:
 		var winner: Team = team_a if series.winner() == "A" else team_b
-		_series_info_label.text = "Bo%d · Seed %d · Sieger %s" % [best_of, seed_value, winner.name]
+		var parts: PackedStringArray = []
+		if not info.is_empty():
+			parts.append(info)
+		parts.append("Sieger %s" % winner.name)
+		_series_info_label.text = " · ".join(parts)
 
 	for child: Node in _games_list.get_children():
 		child.queue_free()

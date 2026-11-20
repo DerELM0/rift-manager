@@ -30,6 +30,7 @@ theme_type_variation = &"TitleLabel"
 text = "Match-Simulator"
 
 [node name="ControlsPanel" type="PanelContainer" parent="Margin/Layout" unique_id=638435781]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"Card"
 
@@ -125,6 +126,52 @@ size_flags_vertical = 8
 theme_type_variation = &"AccentButton"
 text = "Simulieren"
 
+[node name="SeasonBar" type="PanelContainer" parent="Margin/Layout"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"Card"
+
+[node name="SeasonRow" type="HFlowContainer" parent="Margin/Layout/SeasonBar"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+
+[node name="SeasonInfoBox" type="VBoxContainer" parent="Margin/Layout/SeasonBar/SeasonRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeasonBadgeLabel" type="Label" parent="Margin/Layout/SeasonBar/SeasonRow/SeasonInfoBox"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Saisonspiel"
+
+[node name="SeasonContextLabel" type="Label" parent="Margin/Layout/SeasonBar/SeasonRow/SeasonInfoBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Liga · Woche · Spieltag"
+
+[node name="SeasonOvrLabel" type="Label" parent="Margin/Layout/SeasonBar/SeasonRow/SeasonInfoBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "OVR zum Spielzeitpunkt"
+
+[node name="OwnMatchButton" type="Button" parent="Margin/Layout/SeasonBar/SeasonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Eingabeleiste für ein eigenes Match einblenden"
+text = "Eigenes Match"
+
+[node name="BackToSeasonButton" type="Button" parent="Margin/Layout/SeasonBar/SeasonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"AccentButton"
+text = "Zurück zur Saison"
+
 [node name="ResultPanel" type="PanelContainer" parent="Margin/Layout" unique_id=31696049]
 layout_mode = 2
 theme_type_variation = &"Card"
@@ -179,3 +226,5 @@ theme_override_constants/separation = 12
 
 [connection signal="pressed" from="Margin/Layout/ControlsPanel/Controls/SeedBox/SeedRow/RandomSeedButton" to="." method="_on_random_seed_button_pressed"]
 [connection signal="pressed" from="Margin/Layout/ControlsPanel/Controls/SimulateButton" to="." method="_on_simulate_button_pressed"]
+[connection signal="pressed" from="Margin/Layout/SeasonBar/SeasonRow/OwnMatchButton" to="." method="_on_own_match_button_pressed"]
+[connection signal="pressed" from="Margin/Layout/SeasonBar/SeasonRow/BackToSeasonButton" to="." method="_on_back_to_season_button_pressed"]
