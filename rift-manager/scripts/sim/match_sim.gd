@@ -40,7 +40,7 @@ class PreparedPlayer extends RefCounted:
 	## Tagesform-Abweichung (Zufall, abhängig von Mental).
 	var d: float = 0.0
 	## Kommunikationswert K.
-	var comm: int = 0
+	var comm: float = 0.0
 	## Overall aus den effektiven Werten.
 	var ovr: float = 0.0
 	var kills: int = 0
@@ -53,7 +53,7 @@ class PreparedPlayer extends RefCounted:
 class PreparedTeam extends RefCounted:
 	var team: Team = null
 	var coach: Coach = null
-	var chem: int = 0
+	var chem: float = 0.0
 	## Spieler in Rollenreihenfolge TOP, JGL, MID, ADC, SUP.
 	var ps: Array[PreparedPlayer] = []
 
@@ -124,7 +124,7 @@ static func simulate_series(team_a: Team, team_b: Team, best_of: int, opt: Dicti
 
 func _run(team_a: Team, team_b: Team, opt: Dictionary, seed_value: int) -> MatchResult:
 	_opt = opt
-	_c = _merge_consts(opt.get("consts", {}))
+	_c = RiftSim.merge_consts(opt.get("consts", {}))
 	_rng = RiftSim.make_rng(seed_value)
 	_a = _prep_team(team_a)
 	_b = _prep_team(team_b)
@@ -398,30 +398,11 @@ func _run(team_a: Team, team_b: Team, opt: Dictionary, seed_value: int) -> Match
 
 # --- Vorbereitung -----------------------------------------------------------
 
-## DEFAULTS plus Überschreibungen aus opt["consts"]. Zahlen werden zu float,
-## damit Divisionen wie in JavaScript mit Nachkommastellen rechnen.
-func _merge_consts(overrides: Dictionary) -> Dictionary:
-	var c: Dictionary = RiftSim.DEFAULTS.duplicate(true)
-	for key: Variant in overrides:
-		c[key] = overrides[key]
-	for key: Variant in c:
-		if typeof(c[key]) == TYPE_INT:
-			c[key] = float(c[key])
-	return c
-
-
 ## Effektive Werte aller Spieler für dieses Spiel (prepTeam).
 func _prep_team(team: Team) -> PreparedTeam:
 	var pt := PreparedTeam.new()
 	pt.team = team
-	pt.coach = team.coach
-	if pt.coach == null:  # Ohne Coach rechnet das Original mit 30 in allen Werten
-		pt.coach = Coach.new()
-		pt.coach.drafting = 30
-		pt.coach.development = 30
-		pt.coach.motivation = 30
-		pt.coach.tactics = 30
-		pt.coach.management = 30
+	pt.coach = team.coach if team.coach != null else Coach.fallback()
 	pt.chem = team.chemistry
 	var pressure: bool = bool(_opt.get("pressure", false))
 	var champ: float = 0.85 + 0.15 * _c["mastery"] / 100.0
@@ -454,7 +435,7 @@ func _prep_team(team: Team) -> PreparedTeam:
 		if pressure and p.has_trait("Clutch Player"):
 			sd *= 0.5
 		var d: float = _rng.gauss() * sd
-		var k: int = RiftSim.comm_k(p, team.language)
+		var k: float = RiftSim.comm_k(p, team.language)
 		var fm: float = 0.0
 		if p.has_form():
 			fm = clampf((p.form - _c["formCenter"]) / _c["formDiv"], -4.0, 4.0)

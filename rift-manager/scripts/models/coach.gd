@@ -14,3 +14,26 @@ var motivation: int = 0
 var tactics: int = 0
 ## coach_man: Management, beeinflusst das Wachstum der Chemistry.
 var management: int = 0
+
+
+## Coach ohne Namen mit 30 in allen Werten. So rechnet der Web-Simulator,
+## wenn ein Team keinen Coach hat.
+static func fallback() -> Coach:
+	var c := Coach.new()
+	c.drafting = 30
+	c.development = 30
+	c.motivation = 30
+	c.tactics = 30
+	c.management = 30
+	return c
+
+
+func copy() -> Coach:
+	var c := Coach.new()
+	c.name = name
+	c.drafting = drafting
+	c.development = development
+	c.motivation = motivation
+	c.tactics = tactics
+	c.management = management
+	return c

@@ -39,7 +39,7 @@ class PlayerRating extends RefCounted:
 	## Spielnote 0–100 (g im Original).
 	var grade: int = 0
 	## Kommunikationswert K mit der Teamsprache (100, Englischwert oder 10).
-	var comm: int = 0
+	var comm: float = 0.0
 	## Gold am Spielende.
 	var gold: int = 0
 

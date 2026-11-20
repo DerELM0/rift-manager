@@ -11,8 +11,9 @@ var league: String = ""
 var tier: int = 1
 ## Teamsprache (Spalte team_language), z. B. "ko".
 var language: String = ""
-## Chemistry 0–100 (Spalte chem).
-var chemistry: int = 0
+## Chemistry 0–100 (Spalte chem). Kommazahl, weil sie sich in der Saison
+## in kleinen Schritten verändert.
+var chemistry: float = 0.0
 ## null, wenn das Team keinen Coach hat (Spalte coach_name leer).
 var coach: Coach = null
 ## Spieler des Teams, nach Rolle sortiert (TOP, JGL, MID, ADC, SUP).
@@ -30,3 +31,19 @@ func get_player(role: String) -> Player:
 ## Team-Overall: Durchschnitt der 5 Spieler (RiftSim.team_ovr).
 func overall() -> float:
 	return RiftSim.team_ovr(self)
+
+
+## Unabhängige Kopie mit kopierten Spielern und Coach (z. B. für eine Saison).
+## Änderungen an der Kopie wirken nicht auf das Original in der Database.
+func copy() -> Team:
+	var c := Team.new()
+	c.short = short
+	c.name = name
+	c.league = league
+	c.tier = tier
+	c.language = language
+	c.chemistry = chemistry
+	c.coach = coach.copy() if coach != null else null
+	for player: Player in players:
+		c.players.append(player.copy())
+	return c

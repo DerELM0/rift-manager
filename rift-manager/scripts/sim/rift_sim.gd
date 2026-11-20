@@ -52,6 +52,19 @@ const DEFAULTS: Dictionary = {
 	"kdaBase": {"TOP": 4.5, "JGL": 6, "MID": 4.5, "ADC": 5, "SUP": 5.5},
 }
 
+## DEFAULTS plus Überschreibungen (Object.assign({}, DEFAULTS, consts) im Original).
+## Ganze Zahlen werden zu float, damit Divisionen wie in JavaScript mit
+## Nachkommastellen rechnen (in GDScript ergibt 7 / 2 sonst 3).
+static func merge_consts(overrides: Dictionary) -> Dictionary:
+	var c: Dictionary = DEFAULTS.duplicate(true)
+	for key: Variant in overrides:
+		c[key] = overrides[key]
+	for key: Variant in c:
+		if typeof(c[key]) == TYPE_INT:
+			c[key] = float(c[key])
+	return c
+
+
 ## Counter-Matrix M[a][b] (aus BEATS aufgebaut, einmal beim ersten Zugriff).
 static var _counter_matrix: Dictionary = _build_counter_matrix()
 
@@ -86,12 +99,12 @@ static func best_counter(against: String) -> String:
 
 ## Kommunikationswert K (commK in sim.js): 100, wenn der Spieler die Teamsprache spricht,
 ## sonst sein Englisch bei englischer Teamsprache, sonst 10.
-static func comm_k(player: Player, team_language: String) -> int:
+static func comm_k(player: Player, team_language: String) -> float:
 	if player.languages.has(team_language):
-		return 100
+		return 100.0
 	if team_language == "en":
 		return player.english
-	return 10
+	return 10.0
 
 
 ## Sigmoid-Funktion (sig in sim.js): macht aus einer Differenz eine Wahrscheinlichkeit 0–1.

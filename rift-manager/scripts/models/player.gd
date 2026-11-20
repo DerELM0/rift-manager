@@ -16,13 +16,16 @@ var gender: String = ""
 ## Sprachen als Kürzel, z. B. ["en", "ko"].
 var languages: PackedStringArray = []
 ## Englischkenntnisse 0–100, wichtig für die Kommunikation im Team.
-var english: int = 0
+## Kommazahl, weil sie in der Saison in kleinen Schritten wächst.
+var english: float = 0.0
 
-var mechanics: int = 0
-var laning: int = 0
-var macro: int = 0
-var teamwork: int = 0
-var mental: int = 0
+## Spielwerte 0–100. Kommazahlen, weil das Training in der Saison sie in
+## kleinen Schritten verändert (wie im Web-Simulator).
+var mechanics: float = 0.0
+var laning: float = 0.0
+var macro: float = 0.0
+var teamwork: float = 0.0
+var mental: float = 0.0
 
 ## Charisma: hilft beim Aufbau von Chemistry und bei Fans.
 var charisma: int = 0
@@ -44,7 +47,7 @@ func display_name() -> String:
 
 ## Die fünf Spielwerte in der Reihenfolge, die RiftSim erwartet:
 ## [Mechanics, Laning, Macro, Teamwork, Mental].
-func stats() -> Array[int]:
+func stats() -> Array[float]:
 	return [mechanics, laning, macro, teamwork, mental]
 
 
@@ -59,3 +62,27 @@ func has_form() -> bool:
 
 func has_trait(trait_name: String) -> bool:
 	return traits.has(trait_name)
+
+
+## Unabhängige Kopie (z. B. für eine Saison). Änderungen an der Kopie
+## wirken nicht auf das Original.
+func copy() -> Player:
+	var c := Player.new()
+	c.team_short = team_short
+	c.real_name = real_name
+	c.nickname = nickname
+	c.role = role
+	c.age = age
+	c.gender = gender
+	c.languages = languages.duplicate()
+	c.english = english
+	c.mechanics = mechanics
+	c.laning = laning
+	c.macro = macro
+	c.teamwork = teamwork
+	c.mental = mental
+	c.charisma = charisma
+	c.potential = potential
+	c.form = form
+	c.traits = traits.duplicate()
+	return c
