@@ -1,50 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/components/player_row.gd" id="1_row"]
+[ext_resource type="Resource" path="res://scenes/components/table/layouts/match_ratings_columns.tres" id="2_layout"]
 
-[node name="PlayerRow" type="HBoxContainer"]
-theme_override_constants/separation = 8
+[node name="PlayerRow" type="PanelContainer"]
+theme_type_variation = &"TableRow"
 script = ExtResource("1_row")
-
-[node name="RoleLabel" type="Label" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "MID"
-
-[node name="NameLabel" type="Label" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Spieler"
-clip_text = true
-
-[node name="KdaLineLabel" type="Label" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(76, 0)
-layout_mode = 2
-text = "0/0/0"
-horizontal_alignment = 2
-
-[node name="KdaLabel" type="Label" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-text = "0.0"
-horizontal_alignment = 2
-
-[node name="GoldLabel" type="Label" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-text = "0.0k"
-horizontal_alignment = 2
-
-[node name="GradeLabel" type="Label" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-text = "0"
-horizontal_alignment = 2
+layout = ExtResource("2_layout")

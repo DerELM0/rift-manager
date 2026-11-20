@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scenes/components/game_panel.gd" id="1_game"]
+[ext_resource type="PackedScene" path="res://scenes/components/table/table_row.tscn" id="2_row"]
+[ext_resource type="Resource" path="res://scenes/components/table/layouts/match_ratings_columns.tres" id="3_layout"]
 
 [node name="GamePanel" type="PanelContainer"]
 theme_type_variation = &"Card"
@@ -112,54 +114,15 @@ layout_mode = 2
 theme_type_variation = &"TeamALabel"
 text = "Team A"
 
-[node name="RatingsHeaderA" type="HBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
+[node name="RatingsHeaderA" parent="VBox/Details/Columns/RatingsColumn" instance=ExtResource("2_row")]
 layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RoleHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Rolle"
-
-[node name="NameHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MutedLabel"
-text = "Spieler"
-
-[node name="KdaLineHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
-custom_minimum_size = Vector2(76, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "K/D/A"
-horizontal_alignment = 2
-
-[node name="KdaHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "KDA"
-horizontal_alignment = 2
-
-[node name="GoldHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Gold"
-horizontal_alignment = 2
-
-[node name="GradeHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderA"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Note"
-horizontal_alignment = 2
+layout = ExtResource("3_layout")
+header = true
 
 [node name="RatingsListA" type="VBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="Spacer" type="Control" parent="VBox/Details/Columns/RatingsColumn"]
 custom_minimum_size = Vector2(0, 12)
@@ -171,53 +134,14 @@ layout_mode = 2
 theme_type_variation = &"TeamBLabel"
 text = "Team B"
 
-[node name="RatingsHeaderB" type="HBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
+[node name="RatingsHeaderB" parent="VBox/Details/Columns/RatingsColumn" instance=ExtResource("2_row")]
 layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RoleHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Rolle"
-
-[node name="NameHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MutedLabel"
-text = "Spieler"
-
-[node name="KdaLineHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
-custom_minimum_size = Vector2(76, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "K/D/A"
-horizontal_alignment = 2
-
-[node name="KdaHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "KDA"
-horizontal_alignment = 2
-
-[node name="GoldHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Gold"
-horizontal_alignment = 2
-
-[node name="GradeHeader" type="Label" parent="VBox/Details/Columns/RatingsColumn/RatingsHeaderB"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Note"
-horizontal_alignment = 2
+layout = ExtResource("3_layout")
+header = true
 
 [node name="RatingsListB" type="VBoxContainer" parent="VBox/Details/Columns/RatingsColumn"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [connection signal="toggled" from="VBox/HeaderButton" to="." method="_on_header_button_toggled"]

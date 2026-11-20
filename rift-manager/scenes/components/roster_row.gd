@@ -1,39 +1,35 @@
 class_name RosterRow
-extends PanelContainer
-## Eine Spielerzeile im Kader: Rolle, Name und Alter, OVR mit Veränderung,
-## Form, Spiele, Ø-Note, K/D/A, MVPs. Klick meldet den Spieler über "selected".
+extends TableRow
+## Eine Spielerzeile im Kader. Spalten stehen in
+## scenes/components/table/layouts/roster_columns.tres und gelten auch für die
+## Kopfzeile. Klick meldet den Spieler über das Signal "selected".
 
 signal selected(season_player: SeasonPlayer)
-
-@onready var _role_label: Label = %RoleLabel
-@onready var _name_label: Label = %NameLabel
-@onready var _ovr_label: Label = %OvrLabel
-@onready var _ovr_delta_label: Label = %OvrDeltaLabel
-@onready var _form_label: Label = %FormLabel
-@onready var _games_label: Label = %GamesLabel
-@onready var _grade_label: Label = %GradeLabel
-@onready var _kda_label: Label = %KdaLabel
-@onready var _mvp_label: Label = %MvpLabel
 
 var _season_player: SeasonPlayer = null
 
 
-func setup(sp: SeasonPlayer, is_selected: bool) -> void:
+## index: Position im Kader ab 0 (für Zebra-Streifen).
+func setup(index: int, sp: SeasonPlayer, is_selected: bool) -> void:
 	_season_player = sp
+	if not clicked.is_connected(_on_clicked):
+		clicked.connect(_on_clicked)
+	set_row_state(index, is_selected)
+
 	var p: Player = sp.player
-	theme_type_variation = &"TableRowSelected" if is_selected else &"TableRow"
-	_role_label.text = p.role
-	_name_label.text = "%s  %d J." % [p.display_name(), p.age]
-	_ovr_label.text = "%.1f" % p.overall()
-	SeasonFormat.apply_delta(_ovr_delta_label, sp.ovr_gain(), 1)
-	_form_label.text = "%d" % roundi(p.form)
-	_games_label.text = str(sp.games)
-	_grade_label.text = ("%.1f" % sp.average_grade()) if sp.games > 0 else "–"
-	_kda_label.text = "%d/%d/%d" % [sp.kills, sp.deaths, sp.assists]
-	_mvp_label.text = str(sp.mvps)
+	set_text(&"role", p.role)
+	set_text(&"name", "%s  %d J." % [p.display_name(), p.age])
+	set_text(&"ovr", "%.1f" % p.overall())
+	set_delta(&"ovr", sp.ovr_gain(), 1)
+	set_text(&"form", "%d" % roundi(p.form))
+	set_text(&"games", str(sp.games))
+	set_text(&"grade", ("%.1f" % sp.average_grade()) if sp.games > 0 else "–")
+	# KDA wie im Web-Simulator: (Kills + Assists) / max(1, Tode); Tooltip zeigt die Summen
+	var kda: float = float(sp.kills + sp.assists) / maxi(1, sp.deaths)
+	set_text(&"kda", "%.1f" % kda)
+	set_tooltip(&"kda", "K/D/A gesamt: %d / %d / %d" % [sp.kills, sp.deaths, sp.assists])
+	set_text(&"mvps", str(sp.mvps))
 
 
-func _on_gui_input(event: InputEvent) -> void:
-	var click := event as InputEventMouseButton
-	if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
-		selected.emit(_season_player)
+func _on_clicked() -> void:
+	selected.emit(_season_player)

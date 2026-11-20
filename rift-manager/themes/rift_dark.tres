@@ -177,25 +177,6 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_popup_hover"]
-bg_color = Color(0.157, 0.188, 0.263, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_popup"]
-content_margin_left = 6.0
-content_margin_top = 6.0
-content_margin_right = 6.0
-content_margin_bottom = 6.0
-bg_color = Color(0.086, 0.11, 0.153, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.157, 0.188, 0.263, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_navbar"]
 content_margin_left = 24.0
 content_margin_top = 8.0
@@ -204,15 +185,6 @@ content_margin_bottom = 8.0
 bg_color = Color(0.086, 0.11, 0.153, 1)
 border_width_bottom = 1
 border_color = Color(0.157, 0.188, 0.263, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nav_button"]
-content_margin_left = 14.0
-content_margin_top = 6.0
-content_margin_right = 14.0
-content_margin_bottom = 6.0
-bg_color = Color(0, 0, 0, 0)
-border_width_bottom = 2
-border_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nav_button_hover"]
 content_margin_left = 14.0
@@ -232,23 +204,33 @@ bg_color = Color(0.106, 0.133, 0.188, 1)
 border_width_bottom = 2
 border_color = Color(0.357, 0.576, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_table_row"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nav_button"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
 bg_color = Color(0, 0, 0, 0)
-border_width_left = 3
+border_width_bottom = 2
 border_color = Color(0, 0, 0, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_table_row_selected"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
-bg_color = Color(0.106, 0.133, 0.188, 1)
-border_width_left = 3
-border_color = Color(0.357, 0.576, 1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_popup_hover"]
+bg_color = Color(0.157, 0.188, 0.263, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_popup"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.086, 0.11, 0.153, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.157, 0.188, 0.263, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_bg"]
 bg_color = Color(0.106, 0.133, 0.188, 1)
@@ -263,6 +245,47 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_table_divider"]
+color = Color(0.157, 0.188, 0.263, 1)
+vertical = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_table_header"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_bottom = 1
+border_color = Color(0.157, 0.188, 0.263, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_table_row"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_table_row_odd"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.03)
+border_width_left = 3
+border_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_table_row_selected"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.106, 0.133, 0.188, 1)
+border_width_left = 3
+border_color = Color(0.357, 0.576, 1, 1)
 
 [resource]
 default_font_size = 15
@@ -289,9 +312,18 @@ Button/styles/normal = SubResource("StyleBoxFlat_button")
 Button/styles/pressed = SubResource("StyleBoxFlat_button_pressed")
 Card/base_type = &"PanelContainer"
 Card/styles/panel = SubResource("StyleBoxFlat_card")
+ChampionLabel/base_type = &"Label"
+ChampionLabel/colors/font_color = Color(0.886, 0.714, 0.298, 1)
+ChampionLabel/font_sizes/font_size = 20
 ChipLabel/base_type = &"Label"
 ChipLabel/font_sizes/font_size = 14
 ChipLabel/styles/normal = SubResource("StyleBoxFlat_chip")
+DeltaDownLabel/base_type = &"Label"
+DeltaDownLabel/colors/font_color = Color(1, 0.478, 0.42, 1)
+DeltaDownLabel/font_sizes/font_size = 13
+DeltaUpLabel/base_type = &"Label"
+DeltaUpLabel/colors/font_color = Color(0.298, 0.761, 0.494, 1)
+DeltaUpLabel/font_sizes/font_size = 13
 GameHeaderButton/base_type = &"Button"
 GameHeaderButton/font_sizes/font_size = 17
 GameHeaderButton/styles/hover = SubResource("StyleBoxFlat_header_hover")
@@ -300,6 +332,9 @@ GameHeaderButton/styles/normal = SubResource("StyleBoxFlat_header")
 GameHeaderButton/styles/pressed = SubResource("StyleBoxFlat_header")
 GoldLabel/base_type = &"Label"
 GoldLabel/colors/font_color = Color(0.886, 0.714, 0.298, 1)
+GroupLabel/base_type = &"Label"
+GroupLabel/colors/font_color = Color(0.886, 0.714, 0.298, 1)
+GroupLabel/font_sizes/font_size = 13
 Label/colors/font_color = Color(0.906, 0.922, 0.953, 1)
 LineEdit/colors/font_color = Color(0.906, 0.922, 0.953, 1)
 LineEdit/styles/focus = SubResource("StyleBoxFlat_focus")
@@ -312,48 +347,6 @@ MvpChipLabel/base_type = &"Label"
 MvpChipLabel/colors/font_color = Color(0.886, 0.714, 0.298, 1)
 MvpChipLabel/font_sizes/font_size = 14
 MvpChipLabel/styles/normal = SubResource("StyleBoxFlat_chip")
-OptionButton/colors/font_color = Color(0.906, 0.922, 0.953, 1)
-OptionButton/colors/font_focus_color = Color(0.906, 0.922, 0.953, 1)
-OptionButton/colors/font_hover_color = Color(1, 1, 1, 1)
-OptionButton/colors/font_pressed_color = Color(1, 1, 1, 1)
-OptionButton/styles/focus = SubResource("StyleBoxFlat_focus")
-OptionButton/styles/hover = SubResource("StyleBoxFlat_button_hover")
-OptionButton/styles/normal = SubResource("StyleBoxFlat_button")
-OptionButton/styles/pressed = SubResource("StyleBoxFlat_button_pressed")
-PopupMenu/colors/font_color = Color(0.906, 0.922, 0.953, 1)
-PopupMenu/colors/font_separator_color = Color(0.592, 0.631, 0.714, 1)
-PopupMenu/styles/hover = SubResource("StyleBoxFlat_popup_hover")
-PopupMenu/styles/panel = SubResource("StyleBoxFlat_popup")
-ScoreLabel/base_type = &"Label"
-ScoreLabel/font_sizes/font_size = 48
-ScoreTeamALabel/base_type = &"Label"
-ScoreTeamALabel/colors/font_color = Color(0.357, 0.576, 1, 1)
-ScoreTeamALabel/font_sizes/font_size = 28
-ScoreTeamBLabel/base_type = &"Label"
-ScoreTeamBLabel/colors/font_color = Color(1, 0.431, 0.431, 1)
-ScoreTeamBLabel/font_sizes/font_size = 28
-SectionLabel/base_type = &"Label"
-SectionLabel/font_sizes/font_size = 17
-TeamALabel/base_type = &"Label"
-TeamALabel/colors/font_color = Color(0.357, 0.576, 1, 1)
-TeamALabel/font_sizes/font_size = 17
-TeamBLabel/base_type = &"Label"
-TeamBLabel/colors/font_color = Color(1, 0.431, 0.431, 1)
-TeamBLabel/font_sizes/font_size = 17
-TitleLabel/base_type = &"Label"
-TitleLabel/font_sizes/font_size = 28
-ChampionLabel/base_type = &"Label"
-ChampionLabel/colors/font_color = Color(0.886, 0.714, 0.298, 1)
-ChampionLabel/font_sizes/font_size = 20
-DeltaDownLabel/base_type = &"Label"
-DeltaDownLabel/colors/font_color = Color(1, 0.478, 0.42, 1)
-DeltaDownLabel/font_sizes/font_size = 13
-DeltaUpLabel/base_type = &"Label"
-DeltaUpLabel/colors/font_color = Color(0.298, 0.761, 0.494, 1)
-DeltaUpLabel/font_sizes/font_size = 13
-GroupLabel/base_type = &"Label"
-GroupLabel/colors/font_color = Color(0.886, 0.714, 0.298, 1)
-GroupLabel/font_sizes/font_size = 13
 NavBar/base_type = &"PanelContainer"
 NavBar/styles/panel = SubResource("StyleBoxFlat_navbar")
 NavButton/base_type = &"Button"
@@ -368,14 +361,54 @@ NavButton/styles/normal = SubResource("StyleBoxFlat_nav_button")
 NavButton/styles/pressed = SubResource("StyleBoxFlat_nav_button_pressed")
 NavTitleLabel/base_type = &"Label"
 NavTitleLabel/font_sizes/font_size = 20
+OptionButton/colors/font_color = Color(0.906, 0.922, 0.953, 1)
+OptionButton/colors/font_focus_color = Color(0.906, 0.922, 0.953, 1)
+OptionButton/colors/font_hover_color = Color(1, 1, 1, 1)
+OptionButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+OptionButton/styles/focus = SubResource("StyleBoxFlat_focus")
+OptionButton/styles/hover = SubResource("StyleBoxFlat_button_hover")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_button")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+PopupMenu/colors/font_color = Color(0.906, 0.922, 0.953, 1)
+PopupMenu/colors/font_separator_color = Color(0.592, 0.631, 0.714, 1)
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_popup_hover")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_popup")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_progress_bg")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_progress_fill")
+ScoreLabel/base_type = &"Label"
+ScoreLabel/font_sizes/font_size = 48
+ScoreTeamALabel/base_type = &"Label"
+ScoreTeamALabel/colors/font_color = Color(0.357, 0.576, 1, 1)
+ScoreTeamALabel/font_sizes/font_size = 28
+ScoreTeamBLabel/base_type = &"Label"
+ScoreTeamBLabel/colors/font_color = Color(1, 0.431, 0.431, 1)
+ScoreTeamBLabel/font_sizes/font_size = 28
+SectionLabel/base_type = &"Label"
+SectionLabel/font_sizes/font_size = 17
 SparkChart/colors/line_color = Color(0.886, 0.714, 0.298, 1)
 SparkChart/colors/ref_color = Color(0.227, 0.271, 0.376, 1)
+TableDivider/base_type = &"VSeparator"
+TableDivider/constants/separation = 1
+TableDivider/styles/separator = SubResource("StyleBoxLine_table_divider")
+TableHeaderRow/base_type = &"PanelContainer"
+TableHeaderRow/styles/panel = SubResource("StyleBoxFlat_table_header")
 TableRow/base_type = &"PanelContainer"
+TableRow/colors/cut_color = Color(0.886, 0.714, 0.298, 0.8)
+TableRow/constants/cell_separation = 6
+TableRow/constants/cut_width = 2
 TableRow/styles/panel = SubResource("StyleBoxFlat_table_row")
+TableRowOdd/base_type = &"PanelContainer"
+TableRowOdd/styles/panel = SubResource("StyleBoxFlat_table_row_odd")
 TableRowSelected/base_type = &"PanelContainer"
 TableRowSelected/styles/panel = SubResource("StyleBoxFlat_table_row_selected")
+TeamALabel/base_type = &"Label"
+TeamALabel/colors/font_color = Color(0.357, 0.576, 1, 1)
+TeamALabel/font_sizes/font_size = 17
+TeamBLabel/base_type = &"Label"
+TeamBLabel/colors/font_color = Color(1, 0.431, 0.431, 1)
+TeamBLabel/font_sizes/font_size = 17
+TitleLabel/base_type = &"Label"
+TitleLabel/font_sizes/font_size = 28
 TraitNegativeChip/base_type = &"Label"
 TraitNegativeChip/colors/font_color = Color(1, 0.478, 0.42, 1)
 TraitNegativeChip/font_sizes/font_size = 14

@@ -1,79 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/components/roster_row.gd" id="1_roster"]
+[ext_resource type="Resource" path="res://scenes/components/table/layouts/roster_columns.tres" id="2_layout"]
 
 [node name="RosterRow" type="PanelContainer"]
 mouse_default_cursor_shape = 2
 theme_type_variation = &"TableRow"
 script = ExtResource("1_roster")
-
-[node name="Row" type="HBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RoleLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "TOP"
-
-[node name="NameLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Spieler"
-clip_text = true
-
-[node name="OvrLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(56, 0)
-layout_mode = 2
-text = "0.0"
-horizontal_alignment = 2
-
-[node name="OvrDeltaLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"DeltaUpLabel"
-text = ""
-horizontal_alignment = 0
-
-[node name="FormLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-text = "71"
-horizontal_alignment = 2
-
-[node name="GamesLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-text = "0"
-horizontal_alignment = 2
-
-[node name="GradeLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(52, 0)
-layout_mode = 2
-text = "–"
-horizontal_alignment = 2
-
-[node name="KdaLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-text = "0/0/0"
-horizontal_alignment = 2
-
-[node name="MvpLabel" type="Label" parent="Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "0"
-horizontal_alignment = 2
-
-[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+layout = ExtResource("2_layout")

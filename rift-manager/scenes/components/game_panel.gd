@@ -63,10 +63,11 @@ func setup(game: MatchResult, number: int, expanded: bool) -> void:
 
 
 func _fill_ratings(list: VBoxContainer, ratings: Array) -> void:
-	for rating: MatchResult.PlayerRating in ratings:
+	for i: int in ratings.size():
+		var rating: MatchResult.PlayerRating = ratings[i]
 		var row: PlayerRow = PLAYER_ROW.instantiate()
 		list.add_child(row)
-		row.setup(rating, rating.name == _game.mvp)
+		row.setup(rating, rating.name == _game.mvp, i)
 
 
 func _on_header_button_toggled(toggled_on: bool) -> void:

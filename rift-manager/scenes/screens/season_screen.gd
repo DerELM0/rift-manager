@@ -9,6 +9,7 @@ extends PanelContainer
 ## Die Buttons und Dropdowns sind im Editor verbunden (Node-Dock > Signale).
 
 const STANDINGS_ROW: PackedScene = preload("res://scenes/components/standings_row.tscn")
+const TABLE_GROUP_HEADER: PackedScene = preload("res://scenes/components/table_group_header.tscn")
 const WEEK_PANEL: PackedScene = preload("res://scenes/components/week_panel.tscn")
 const SERIES_RESULT_ROW: PackedScene = preload("res://scenes/components/series_result_row.tscn")
 const ROSTER_ROW: PackedScene = preload("res://scenes/components/roster_row.tscn")
@@ -210,11 +211,14 @@ func _refresh_table() -> void:
 	var table: Array[SeasonTeam] = _season.standings()
 	for i: int in table.size():
 		var t: SeasonTeam = table[i]
-		var group_header: bool = not t.group.is_empty() and (i == 0 or table[i - 1].group != t.group)
-		var cut_below: bool = i == 5 and table.size() > 6
+		if not t.group.is_empty() and (i == 0 or table[i - 1].group != t.group):
+			var group_header: Label = TABLE_GROUP_HEADER.instantiate()
+			group_header.text = "%s Group" % t.group
+			_table_rows.add_child(group_header)
+		var cut_below: bool = i == 5 and table.size() > 6  # Linie unter dem letzten Playoff-Platz
 		var row: StandingsRow = STANDINGS_ROW.instantiate()
 		_table_rows.add_child(row)
-		row.setup(i + 1, t, t.short() == _selected_team, group_header, cut_below)
+		row.setup(i, t, t.short() == _selected_team, cut_below)
 		row.selected.connect(_on_team_selected)
 
 
@@ -290,10 +294,11 @@ func _refresh_roster() -> void:
 	if t == null:
 		return
 	_roster_title_label.text = "%s: Kader" % t.team.name
-	for sp: SeasonPlayer in t.players:
+	for i: int in t.players.size():
+		var sp: SeasonPlayer = t.players[i]
 		var row: RosterRow = ROSTER_ROW.instantiate()
 		_roster_rows.add_child(row)
-		row.setup(sp, sp == _selected_player)
+		row.setup(i, sp, sp == _selected_player)
 		row.selected.connect(_on_player_selected)
 	var coach: Coach = t.team.coach
 	if coach != null:

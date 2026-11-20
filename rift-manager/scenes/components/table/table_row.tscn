@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/components/table/table_row.gd" id="1_row"]
+
+[node name="TableRow" type="PanelContainer"]
+theme_type_variation = &"TableRow"
+script = ExtResource("1_row")

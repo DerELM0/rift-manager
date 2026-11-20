@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="TableLayout" format=3 uid="uid://blnng6yggkq74"]
+
+[ext_resource type="Script" uid="uid://dp6f4v8h35l6m" path="res://scenes/components/table/table_layout.gd" id="1_layout"]
+[ext_resource type="Script" uid="uid://ddmhrohlh3i1n" path="res://scenes/components/table/table_column.gd" id="2_column"]
+
+[sub_resource type="Resource" id="Resource_role"]
+script = ExtResource("2_column")
+key = &"role"
+title = "Rolle"
+width = 44
+muted = true
+align = 1
+
+[sub_resource type="Resource" id="Resource_name"]
+script = ExtResource("2_column")
+key = &"name"
+title = "Spieler"
+width = 120
+expand = true
+
+[sub_resource type="Resource" id="Resource_kda_line"]
+script = ExtResource("2_column")
+key = &"kda_line"
+title = "K/D/A"
+width = 96
+align = 1
+
+[sub_resource type="Resource" id="Resource_kda"]
+script = ExtResource("2_column")
+key = &"kda"
+title = "KDA"
+width = 48
+align = 1
+
+[sub_resource type="Resource" id="Resource_gold"]
+script = ExtResource("2_column")
+key = &"gold"
+title = "Gold"
+align = 1
+
+[sub_resource type="Resource" id="Resource_grade"]
+script = ExtResource("2_column")
+key = &"grade"
+title = "Note"
+width = 48
+align = 1
+
+[resource]
+script = ExtResource("1_layout")
+columns = Array[ExtResource("2_column")]([SubResource("Resource_role"), SubResource("Resource_name"), SubResource("Resource_kda_line"), SubResource("Resource_kda"), SubResource("Resource_gold"), SubResource("Resource_grade")])

@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="TableLayout" format=3 uid="uid://dcjcues6bfi4x"]
+
+[ext_resource type="Script" uid="uid://dp6f4v8h35l6m" path="res://scenes/components/table/table_layout.gd" id="1_layout"]
+[ext_resource type="Script" uid="uid://ddmhrohlh3i1n" path="res://scenes/components/table/table_column.gd" id="2_column"]
+
+[sub_resource type="Resource" id="Resource_role"]
+script = ExtResource("2_column")
+key = &"role"
+title = "Rolle"
+width = 44
+muted = true
+align = 1
+
+[sub_resource type="Resource" id="Resource_name"]
+script = ExtResource("2_column")
+key = &"name"
+title = "Spieler"
+width = 130
+expand = true
+
+[sub_resource type="Resource" id="Resource_ovr"]
+script = ExtResource("2_column")
+key = &"ovr"
+title = "OVR"
+width = 90
+align = 1
+delta_width = 40
+
+[sub_resource type="Resource" id="Resource_form"]
+script = ExtResource("2_column")
+key = &"form"
+title = "Form"
+width = 44
+align = 1
+
+[sub_resource type="Resource" id="Resource_games"]
+script = ExtResource("2_column")
+key = &"games"
+title = "Spiele"
+width = 48
+align = 1
+
+[sub_resource type="Resource" id="Resource_grade"]
+script = ExtResource("2_column")
+key = &"grade"
+title = "Ø Note"
+width = 52
+align = 1
+
+[sub_resource type="Resource" id="Resource_kda"]
+script = ExtResource("2_column")
+key = &"kda"
+title = "KDA"
+width = 52
+align = 1
+
+[sub_resource type="Resource" id="Resource_mvps"]
+script = ExtResource("2_column")
+key = &"mvps"
+title = "MVP"
+width = 40
+align = 1
+
+[resource]
+script = ExtResource("1_layout")
+columns = Array[ExtResource("2_column")]([SubResource("Resource_role"), SubResource("Resource_name"), SubResource("Resource_ovr"), SubResource("Resource_form"), SubResource("Resource_games"), SubResource("Resource_grade"), SubResource("Resource_kda"), SubResource("Resource_mvps")])

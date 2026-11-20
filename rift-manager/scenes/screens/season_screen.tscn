@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scenes/screens/season_screen.gd" id="1_screen"]
 [ext_resource type="Theme" path="res://themes/rift_dark.tres" id="2_theme"]
 [ext_resource type="PackedScene" path="res://scenes/components/spark_chart.tscn" id="3_spark"]
+[ext_resource type="PackedScene" path="res://scenes/components/table/table_row.tscn" id="4_row"]
+[ext_resource type="Resource" path="res://scenes/components/table/layouts/standings_columns.tres" id="5_standings"]
+[ext_resource type="Resource" path="res://scenes/components/table/layouts/roster_columns.tres" id="6_roster"]
 
 [node name="SeasonScreen" type="PanelContainer"]
 anchors_preset = 15
@@ -167,82 +170,10 @@ layout_mode = 2
 theme_type_variation = &"SectionLabel"
 text = "Tabelle"
 
-[node name="TableHeaderMargin" type="MarginContainer" parent="Margin/Scroll/Layout/TablePanel/TableBox"]
+[node name="TableHeader" parent="Margin/Scroll/Layout/TablePanel/TableBox" instance=ExtResource("4_row")]
 layout_mode = 2
-theme_override_constants/margin_left = 11
-theme_override_constants/margin_right = 8
-
-[node name="TableHeader" type="HBoxContainer" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="PlaceHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(28, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "#"
-horizontal_alignment = 2
-
-[node name="TeamHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MutedLabel"
-text = "Team"
-
-[node name="GroupHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(70, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Gruppe"
-
-[node name="RecordHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(56, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "S-N"
-horizontal_alignment = 1
-
-[node name="MapsHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(56, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Maps"
-horizontal_alignment = 1
-
-[node name="LastHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(84, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Letzte 5"
-
-[node name="StreakHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Serie"
-horizontal_alignment = 1
-
-[node name="FormHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(52, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Form Ø"
-horizontal_alignment = 2
-
-[node name="ChemHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(76, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Chemistry"
-horizontal_alignment = 2
-
-[node name="OvrHeader" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox/TableHeaderMargin/TableHeader"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "OVR"
-horizontal_alignment = 2
+layout = ExtResource("5_standings")
+header = true
 
 [node name="TableRows" type="VBoxContainer" parent="Margin/Scroll/Layout/TablePanel/TableBox"]
 unique_name_in_owner = true
@@ -252,7 +183,7 @@ theme_override_constants/separation = 0
 [node name="TableNote" type="Label" parent="Margin/Scroll/Layout/TablePanel/TableBox"]
 layout_mode = 2
 theme_type_variation = &"MutedLabel"
-text = "Klick auf ein Team zeigt den Kader. Die Linie markiert den letzten Playoff-Platz. S = Sieg, N = Niederlage. In Klammern: Veränderung seit Saisonstart."
+text = "Klick auf ein Team zeigt den Kader. Die Linie markiert den letzten Playoff-Platz. S = Sieg, N = Niederlage. Kleine Zahlen neben Chemistry und OVR: Veränderung seit Saisonstart."
 autowrap_mode = 3
 
 [node name="Columns" type="HBoxContainer" parent="Margin/Scroll/Layout"]
@@ -451,75 +382,10 @@ layout_mode = 2
 theme_type_variation = &"SectionLabel"
 text = "Kader"
 
-[node name="RosterHeaderMargin" type="MarginContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox"]
+[node name="RosterHeader" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox" instance=ExtResource("4_row")]
 layout_mode = 2
-theme_override_constants/margin_left = 11
-theme_override_constants/margin_right = 8
-
-[node name="RosterHeader" type="HBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RoleHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Rolle"
-
-[node name="NameHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(130, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MutedLabel"
-text = "Spieler"
-
-[node name="OvrHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(56, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "OVR"
-horizontal_alignment = 2
-
-[node name="OvrDeltaHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = ""
-
-[node name="FormHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(44, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Form"
-horizontal_alignment = 2
-
-[node name="GamesHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Spiele"
-horizontal_alignment = 2
-
-[node name="GradeHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(52, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "Ø Note"
-horizontal_alignment = 2
-
-[node name="KdaHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "K/D/A"
-horizontal_alignment = 2
-
-[node name="MvpHeader" type="Label" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox/RosterHeaderMargin/RosterHeader"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "MVP"
-horizontal_alignment = 2
+layout = ExtResource("6_roster")
+header = true
 
 [node name="RosterRows" type="VBoxContainer" parent="Margin/Scroll/Layout/Columns/RightColumn/RosterPanel/RosterBox"]
 unique_name_in_owner = true

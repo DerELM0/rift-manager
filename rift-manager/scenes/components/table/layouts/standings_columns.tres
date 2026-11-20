@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="TableLayout" format=3 uid="uid://rcumhc3vkbuq"]
+
+[ext_resource type="Script" uid="uid://dp6f4v8h35l6m" path="res://scenes/components/table/table_layout.gd" id="1_layout"]
+[ext_resource type="Script" uid="uid://ddmhrohlh3i1n" path="res://scenes/components/table/table_column.gd" id="2_column"]
+
+[sub_resource type="Resource" id="Resource_place"]
+script = ExtResource("2_column")
+key = &"place"
+title = "#"
+width = 28
+align = 1
+
+[sub_resource type="Resource" id="Resource_team"]
+script = ExtResource("2_column")
+key = &"team"
+title = "Team"
+width = 150
+expand = true
+
+[sub_resource type="Resource" id="Resource_group"]
+script = ExtResource("2_column")
+key = &"group"
+title = "Gruppe"
+width = 70
+muted = true
+align = 1
+
+[sub_resource type="Resource" id="Resource_record"]
+script = ExtResource("2_column")
+key = &"record"
+title = "S-N"
+width = 52
+align = 1
+
+[sub_resource type="Resource" id="Resource_maps"]
+script = ExtResource("2_column")
+key = &"maps"
+title = "Maps"
+width = 52
+align = 1
+muted = true
+
+[sub_resource type="Resource" id="Resource_last"]
+script = ExtResource("2_column")
+key = &"last"
+title = "Letzte 5"
+width = 84
+align = 1
+
+[sub_resource type="Resource" id="Resource_streak"]
+script = ExtResource("2_column")
+key = &"streak"
+title = "Serie"
+width = 44
+align = 1
+muted = true
+
+[sub_resource type="Resource" id="Resource_form"]
+script = ExtResource("2_column")
+key = &"form"
+title = "Form Ø"
+width = 52
+align = 1
+
+[sub_resource type="Resource" id="Resource_chem"]
+script = ExtResource("2_column")
+key = &"chem"
+title = "Chemistry"
+width = 110
+align = 1
+delta_width = 36
+
+[sub_resource type="Resource" id="Resource_ovr"]
+script = ExtResource("2_column")
+key = &"ovr"
+title = "OVR"
+width = 90
+align = 1
+delta_width = 40
+
+[resource]
+script = ExtResource("1_layout")
+columns = Array[ExtResource("2_column")]([SubResource("Resource_place"), SubResource("Resource_team"), SubResource("Resource_group"), SubResource("Resource_record"), SubResource("Resource_maps"), SubResource("Resource_last"), SubResource("Resource_streak"), SubResource("Resource_form"), SubResource("Resource_chem"), SubResource("Resource_ovr")])
